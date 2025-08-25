@@ -1,5 +1,6 @@
 "use client";
 
+import MagneticBtn from "./components/MagneticBtn";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Twitter, Send, Rocket, Shield, Coins, Sparkles, ChevronRight, ExternalLink, BadgeCheck, Lock, Link as LinkIcon, Quote } from "lucide-react";
