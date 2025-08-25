@@ -20,7 +20,7 @@ html, body, :root {
   font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* Text rendering & default colors (page also sets bg in main) */
+/* Text rendering & default colors */
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -35,9 +35,22 @@ body {
   color: #ffffff;
 }
 
-/* Hide system cursor on devices with a precise pointer (for FancyCursor) */
+/* ===== Awwwards-style: hide system cursor only on devices with a mouse ===== */
 @media (pointer: fine) {
-  html, body, a, button, [role="button"], input, select, textarea, .cursor-link, [data-cursor] {
+  /* Скрываем нативный курсор там, где хотим свой */
+  html, body, a, button, [role="button"], .cursor-link, [data-cursor] {
     cursor: none !important;
+  }
+
+  /* Опционально: если хочешь местами вернуть системный — повесь класс .cursor-opt-out */
+  .cursor-opt-out {
+    cursor: auto !important;
+  }
+}
+
+/* Небольшой твик для сглаживания эффектов blend-mode */
+@supports (mix-blend-mode: difference) {
+  .mix-difference {
+    mix-blend-mode: difference;
   }
 }
