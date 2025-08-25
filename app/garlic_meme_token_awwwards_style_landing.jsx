@@ -1,9 +1,9 @@
 "use client";
 
-import MagneticBtn from "./components/MagneticBtn";
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Twitter, Send, Rocket, Shield, Coins, Sparkles, ChevronRight, ExternalLink, BadgeCheck, Lock, Link as LinkIcon, Quote } from "lucide-react";
+import FloatingCloves from "./components/FloatingCloves";
 
 function cn(...classes) { return classes.filter(Boolean).join(" "); }
 
@@ -51,7 +51,6 @@ const Kbd = ({ children }) => (
   <kbd className="inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[10px] uppercase tracking-wider text-white/70">{children}</kbd>
 );
 
-// Наш надёжный Btn без внешних зависимостей
 const Btn = ({ className, children, ...rest }) => (
   <motion.button
     whileHover={{ scale: 1.02, rotate: -1 }}
@@ -77,8 +76,8 @@ function useMouseParallax(strength = 20) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const r = el.getBoundingClientRect();
     const onMove = (e) => {
+      const r = el.getBoundingClientRect();
       const mx = e.clientX - r.left - r.width / 2;
       const my = e.clientY - r.top - r.height / 2;
       x.set((mx / r.width) * strength);
@@ -196,13 +195,13 @@ const Hero = () => {
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-black leading-[0.95]">
               <span className="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-transparent">GARLIC</span>
-              <span className="block text-white/80">Мем‑токен с <span className="text-lime-300">острым</span> характером</span>
+              <span className="block text-white/80">Мем-токен с <span className="text-lime-300">острым</span> характером</span>
             </h1>
             <p className="mt-6 max-w-xl text-white/70">Без утилиты? Возможно. Без вкуса — никогда. Присоединяйся к культа­вой армии 🧄 и приправь крипту юмором.</p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="#buy"><Btn>Купить GARLIC <ExternalLink className="h-4 w-4"/></Btn></a>
               <a href="#community" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">Сообщество</a>
-              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— авто‑скролл к токеномике</span></div>
+              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— авто-скролл к токеномике</span></div>
             </div>
           </motion.div>
 
@@ -229,11 +228,11 @@ const Hero = () => {
 const About = () => (
   <section id="about" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="О проекте" title="Крипта, но вкуснее" caption="GARLIC — мем‑токен и сообщество людей, которые любят острое. Мы строим весёлую, добрую и дерзкую культуру вокруг чеснока — в мемах, NFT и партнёрствах."/>
+      <SectionTitle kicker="О проекте" title="Крипта, но вкуснее" caption="GARLIC — мем-токен и сообщество людей, которые любят острое. Мы строим весёлую, добрую и дерзкую культуру вокруг чеснока — в мемах, NFT и партнёрствах."/>
       <div className="grid gap-6 md:grid-cols-3">
         <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Вирусный бренд</h3><p className="mt-2 text-sm text-white/70">Мемы, челленджи, стикеры. Комьюнити растит аромат быстрее любого маркетинга.</p></Card>
         <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Честная экономика</h3><p className="mt-2 text-sm text-white/70">Публичный контракт, заблокированная ликвидность, нулевые налоги на сделки.</p></Card>
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div><h3 className="text-lg font-semibold">События и NFT</h3><p className="mt-2 text-sm text-white/70">Дропа­ем коллекции «Cloves», поддерживаем художников, проводим spicy‑ивенты.</p></Card>
+        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div><h3 className="text-lg font-semibold">События и NFT</h3><p className="mt-2 text-sm text-white/70">Дропа­ем коллекции «Cloves», поддерживаем художников, проводим spicy-ивенты.</p></Card>
       </div>
     </Container>
   </section>
@@ -287,7 +286,7 @@ const Testimonials = () => (
             <div className="flex items-start gap-3">
               <Quote className="h-5 w-5 text-lime-300/80 mt-1"/>
               <div>
-                <p className="text-sm text-white/80">“Чесночный вайб спас мой крипто‑портфель — хотя нет, просто поднял настроение 😄.”</p>
+                <p className="text-sm text-white/80">“Чесночный вайб спас мой крипто-портфель — хотя нет, просто поднял настроение 😄.”</p>
                 <div className="mt-3 text-xs text-white/50">— @spicy_builder</div>
               </div>
             </div>
@@ -308,7 +307,7 @@ const FAQ = () => (
           {q:"Есть ли налоги на покупку/продажу?",a:"Нет. Налоги 0%. Комиссия — только газ сети."},
           {q:"Где взять токен?",a:"На DEX (Uniswap/Pancake). Контрактный адрес опубликуем в день запуска."},
           {q:"Ликвидность заблокирована?",a:"Да, лока — публикуем ссылку на tx для проверки."},
-          {q:"Это инвестсовет?",a:"Нет. Мем‑проект, делайте своё исследование (DYOR)."}
+          {q:"Это инвестсовет?",a:"Нет. Мем-проект, делайте своё исследование (DYOR)."}
         ].map(({q,a},i)=>(
           <details key={i} className="group rounded-2xl border border-white/10 bg-white/[0.02] p-4">
             <summary className="cursor-pointer list-none select-none text-sm font-medium text-white/90 flex items-center justify-between">
@@ -341,16 +340,16 @@ const Tokenomics = () => (
 const Roadmap = () => (
   <section id="roadmap" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Дорожная карта" title="Зубчик за зубчиком" caption="Гибкая и мем‑ориентированная. Цели уточняются голосованием DAO."/>
+      <SectionTitle kicker="Дорожная карта" title="Зубчик за зубчиком" caption="Гибкая и мем-ориентированная. Цели уточняются голосованием DAO."/>
       <div className="grid gap-6 md:grid-cols-3">
         {[1,2,3].map((ph) => (
           <Card key={ph}>
             <div className="mb-3 text-xs uppercase tracking-[0.2em] text-lime-300/80">Clove 0{ph}</div>
             <h3 className="text-lg font-semibold">Фаза {ph}</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
-              {ph===1 && (<><li>• Запуск сайта и социальных сетей</li><li>• Листинг на DEX, ликвидность</li><li>• Airdrop для ранних мем‑создателей</li></>)}
-              {ph===2 && (<><li>• NFT‑коллекция «Cloves»</li><li>• Партнёрства с кулинарными брендами</li><li>• Мерч и оффлайн spicy‑митапы</li></>)}
-              {ph===3 && (<><li>• Garlic DAO (гранты авторам мемов)</li><li>• Игровые интеграции / мини‑игры</li><li>• Листинги CEX (по возможности)</li></>)}
+              {ph===1 && (<><li>• Запуск сайта и социальных сетей</li><li>• Листинг на DEX, ликвидность</li><li>• Airdrop для ранних мем-создателей</li></>)}
+              {ph===2 && (<><li>• NFT-коллекция «Cloves»</li><li>• Партнёрства с кулинарными брендами</li><li>• Мерч и оффлайн spicy-митапы</li></>)}
+              {ph===3 && (<><li>• Garlic DAO (гранты авторам мемов)</li><li>• Игровые интеграции / мини-игры</li><li>• Листинги CEX (по возможности)</li></>)}
             </ul>
           </Card>
         ))}
@@ -365,7 +364,7 @@ const HowToBuy = () => (
       <SectionTitle kicker="Как купить" title="3 шага — и аромат с вами" />
       <div className="grid gap-6 md:grid-cols-3">
         <Card><div className="text-sm text-white/60">Шаг 1</div><h3 className="mt-1 text-lg font-semibold">Установите кошелёк</h3><p className="mt-2 text-sm text-white/70">MetaMask, Rabby, OKX Wallet. Выберите сеть (ETH/BSC).</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">Купите ETH/BNB</h3><p className="mt-2 text-sm text-white/70">Пополните кошелёк через биржу или on‑ramp. Нужен газ.</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">Купите ETH/BNB</h3><p className="mt-2 text-sm text-white/70">Пополните кошелёк через биржу или on-ramp. Нужен газ.</p></Card>
         <Card><div className="text-sm text-white/60">Шаг 3</div><h3 className="mt-1 text-lg font-semibold">Обменяйте на $GARLIC</h3><p className="mt-2 text-sm text-white/70">Uniswap/PancakeSwap. Проверьте адрес контракта на сайте.</p></Card>
       </div>
       <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -379,7 +378,7 @@ const HowToBuy = () => (
 const Community = () => (
   <section id="community" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Сообщество" title="Вступай в Garlic‑культ" caption="Сила — в мемах, людях и чесночном духе."/>
+      <SectionTitle kicker="Сообщество" title="Вступай в Garlic-культ" caption="Сила — в мемах, людях и чесночном духе."/>
       <div className="flex flex-wrap items-center gap-4">
         <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
         <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
@@ -414,17 +413,18 @@ export default function GarlicAwwwardsSite() {
 
   return (
     <main className="relative min-h-screen bg-[#0b0f0a] text-white selection:bg-lime-300/30 selection:text-white">
+      {/* фоновые слои */}
       <Noise />
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0 [background:radial-gradient(circle_at_50%_-20%,rgba(190,242,100,0.15),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.12),transparent_40%)]" />
+      <FloatingCloves /> {/* ← летает под контентом */}
 
+      {/* контент */}
       <Header />
       <Hero />
       <About />
-
       <Trust />
       <Partners />
       <Testimonials />
-
       <Tokenomics />
       <Roadmap />
       <HowToBuy />
