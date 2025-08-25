@@ -271,18 +271,24 @@ const About = () => (
       />
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200">
+            <Rocket className="h-5 w-5"/>
+          </div>
           <h3 className="text-lg font-semibold">Fair • одинаковый старт</h3>
           <p className="mt-2 text-sm text-white/70">Без приватных аллокаций и скрытых условий. Чистая отправная точка.</p>
         </Card>
         <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200">
+            <Coins className="h-5 w-5"/>
+          </div>
           <h3 className="text-lg font-semibold">0% • свобода сделки</h3>
           <p className="mt-2 text-sm text-white/70">Покупай/продавай без налогов. Комиссия — только газ сети.</p>
         </Card>
         <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Культура > маркетинг</h3>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200">
+            <Sparkles className="h-5 w-5"/>
+          </div>
+          <h3 className="text-lg font-semibold">Культура&nbsp;›&nbsp;маркетинг</h3>
           <p className="mt-2 text-sm text-white/70">Сильный символ (🧄) и органический контент от комьюнити.</p>
         </Card>
       </div>
@@ -489,7 +495,7 @@ const Partners = () => {
   );
 };
 
-/* ----------------------- TESTIMONIALS: спокойный соцдоказ ----------------------- */
+/* ----------------------- TESTIMONIALS ----------------------- */
 const Testimonials = () => (
   <section className="relative py-20 md:py-28">
     <Container>
