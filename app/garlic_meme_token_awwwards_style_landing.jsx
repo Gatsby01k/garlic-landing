@@ -260,17 +260,20 @@ const Trust = () => (
       </div>
       <div className="mt-6 grid gap-6 md:grid-cols-3">
         <Card><h4 className="text-sm text-white/60">Контракт</h4><div className="mt-2 text-sm"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80"><LinkIcon className="h-4 w-4"/> <span className="text-white/60">0x… (в день запуска)</span></span></div></Card>
-        <Card><h4 className="text-sm text-white/60">Налоги</h4><div className="mt-2 text-2xl font-extrabold">0%</div><p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p></Card>
+        <Card><h4 className="text-sm text-white/60">Налоги</h4><div className="mt-2 text-2xl font-exрабold">0%</div><p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p></Card>
         <Card><h4 className="text-sm text-white/60">Комьюнити</h4><div className="mt-2 flex flex-wrap gap-2"><Pill>DAO Multisig</Pill><Pill>Public Roadmap</Pill><Pill>Open Discord</Pill></div></Card>
       </div>
     </Container>
   </section>
 );
 
-/* ----------------------- PARTNERS (inline SVG badges, без эмодзи) ----------------------- */
+/* ----------------------- PARTNERS — PartnerBadge v3 (awwwards border) ----------------------- */
 const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }) => {
   const gid = `grad-${keyName}`;
-  const iid = `ig-${keyName}`;
+  const gidSoft = `grad-soft-${keyName}`;
+  const gidShine = `grad-shine-${keyName}`;
+  const clipId = `clip-${keyName}`;
+  const glowId = `glow-${keyName}`;
 
   const Icon = () => {
     switch (keyName) {
@@ -332,8 +335,8 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
     <a href={href} target="_blank" rel="noreferrer" className="group">
       <motion.svg
         width="180" height="52" viewBox="0 0 180 52"
-        initial={false}
-        whileHover={{ y: -3, rotate: -0.8, scale: 1.02 }}
+        initial="rest"
+        whileHover="hover"
         transition={{ type: "spring", stiffness: 320, damping: 20 }}
         className="drop-shadow-[0_10px_28px_rgba(132,204,22,0.16)]"
       >
@@ -342,8 +345,20 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
             <stop offset="0%" stopColor={from} />
             <stop offset="100%" stopColor={to} />
           </linearGradient>
-          <filter id={iid} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="6" result="b" />
+          <linearGradient id={gidSoft} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.06" />
+          </linearGradient>
+          <linearGradient id={gidShine} x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"   stopColor="#fff" stopOpacity="0" />
+            <stop offset="50%"  stopColor="#fff" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+          </linearGradient>
+          <clipPath id={clipId}>
+            <rect x="1.5" y="1.5" width="177" height="49" rx="13.5" />
+          </clipPath>
+          <filter id={glowId} x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b" />
             <feMerge>
               <feMergeNode in="b" />
               <feMergeNode in="SourceGraphic" />
@@ -351,37 +366,57 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
           </filter>
         </defs>
 
-        {/* стеклянная подложка */}
+        {/* стекло-подложка */}
         <rect x="1" y="1" width="178" height="50" rx="14" fill="rgba(255,255,255,0.04)" />
 
-        {/* градиентная «волосяная» обводка с анимацией */}
-        <motion.rect
-          x="0.75" y="0.75" width="178.5" height="50.5" rx="14.5"
-          fill="transparent"
-          stroke={`url(#${gid})`} strokeWidth="1.2"
-          strokeDasharray="14 12"
-          animate={{ strokeDashoffset: [0, 26] }}
-          transition={{ repeat: Infinity, duration: 2.4, ease: "linear" }}
-          style={{ filter: `url(#${iid})` }}
-          opacity=".9"
-        />
-        {/* тонкая внутренняя белая линия */}
-        <rect x="2" y="2" width="176" height="48" rx="13"
-          fill="transparent" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" />
+        {/* ОБВОДКИ: волос + точки + глоу */}
+        <g filter={`url(#${glowId})`}>
+          <motion.rect
+            x="0.75" y="0.75" width="178.5" height="50.5" rx="14.5"
+            fill="transparent"
+            stroke={`url(#${gid})`} strokeWidth="1.2"
+            strokeDasharray="18 12 2 12"
+            animate={{ strokeDashoffset: [0, 26] }}
+            transition={{ repeat: Infinity, duration: 2.6, ease: "linear" }}
+            opacity=".95"
+          />
+          <motion.rect
+            x="0.75" y="0.75" width="178.5" height="50.5" rx="14.5"
+            fill="transparent"
+            stroke={`url(#${gid})`} strokeWidth="1.2"
+            strokeDasharray="1 8"
+            strokeLinecap="round"
+            animate={{ strokeDashoffset: [0, 9] }}
+            transition={{ repeat: Infinity, duration: 1.8, ease: "linear" }}
+            opacity=".55"
+          />
+        </g>
 
-        {/* Логотип слева */}
+        {/* внутренний «премиум»-штрих */}
+        <rect x="2" y="2" width="176" height="48" rx="13"
+          fill="transparent" stroke={`url(#${gidSoft})`} strokeWidth="0.9" />
+
+        {/* бегущий блик (hover) */}
+        <g clipPath={`url(#${clipId})`}>
+          <motion.rect
+            variants={{ rest: { x: -60, opacity: 0 }, hover: { x: 220, opacity: 0.9 } }}
+            y="0" width="60" height="52" rx="14"
+            fill={`url(#${gidShine})`}
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            style={{ mixBlendMode: "screen" }}
+          />
+        </g>
+
+        {/* Лого и текст */}
         <g transform="translate(10,6)">
           <Icon />
         </g>
-
-        {/* Название */}
         <text
           x="60" y="31"
           fontFamily="var(--font-sans), ui-sans-serif"
           fontSize="12"
           letterSpacing="0.08em"
-          fill="#fff"
-          opacity="0.92"
+          fill="#fff" opacity="0.92"
         >
           {label}
         </text>
@@ -519,7 +554,7 @@ const Community = () => (
     <Container>
       <SectionTitle kicker="Сообщество" title="Вступай в Garlic-культ" caption="Сила — в мемах, людях и чесночном духе."/>
       <div className="flex flex-wrap items-center gap-4">
-        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
+        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg белый text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
         <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
         <a href="/litepaper.pdf" target="_blank" rel="noreferrer" className="group"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5"><Shield className="h-4 w-4"/> Litepaper</span></a>
       </div>
@@ -562,7 +597,7 @@ export default function GarlicAwwwardsSite() {
       <Hero />
       <About />
       <Trust />
-      <Partners /> {/* inline SVG бейджи — без файлов */}
+      <Partners /> {/* новые бейджи */}
       <Testimonials />
       <Tokenomics />
       <Roadmap />
