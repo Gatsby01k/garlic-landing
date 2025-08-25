@@ -1,5 +1,37 @@
+/* app/globals.css */
+
+/* Tailwind reset и утилиты */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body, :root { height: 100%; }
+/* Базовые размеры */
+html, body, :root {
+  height: 100%;
+}
+
+/* Привязка шрифтов, которые мы подключили через next/font (layout.jsx) */
+.font-sans {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Улучшаем сглаживание текста */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background-color: #0b0f0a; /* наш основной фон */
+  color: white;
+}
+
+/* Подсветка текста при выделении */
+::selection {
+  background: rgba(190, 242, 100, 0.3); /* lime-300/30 */
+  color: white;
+}
