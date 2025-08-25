@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext, createContext } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import {
   Twitter, Send, Rocket, Shield, Coins, Sparkles,
@@ -8,9 +8,326 @@ import {
 } from "lucide-react";
 import FloatingCloves from "./components/FloatingCloves";
 
+/* ======================= I18N: словарь ======================= */
+const LANGS = ["en", "hi", "id"];
+const FALLBACK = "en";
+
+const DICT = {
+  en: {
+    nav: { approach: "Approach", policy: "Policy", tokenomics: "Tokenomics", roadmap: "Roadmap", buy: "Buy" },
+    trustStrip: ["FAIR LAUNCH", "ZERO TAX", "LP LOCK", "RENOUNCED"],
+    hero: {
+      tags: ["discipline", "liquidity-first", "community"],
+      titleTop: "GARLIC",
+      titleBottom: "A meme with protocol discipline.",
+      paragraph:
+        "Rules are set in code: fair launch, 0% on trades, liquidity locked and ownership renounced. We remove noise so attention stays on idea and liquidity — the market does the rest.",
+      buy: "Enter position",
+      policy: "Protocol policy",
+      badge: "rule-based • meme-driven",
+      marquee: [
+        "One start for everyone",
+        "0% taxes",
+        "Liquidity is locked",
+        "Ownership renounced",
+        "Culture drives adoption"
+      ],
+      keyHint: "— tokenomics"
+    },
+    approach: {
+      kicker: "Approach",
+      title: "Professional structure, meme presentation",
+      caption: "We make the meme readable to capital: simple rules, low friction and a cultural symbol.",
+      c1t: "Fair launch, no bending",
+      c1p: "No private allocations. One entry horizon — one market temperature.",
+      c2t: "Zero-tax, zero-friction",
+      c2p: "No trade tax — focus on liquidity and spread, not on toggles.",
+      c3t: "Culture › marketing",
+      c3p: "A strong symbol 🧄, irony and order — community generates the content."
+    },
+    policy: {
+      kicker: "Policy",
+      title: "What is fixed by rules",
+      caption: "We formalize expectations upfront. Clear settings → predictable token behavior.",
+      c1t: "Trade tax — 0%",
+      c1p: "Trading without tax. Friction is minimal; liquidity has priority.",
+      c2t: "Liquidity is locked",
+      c2p: "The pool is fixed during launch — design against rushed manipulation.",
+      c3t: "Ownership — renounced",
+      c3p: "No admin switches — code takes responsibility, not a person.",
+      s1: "Contract",
+      s1v: "Address is published on launch day",
+      s2: "Architecture",
+      s2v: "OpenZeppelin stack and standard patterns",
+      s2v2: "No experimental upgrades or surprises.",
+      s3: "Policy",
+      pills: ["Fair Launch", "No Presale", "Anti-Rug policy"]
+    },
+    partners: { header: "As seen on / Partners" },
+    signals: {
+      kicker: "Signals",
+      title: "Calm tone, serious intent",
+      caption: "We like numbers and irony. Both coexist when rules are simple.",
+      q1: "“Structure like a protocol, not a prank. Watching liquidity.”",
+      q2: "“Garlic vibe explained in the language of capital — rare.”",
+      q3: "“Zero-tax and renounced — a steady configuration. Market does the rest.”"
+    },
+    tokenomics: {
+      kicker: "Tokenomics",
+      title: "Transparent and predictable",
+      caption: "Fewer parameters — less uncertainty. Configuration prioritizes liquidity.",
+      supply: "Total supply",
+      taxes: "Taxes",
+      taxesVal: "0 %",
+      liquidity: "Liquidity",
+      liquidityVal: "Locked",
+      dist: "Distribution",
+      distList: ["60% — Liquidity", "20% — Community / airdrops / quests", "10% — Partnerships", "10% — DAO reserve (multisig)"],
+      arch: "Architecture",
+      archP: "Standard contracts, ownership renounced after launch, non-upgradeable.",
+      pills: ["OpenZeppelin", "Non-upgradeable", "DAO reserve"]
+    },
+    roadmap: {
+      kicker: "Roadmap",
+      title: "From clean launch to culture",
+      caption: "Flexible, focused on value for holders and creators.",
+      phase: "Phase",
+      p1: ["Website, socials, DEX launch", "LP lock, renounced", "Meme narrative & visual language"],
+      p2: ["NFT “Cloves” for active members", "Artist collaborations", "Community activations & raffles"],
+      p3: ["Garlic DAO (creator grants)", "Mini-games / integrations", "CEX listings (if possible)"]
+    },
+    buy: {
+      kicker: "How to buy",
+      title: "Three steps, no fuss",
+      caption: "Wallet — base coin — swap. Then culture.",
+      s1: "Wallet", s1p: "MetaMask / Rabby / OKX. Pick a network (ETH/BSC).",
+      s2: "Base & gas", s2p: "Fund ETH/BNB for swap and network fees.",
+      s3: "Swap to $GARLIC", s3p: "Uniswap / PancakeSwap. Address goes live on launch day.",
+      cta: "Join the community",
+      note: "* Not financial advice. Crypto is volatile."
+    },
+    community: {
+      kicker: "Community",
+      title: "Rational meme: a smile with discipline",
+      caption: "Announcements, discussions, raffles, builds — join and bring your flavor."
+    },
+    footer: {
+      disclaimer: "Meme project. No profit is guaranteed.",
+      hint: "Press",
+      hintAfter: "— tokenomics"
+    }
+  },
+  hi: {
+    nav: { approach: "दृष्टिकोण", policy: "नीतियाँ", tokenomics: "टोकनॉमिक्स", roadmap: "रोडमैप", buy: "खरीदें" },
+    trustStrip: ["फेयर लॉन्च", "शून्य टैक्स", "एलपी लॉक", "ओनरशिप रीनाउंस्ड"],
+    hero: {
+      tags: ["अनुशासन", "लिक्विडिटी-फर्स्ट", "कम्युनिटी"],
+      titleTop: "GARLIC",
+      titleBottom: "मीम, पर प्रोटोकॉल का अनुशासन।",
+      paragraph:
+        "नियम कोड में तय हैं: फेयर लॉन्च, ट्रेड पर 0%, लॉक्ड लिक्विडिटी और रीनाउंस्ड ओनरशिप। शोर कम — फोकस आइडिया और लिक्विडिटी पर; बाकी बाजार करता है।",
+      buy: "पोज़िशन लें",
+      policy: "प्रोटोकॉल पॉलिसी",
+      badge: "रूल-बेस्ड • मीम-ड्रिवन",
+      marquee: [
+        "सभी के लिए एक ही शुरुआत",
+        "0% टैक्स",
+        "लिक्विडिटी लॉक",
+        "ओनरशिप रीनाउंस्ड",
+        "संस्कृति से अपनापन"
+      ],
+      keyHint: "— टोकनॉमिक्स"
+    },
+    approach: {
+      kicker: "दृष्टिकोण",
+      title: "प्रोफेशनल स्ट्रक्चर, मीम-प्रेज़ेंटेशन",
+      caption: "हम मीम को पूँजी की भाषा में पढ़ने योग्य बनाते हैं: सरल नियम, कम घर्षण और सांस्कृतिक प्रतीक।",
+      c1t: "फेयर लॉन्च, बिना मोड़-तोड़",
+      c1p: "कोई प्राइवेट अलोकेशन नहीं। एक ही प्रवेश क्षितिज — एक ही बाज़ार तापमान।",
+      c2t: "ज़ीरो-टैक्स, ज़ीरो-फ्रिक्शन",
+      c2p: "ट्रेड टैक्स नहीं — फोकस लिक्विडिटी और स्प्रेड पर, टॉगल्स पर नहीं।",
+      c3t: "संस्कृति › मार्केटिंग",
+      c3p: "मज़बूत प्रतीक 🧄, हल्की विडंबना और अनुशासन — कंटेंट कम्युनिटी से आता है।"
+    },
+    policy: {
+      kicker: "नीतियाँ",
+      title: "जो नियमों से तय है",
+      caption: "उम्मीदें पहले से औपचारिक — स्पष्ट सेटिंग्स → पूर्वानुमेय व्यवहार।",
+      c1t: "ट्रेड टैक्स — 0%",
+      c1p: "ट्रेडिंग बिना टैक्स। घर्षण न्यूनतम; लिक्विडिटी प्राथमिकता।",
+      c2t: "लिक्विडिटी लॉक",
+      c2p: "लॉन्च फेज़ में पूल फिक्स — जल्दबाज़ी की हेराफेरी के विरुद्ध डिज़ाइन।",
+      c3t: "ओनरशिप — रीनाउंस्ड",
+      c3p: "एडमिन स्विच नहीं — व्यक्ति नहीं, कोड उत्तरदायी।",
+      s1: "कॉन्ट्रैक्ट", s1v: "पता लॉन्च-डे पर प्रकाशित होगा",
+      s2: "आर्किटेक्चर", s2v: "OpenZeppelin स्टैक, मानक पैटर्न", s2v2: "कोई प्रयोगात्मक अपग्रेड नहीं।",
+      s3: "पॉलिसी", pills: ["Fair Launch", "No Presale", "Anti-Rug नीति"]
+    },
+    partners: { header: "As seen on / Partners" },
+    signals: {
+      kicker: "संकेत",
+      title: "शांत टोन, गंभीर इरादा",
+      caption: "हमें आँकड़े और ह्यूमर दोनों पसंद हैं — नियम सरल हों तो साथ रहते हैं।",
+      q1: "“प्रोटोकॉल-जैसी संरचना, मज़ाक नहीं। लिक्विडिटी पर नज़र।”",
+      q2: "“गार्लिक वाइब पूँजी की भाषा में — दुर्लभ।”",
+      q3: "“ज़ीरो-टैक्स और रीनाउंस्ड — स्थिर कॉन्फ़िग। आगे बाज़ार।”"
+    },
+    tokenomics: {
+      kicker: "टोकनॉमिक्स",
+      title: "पारदर्शी और पूर्वानुमेय",
+      caption: "कम पैरामीटर — कम अनिश्चितता। कॉन्फ़िग लिक्विडिटी-ओरिएंटेड है।",
+      supply: "कुल सप्लाई",
+      taxes: "टैक्स", taxesVal: "0 %",
+      liquidity: "लिक्विडिटी", liquidityVal: "लॉक्ड",
+      dist: "वितरण",
+      distList: ["60% — लिक्विडिटी", "20% — कम्युनिटी / एयरड्रॉप / क्वेस्ट", "10% — पार्टनरशिप", "10% — DAO रिज़र्व (मल्टीसिग)"],
+      arch: "आर्किटेक्चर",
+      archP: "स्टैंडर्ड कॉन्ट्रैक्ट, लॉन्च के बाद रीनाउंस, नॉन-अपग्रेडेबल।",
+      pills: ["OpenZeppelin", "Non-upgradeable", "DAO रिज़र्व"]
+    },
+    roadmap: {
+      kicker: "रोडमैप",
+      title: "क्लीन लॉन्च से संस्कृति तक",
+      caption: "लचीला; होल्डर्स और क्रिएटर्स के मूल्य पर केंद्रित।",
+      phase: "फेज़",
+      p1: ["वेबसाइट, सोशल्स, DEX लॉन्च", "LP लॉक, रीनाउंस्ड", "मीम नैरेटिव और विज़ुअल लैंग्वेज"],
+      p2: ["NFT “Cloves” — सक्रिय सदस्यों हेतु", "आर्टिस्ट कोलैबोरेशन", "कम्युनिटी एक्टिवेशन और रैफल"],
+      p3: ["Garlic DAO (क्रिएटर ग्रांट)", "मिनी-गेम्स / इंटीग्रेशन", "CEX लिस्टिंग (संभव हो तो)"]
+    },
+    buy: {
+      kicker: "कैसे खरीदें",
+      title: "तीन स्टेप, बिना झंझट",
+      caption: "वॉलेट — बेस कॉइन — स्वैप। फिर संस्कृति।",
+      s1: "वॉलेट", s1p: "MetaMask / Rabby / OKX. नेटवर्क चुनें (ETH/BSC).",
+      s2: "बेस और गैस", s2p: "स्वैप व फ़ीस हेतु ETH/BNB जोड़ें।",
+      s3: "स्वैप टू $GARLIC", s3p: "Uniswap / PancakeSwap. पता लॉन्च-डे पर लाइव होगा।",
+      cta: "कम्युनिटी से जुड़ें",
+      note: "* यह वित्तीय सलाह नहीं है। क्रिप्टो अस्थिर है।"
+    },
+    community: {
+      kicker: "कम्युनिटी",
+      title: "तर्कसंगत मीम: मुस्कान और अनुशासन",
+      caption: "अनाउंसमेंट, चर्चा, रैफल, बिल्ड — जुड़ें और अपना फ्लेवर लाएँ।"
+    },
+    footer: {
+      disclaimer: "मीम-प्रोजेक्ट। लाभ की गारंटी नहीं।",
+      hint: "दबाएँ",
+      hintAfter: "— टोकनॉमिक्स"
+    }
+  },
+  id: {
+    nav: { approach: "Pendekatan", policy: "Kebijakan", tokenomics: "Tokenomik", roadmap: "Peta Jalan", buy: "Beli" },
+    trustStrip: ["Peluncuran Adil", "Tanpa Pajak", "LP Terkunci", "Kepemilikan Dilepas"],
+    hero: {
+      tags: ["disiplin", "likuiditas-first", "komunitas"],
+      titleTop: "GARLIC",
+      titleBottom: "Meme dengan disiplin protokol.",
+      paragraph:
+        "Aturan ditetapkan di kode: peluncuran adil, 0% biaya transaksi, likuiditas terkunci, kepemilikan dilepas. Kami buang noise — fokus pada ide & likuiditas; pasar yang bergerak.",
+      buy: "Masuk posisi",
+      policy: "Kebijakan protokol",
+      badge: "rule-based • meme-driven",
+      marquee: [
+        "Satu awal untuk semua",
+        "0% pajak",
+        "Likuiditas terkunci",
+        "Kepemilikan dilepas",
+        "Budaya mendorong adopsi"
+      ],
+      keyHint: "— tokenomik"
+    },
+    approach: {
+      kicker: "Pendekatan",
+      title: "Struktur profesional, presentasi meme",
+      caption: "Meme yang mudah dibaca oleh modal: aturan sederhana, friksi rendah, simbol budaya.",
+      c1t: "Peluncuran adil, tanpa akal-akal",
+      c1p: "Tanpa alokasi privat. Satu horizon masuk — satu suhu pasar.",
+      c2t: "Tanpa pajak, friksi rendah",
+      c2p: "Tanpa pajak transaksi — fokus pada likuiditas & spread, bukan saklar.",
+      c3t: "Budaya › pemasaran",
+      c3p: "Simbol kuat 🧄, humor & ketertiban — konten lahir dari komunitas."
+    },
+    policy: {
+      kicker: "Kebijakan",
+      title: "Yang dikunci oleh aturan",
+      caption: "Ekspektasi diformalkan sejak awal. Setelan jelas → perilaku token yang dapat diprediksi.",
+      c1t: "Biaya transaksi — 0%",
+      c1p: "Perdagangan tanpa pajak. Friksi minimal; likuiditas prioritas.",
+      c2t: "Likuiditas terkunci",
+      c2p: "Pool dikunci saat peluncuran — desain anti-manipulasi tergesa-gesa.",
+      c3t: "Kepemilikan dilepas",
+      c3p: "Tanpa saklar admin — kode yang bertanggung jawab, bukan orang.",
+      s1: "Kontrak", s1v: "Alamat diumumkan saat peluncuran",
+      s2: "Arsitektur", s2v: "Stack OpenZeppelin & pola standar", s2v2: "Tanpa upgrade eksperimental.",
+      s3: "Kebijakan", pills: ["Fair Launch", "No Presale", "Kebijakan Anti-Rug"]
+    },
+    partners: { header: "As seen on / Partners" },
+    signals: {
+      kicker: "Sinyal",
+      title: "Nada tenang, niat serius",
+      caption: "Kami suka angka dan humor; keduanya rukun saat aturannya simpel.",
+      q1: "“Strukturnya protokol, bukan lelucon. Pantau likuiditas.”",
+      q2: "“Vibe garlic dijelaskan dalam bahasa modal — jarang.”",
+      q3: "“Zero-tax & renounced — konfig stabil. Sisanya pasar.”"
+    },
+    tokenomics: {
+      kicker: "Tokenomik",
+      title: "Transparan & dapat diprediksi",
+      caption: "Parameter lebih sedikit — ketidakpastian lebih kecil. Konfigurasi memprioritaskan likuiditas.",
+      supply: "Total suplai",
+      taxes: "Pajak", taxesVal: "0 %",
+      liquidity: "Likuiditas", liquidityVal: "Terkunci",
+      dist: "Distribusi",
+      distList: ["60% — Likuiditas", "20% — Komunitas / airdrop / quest", "10% — Kemitraan", "10% — Cadangan DAO (multisig)"],
+      arch: "Arsitektur",
+      archP: "Kontrak standar, kepemilikan dilepas setelah peluncuran, non-upgradeable.",
+      pills: ["OpenZeppelin", "Non-upgradeable", "Cadangan DAO"]
+    },
+    roadmap: {
+      kicker: "Peta Jalan",
+      title: "Dari peluncuran bersih ke budaya",
+      caption: "Fleksibel, berfokus pada nilai bagi holder & kreator.",
+      phase: "Fase",
+      p1: ["Situs, sosial, peluncuran DEX", "LP terkunci, renounced", "Narasi meme & bahasa visual"],
+      p2: ["NFT “Cloves” untuk yang aktif", "Kolaborasi artis", "Aktivasi komunitas & raffle"],
+      p3: ["Garlic DAO (hibah kreator)", "Gim mini / integrasi", "Listing CEX (bila memungkinkan)"]
+    },
+    buy: {
+      kicker: "Cara beli",
+      title: "Tiga langkah, tanpa ribet",
+      caption: "Wallet — koin dasar — swap. Lalu budaya.",
+      s1: "Wallet", s1p: "MetaMask / Rabby / OKX. Pilih jaringan (ETH/BSC).",
+      s2: "Dasar & gas", s2p: "Isi ETH/BNB untuk swap & biaya jaringan.",
+      s3: "Swap ke $GARLIC", s3p: "Uniswap / PancakeSwap. Alamat live saat peluncuran.",
+      cta: "Gabung komunitas",
+      note: "* Bukan nasihat keuangan. Kripto volatil."
+    },
+    community: {
+      kicker: "Komunitas",
+      title: "Meme rasional: senyum dengan disiplin",
+      caption: "Pengumuman, diskusi, raffle, build — gabung & bawa rasa kamu."
+    },
+    footer: {
+      disclaimer: "Proyek meme. Tidak ada jaminan profit.",
+      hint: "Tekan",
+      hintAfter: "— tokenomik"
+    }
+  }
+};
+
+/* helpers for i18n */
+const LangContext = createContext({ lang: FALLBACK, setLang: (_l) => {} });
+function getDeep(obj, path) {
+  return path.split(".").reduce((o, k) => (o && o[k] != null ? o[k] : undefined), obj);
+}
+function useT() {
+  const { lang } = useContext(LangContext);
+  return (path) => getDeep(DICT[lang], path) ?? getDeep(DICT[FALLBACK], path) ?? "";
+}
+
+/* ======================= UI helpers ======================= */
 function cn(...classes) { return classes.filter(Boolean).join(" "); }
 
-/* ----------------------- БАЗОВЫЕ ----------------------- */
 const Container = ({ className, children }) => (
   <div className={cn("mx-auto w-full max-w-[1200px] px-4 md:px-8", className)}>{children}</div>
 );
@@ -77,7 +394,7 @@ const Btn = ({ className, children, ...rest }) => (
   </motion.button>
 );
 
-/* ----------------------- ПАРАЛЛАКС ----------------------- */
+/* ======================= эффекты ======================= */
 function useMouseParallax(strength = 20) {
   const ref = useRef(null);
   const x = useMotionValue(0);
@@ -100,7 +417,7 @@ function useMouseParallax(strength = 20) {
   return { ref, x, y };
 }
 
-/* ----------------------- ЛОГО SVG ----------------------- */
+/* ======================= SVG логотип ======================= */
 const GarlicSVG = ({ className, tiltX, tiltY }) => (
   <motion.svg viewBox="0 0 300 300" className={cn("drop-shadow-2xl", className)}
     style={{ x: tiltX, y: tiltY }} initial={{ rotate: -6, scale: 0.9 }}
@@ -122,7 +439,6 @@ const GarlicSVG = ({ className, tiltX, tiltY }) => (
 
 const Pill = ({ children }) => (<span className="rounded-full border border-lime-300/30 bg-lime-300/10 px-3 py-1 text-xs text-lime-200">{children}</span>);
 
-/* ----------------------- МАРКИЗА ----------------------- */
 const Marquee = ({ items }) => (
   <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
     <div className="animate-[marquee_18s_linear_infinite] whitespace-nowrap">
@@ -136,7 +452,6 @@ const Marquee = ({ items }) => (
   </div>
 );
 
-/* ----------------------- СЧЁТЧИК ----------------------- */
 const Counter = ({ to, suffix }) => {
   const [val, setVal] = useState(0);
   useEffect(() => {
@@ -152,56 +467,70 @@ const Counter = ({ to, suffix }) => {
   return <>{val.toLocaleString()} {suffix}</>;
 };
 
-/* ----------------------- ХЕДЕР ----------------------- */
-const Header = () => (
-  <div className="fixed inset-x-0 top-0 z-40">
-    <Container>
-      <motion.div
-        initial={{ opacity: 0, y: -16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mt-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2 backdrop-blur-xl"
-      >
-        <a href="#top" className="flex items-center gap-2">
-          <span className="text-2xl">🧄</span>
-          <span className="font-semibold tracking-wide">GARLIC</span>
-        </a>
-        <nav className="hidden md:flex items-center gap-6 text-sm text-white/80">
-          <a href="#about" className="hover:text-white">Подход</a>
-          <a href="#policy" className="hover:text-white">Политика</a>
-          <a href="#token" className="hover:text-white">Токеномика</a>
-          <a href="#roadmap" className="hover:text-white">Дорожная карта</a>
-          <a href="#buy" className="hover:text-white">Купить</a>
-        </nav>
-        <div className="flex items-center gap-2">
-          <a href="#buy" className="hidden md:block">
-            <Btn>Купить $GARLIC <ChevronRight className="h-4 w-4"/></Btn>
+/* ======================= Header c переключателем ======================= */
+const Header = () => {
+  const t = useT();
+  const { lang, setLang } = useContext(LangContext);
+  return (
+    <div className="fixed inset-x-0 top-0 z-40">
+      <Container>
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mt-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2 backdrop-blur-xl"
+        >
+          <a href="#top" className="flex items-center gap-2">
+            <span className="text-2xl">🧄</span>
+            <span className="font-semibold tracking-wide">GARLIC</span>
           </a>
-        </div>
-      </motion.div>
-    </Container>
-  </div>
-);
+          <nav className="hidden md:flex items-center gap-6 text-sm text-white/80">
+            <a href="#about" className="hover:text-white">{t("nav.approach")}</a>
+            <a href="#policy" className="hover:text-white">{t("nav.policy")}</a>
+            <a href="#token" className="hover:text-white">{t("nav.tokenomics")}</a>
+            <a href="#roadmap" className="hover:text-white">{t("nav.roadmap")}</a>
+            <a href="#buy" className="hover:text-white">{t("nav.buy")}</a>
+          </nav>
+          <div className="flex items-center gap-2">
+            <a href="#buy" className="hidden md:block">
+              <Btn>{t("nav.buy")} $GARLIC <ChevronRight className="h-4 w-4"/></Btn>
+            </a>
+            <select
+              aria-label="Language"
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
+              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-xs text-white/80 focus:outline-none"
+            >
+              <option value="en">EN</option>
+              <option value="hi">हिंदी</option>
+              <option value="id">ID</option>
+            </select>
+          </div>
+        </motion.div>
+      </Container>
+    </div>
+  );
+};
 
-/* ----------------------- HERO (профи-тон + интерес) ----------------------- */
+/* ======================= HERO ======================= */
 const Hero = () => {
+  const t = useT();
   const { ref, x, y } = useMouseParallax(24);
   const sx = useSpring(x, { stiffness: 120, damping: 16 });
   const sy = useSpring(y, { stiffness: 120, damping: 16 });
 
   return (
     <section id="top" ref={ref} className="relative overflow-hidden pt-32 md:pt-40">
-      {/* сигнал правил сверху */}
+      {/* policy strip */}
       <div className="absolute left-0 right-0 top-20 z-20">
         <Container>
           <div className="flex flex-wrap items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[11px] text-white/70 backdrop-blur">
-            <span className="text-white/90">FAIR LAUNCH</span>
-            <span className="opacity-30">•</span>
-            <span>ZERO TAX</span>
-            <span className="opacity-30">•</span>
-            <span>LP LOCK</span>
-            <span className="opacity-30">•</span>
-            <span>RENOUNCED</span>
+            {["0","1","2","3"].map((i, idx) => (
+              <React.Fragment key={i}>
+                {idx !== 0 && <span className="opacity-30">•</span>}
+                <span className={idx===0 ? "text-white/90" : ""}>{t(`trustStrip.${i}`)}</span>
+              </React.Fragment>
+            ))}
           </div>
         </Container>
       </div>
@@ -215,20 +544,19 @@ const Hero = () => {
           <motion.div className="relative z-10"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <div className="mb-4 flex items-center gap-2 text-xs text-white/70">
-              <Pill>discipline</Pill><Pill>liquidity-first</Pill><Pill>community</Pill>
+              {t("hero.tags.0") && <Pill>{t("hero.tags.0")}</Pill>}
+              {t("hero.tags.1") && <Pill>{t("hero.tags.1")}</Pill>}
+              {t("hero.tags.2") && <Pill>{t("hero.tags.2")}</Pill>}
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-black leading-[0.95]">
-              <span className="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-transparent">GARLIC</span>
-              <span className="block text-white/80">Мем с дисциплиной протокола.</span>
+              <span className="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-transparent">{t("hero.titleTop")}</span>
+              <span className="block text-white/80">{t("hero.titleBottom")}</span>
             </h1>
-            <p className="mt-6 max-w-xl text-white/70">
-              Правила зафиксированы кодом: честный запуск, 0% на сделки, заблокированная ликвидность и renounced.
-              Мы убрали шум, чтобы внимание было на идее и ликвидности — остальное сделает рынок.
-            </p>
+            <p className="mt-6 max-w-xl text-white/70">{t("hero.paragraph")}</p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#buy"><Btn>Войти в позицию <ExternalLink className="h-4 w-4"/></Btn></a>
-              <a href="#policy" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">Политика протокола</a>
-              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— токеномика</span></div>
+              <a href="#buy"><Btn>{t("hero.buy")} <ExternalLink className="h-4 w-4"/></Btn></a>
+              <a href="#policy" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">{t("hero.policy")}</a>
+              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>{t("hero.keyHint")}</span></div>
             </div>
           </motion.div>
 
@@ -238,18 +566,14 @@ const Hero = () => {
             <div className="relative aspect-square rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-2xl">
               <GarlicSVG className="h-full w-full" tiltX={sx} tiltY={sy} />
               <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-white/5" />
-              <div className="pointer-events-none absolute -left-6 top-6"><Pill>rule-based • meme-driven</Pill></div>
+              <div className="pointer-events-none absolute -left-6 top-6"><Pill>{t("hero.badge")}</Pill></div>
             </div>
           </motion.div>
         </div>
 
         <div className="mt-10 md:mt-14">
           <Marquee items={[
-            "Один старт для всех",
-            "Налоги 0%",
-            "Ликвидность блокируется",
-            "Владелец отказывается от прав",
-            "Культура комьюнити решает",
+            t("hero.marquee.0"), t("hero.marquee.1"), t("hero.marquee.2"), t("hero.marquee.3"), t("hero.marquee.4")
           ]} />
         </div>
       </Container>
@@ -257,97 +581,97 @@ const Hero = () => {
   );
 };
 
-/* ----------------------- ПОДХОД ----------------------- */
-const About = () => (
-  <section id="about" className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle
-        kicker="Подход"
-        title="Профессиональная структура, мем-подача"
-        caption="Мы делаем мем читабельным для капитала: простые правила, низкое трение входа и культурный символ."
-      />
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Fair-launch без перегибов</h3>
-          <p className="mt-2 text-sm text-white/70">Никаких приватных аллокаций. Один горизонт входа — одна температура рынка.</p>
-        </Card>
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Zero-tax, zero-friction</h3>
-          <p className="mt-2 text-sm text-white/70">Сделки без налога — фокус на ликвидности и спрэде, а не на настройках.</p>
-        </Card>
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Культура&nbsp;›&nbsp;маркетинг</h3>
-          <p className="mt-2 text-sm text-white/70">Сильный символ 🧄, ирония и порядок — контент рождается из комьюнити.</p>
-        </Card>
-      </div>
-    </Container>
-  </section>
-);
+/* ======================= Approach ======================= */
+const About = () => {
+  const t = useT();
+  return (
+    <section id="about" className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle
+          kicker={t("approach.kicker")}
+          title={t("approach.title")}
+          caption={t("approach.caption")}
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card>
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div>
+            <h3 className="text-lg font-semibold">{t("approach.c1t")}</h3>
+            <p className="mt-2 text-sm text-white/70">{t("approach.c1p")}</p>
+          </Card>
+          <Card>
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div>
+            <h3 className="text-lg font-semibold">{t("approach.c2t")}</h3>
+            <p className="mt-2 text-sm text-white/70">{t("approach.c2p")}</p>
+          </Card>
+          <Card>
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div>
+            <h3 className="text-lg font-semibold">{"Culture\u00A0›\u00A0marketing" /* визуальный маркер */}</h3>
+            <p className="mt-2 text-sm text-white/70">{t("approach.c3p")}</p>
+          </Card>
+        </div>
+      </Container>
+    </section>
+  );
+};
 
-/* ----------------------- ПОЛИТИКА ПРОТОКОЛА (без «проверь сам») ----------------------- */
-const Policy = () => (
-  <section id="policy" className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle
-        kicker="Политика"
-        title="Что зафиксировано правилами"
-        caption="Мы формализуем ожидания заранее. Понятные настройки → предсказуемое поведение токена."
-      />
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><GaugeCircle className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Налог на сделки — 0%</h3>
-          <p className="mt-2 text-sm text-white/70">
-            Торговля без налога. Трение минимально, ликвидность имеет приоритет.
-          </p>
-        </Card>
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Ликвидность блокируется</h3>
-          <p className="mt-2 text-sm text-white/70">
-            Пул фиксируется на период релиза — дизайн против спешных манипуляций.
-          </p>
-        </Card>
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Ownership — renounced</h3>
-          <p className="mt-2 text-sm text-white/70">
-            Управляющих тумблеров нет — код берёт ответственность, а не человек.
-          </p>
-        </Card>
-      </div>
+/* ======================= Policy ======================= */
+const Policy = () => {
+  const t = useT();
+  return (
+    <section id="policy" className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle
+          kicker={t("policy.kicker")}
+          title={t("policy.title")}
+          caption={t("policy.caption")}
+        />
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card>
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><GaugeCircle className="h-5 w-5"/></div>
+            <h3 className="text-lg font-semibold">{t("policy.c1t")}</h3>
+            <p className="mt-2 text-sm text-white/70">{t("policy.c1p")}</p>
+          </Card>
+          <Card>
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div>
+            <h3 className="text-lg font-semibold">{t("policy.c2t")}</h3>
+            <p className="mt-2 text-sm text-white/70">{t("policy.c2p")}</p>
+          </Card>
+          <Card>
+            <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div>
+            <h3 className="text-lg font-semibold">{t("policy.c3t")}</h3>
+            <p className="mt-2 text-sm text-white/70">{t("policy.c3p")}</p>
+          </Card>
+        </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-3">
-        <Card>
-          <h4 className="text-sm text-white/60">Контракт</h4>
-          <div className="mt-2 text-sm">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80">
-              <LinkIcon className="h-4 w-4"/> <span className="text-white/60">Адрес публикуется в день релиза</span>
-            </span>
-          </div>
-        </Card>
-        <Card>
-          <h4 className="text-sm text-white/60">Архитектура</h4>
-          <div className="mt-2 flex items-center gap-2 text-sm text-white/70">
-            <Layers className="h-4 w-4 opacity-70"/> OpenZeppelin-стек и стандартные паттерны
-          </div>
-          <p className="mt-2 text-sm text-white/60">Без экспериментальных апгрейдов и сюрпризов.</p>
-        </Card>
-        <Card>
-          <h4 className="text-sm text-white/60">Политика</h4>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <Pill>Fair Launch</Pill><Pill>No Presale</Pill><Pill>Anti-Rug policy</Pill>
-          </div>
-        </Card>
-      </div>
-    </Container>
-  </section>
-);
+        <div className="mt-6 grid gap-6 md:grid-cols-3">
+          <Card>
+            <h4 className="text-sm text-white/60">{t("policy.s1")}</h4>
+            <div className="mt-2 text-sm">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80">
+                <LinkIcon className="h-4 w-4"/> <span className="text-white/60">{t("policy.s1v")}</span>
+              </span>
+            </div>
+          </Card>
+          <Card>
+            <h4 className="text-sm text-white/60">{t("policy.s2")}</h4>
+            <div className="mt-2 flex items-center gap-2 text-sm text-white/70">
+              <Layers className="h-4 w-4 opacity-70"/> {t("policy.s2v")}
+            </div>
+            <p className="mt-2 text-sm text-white/60">{t("policy.s2v2")}</p>
+          </Card>
+          <Card>
+            <h4 className="text-sm text-white/60">{t("policy.s3")}</h4>
+            <div className="mt-2 flex flex-wrap gap-2">
+              <Pill>{t("policy.pills.0")}</Pill><Pill>{t("policy.pills.1")}</Pill><Pill>{t("policy.pills.2")}</Pill>
+            </div>
+          </Card>
+        </div>
+      </Container>
+    </section>
+  );
+};
 
-/* ----------------------- ПАРТНЁРЫ (уголки awwwards) ----------------------- */
+/* ======================= Partners (svg badges) ======================= */
 const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }) => {
   const gid = `grad-${keyName}`;
   const gidSoft = `grad-soft-${keyName}`;
@@ -432,11 +756,10 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
           </filter>
         </defs>
 
-        {/* стекло без сплошной рамки */}
         <rect x="1" y="1" width="178" height="50" rx="14" fill="rgba(255,255,255,0.06)"/>
         <rect x="2" y="2" width="176" height="24" rx="13" fill={`url(#${gidSoft})`} opacity=".8"/>
 
-        {/* уголки */}
+        {/* углы */}
         <g filter={`url(#${glowId})`}>
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut" }} d="M6 6 H22 M6 6 V22" {...cornerStroke} />
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.03 }} d="M174 6 H158 M174 6 V22" {...cornerStroke} />
@@ -444,7 +767,7 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.09 }} d="M174 46 H158 M174 46 V30" {...cornerStroke} />
         </g>
 
-        {/* бегущий блик */}
+        {/* блик */}
         <g clipPath={`url(#${clipId})`}>
           <motion.rect
             variants={{ rest: { x: -70, opacity: 0 }, hover: { x: 220, opacity: 0.85 } }}
@@ -466,6 +789,7 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
 };
 
 const Partners = () => {
+  const t = useT();
   const partners = [
     { keyName: "uniswap",     label: "Uniswap",       href: "https://app.uniswap.org",     from: "#ff8bd5", to: "#ff3ac3" },
     { keyName: "pancake",     label: "PancakeSwap",   href: "https://pancakeswap.finance", from: "#f7c473", to: "#d98324" },
@@ -474,12 +798,11 @@ const Partners = () => {
     { keyName: "cmc",         label: "CoinMarketCap", href: "https://coinmarketcap.com",   from: "#60a5fa", to: "#3b82f6" },
     { keyName: "opensea",     label: "OpenSea",       href: "https://opensea.io",          from: "#93c5fd", to: "#60a5fa" },
   ];
-
   return (
     <section className="relative py-16">
       <Container>
         <div className="mb-8 text-center text-xs tracking-[0.2em] uppercase text-white/50">
-          As seen on / Partners
+          {t("partners.header")}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 place-items-center">
           {partners.map((p) => <PartnerBadge key={p.keyName} {...p} />)}
@@ -489,162 +812,187 @@ const Partners = () => {
   );
 };
 
-/* ----------------------- СОЦИАЛЬНОЕ ДОКА-ВО ----------------------- */
-const Testimonials = () => (
-  <section className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle kicker="Сигналы" title="Тон спокойный, намерения серьёзные" caption="Нам нравятся цифры и ирония. Обе вещи уживаются, если правила просты."/>
-      <div className="grid gap-6 md:grid-cols-3">
-        {[
-          {u:"@alpha_scavenger",t:"“Структура как у протокола, а не у шутки. Слежу за ликвидностью.”"},
-          {u:"@memelord",t:"“Чесночный вайб объяснён на языке капитала — редко так делают.”"},
-          {u:"@defi_builder",t:"“Zero-tax и renounced — конфигурация без дерготни. Дальше — работа рынка.”"}
-        ].map((o, i) => (
-          <Card key={i}>
-            <div className="flex items-start gap-3">
-              <Quote className="h-5 w-5 text-lime-300/80 mt-1"/>
-              <div>
-                <p className="text-sm text-white/80">{o.t}</p>
-                <div className="mt-3 text-xs text-white/50">— {o.u}</div>
+/* ======================= Testimonials ======================= */
+const Testimonials = () => {
+  const t = useT();
+  const quotes = [t("signals.q1"), t("signals.q2"), t("signals.q3")].filter(Boolean);
+  return (
+    <section className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle kicker={t("signals.kicker")} title={t("signals.title")} caption={t("signals.caption")} />
+        <div className="grid gap-6 md:grid-cols-3">
+          {quotes.map((text, i) => (
+            <Card key={i}>
+              <div className="flex items-start gap-3">
+                <Quote className="h-5 w-5 text-lime-300/80 mt-1"/>
+                <div>
+                  <p className="text-sm text-white/80">{text}</p>
+                  <div className="mt-3 text-xs text-white/50">— @garlic_{i+1}</div>
+                </div>
               </div>
-            </div>
+            </Card>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+/* ======================= Tokenomics ======================= */
+const Tokenomics = () => {
+  const t = useT();
+  return (
+    <section id="token" className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle kicker={t("tokenomics.kicker")} title={t("tokenomics.title")} caption={t("tokenomics.caption")}/>
+        <div className="grid gap-6 md:grid-cols-12">
+          <Card className="md:col-span-4">
+            <div className="text-sm text-white/60">{t("tokenomics.supply")}</div>
+            <div className="mt-2 text-3xl font-extrabold"><Counter to={1_000_000_000}/> $GARLIC</div>
+            <p className="mt-3 text-sm text-white/60">Fixed, no additional mint.</p>
           </Card>
-        ))}
-      </div>
-    </Container>
-  </section>
-);
-
-/* ----------------------- ТОКЕНОМИКА ----------------------- */
-const Tokenomics = () => (
-  <section id="token" className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle kicker="Токеномика" title="Прозрачно и предсказуемо" caption="Меньше параметров — меньше неопределённости. Конфигурация ориентирована на ликвидность."/>
-      <div className="grid gap-6 md:grid-cols-12">
-        <Card className="md:col-span-4">
-          <div className="text-sm text-white/60">Общий supply</div>
-          <div className="mt-2 text-3xl font-extrabold"><Counter to={1_000_000_000}/> $GARLIC</div>
-          <p className="mt-3 text-sm text-white/60">Фиксированный, без дополнительной эмиссии.</p>
-        </Card>
-        <Card className="md:col-span-4">
-          <div className="text-sm text-white/60">Налоги</div>
-          <div className="mt-2 text-3xl font-extrabold"><Counter to={0}/> %</div>
-          <p className="mt-3 text-sm text-white/60">Сделки без налога. Точка.</p>
-        </Card>
-        <Card className="md:col-span-4">
-          <div className="text-sm text-white/60">Ликвидность</div>
-          <div className="mt-2 text-3xl font-extrabold">Блокируется</div>
-          <p className="mt-3 text-sm text-white/60">Пул фиксируется на период релиза.</p>
-        </Card>
-        <Card className="md:col-span-6">
-          <h3 className="text-lg font-semibold">Распределение</h3>
-          <ul className="mt-3 space-y-2 text-sm text-white/70">
-            <li>• 60% — Ликвидность</li>
-            <li>• 20% — Комьюнити/airdrop/квесты</li>
-            <li>• 10% — Партнёрства</li>
-            <li>• 10% — Резерв DAO (мультисиг)</li>
-          </ul>
-        </Card>
-        <Card className="md:col-span-6">
-          <h3 className="text-lg font-semibold">Архитектура</h3>
-          <p className="mt-3 text-sm text-white/70">Стандартные контракты, отказ от управляющих полномочий после релиза, без апгрейдов.</p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Pill>OpenZeppelin</Pill><Pill>Non-upgradeable</Pill><Pill>DAO-резерв</Pill>
-          </div>
-        </Card>
-      </div>
-    </Container>
-  </section>
-);
-
-/* ----------------------- ДОРОЖНАЯ КАРТА ----------------------- */
-const Roadmap = () => (
-  <section id="roadmap" className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle kicker="Дорожная карта" title="От чистого запуска к культуре" caption="Гибкая, ориентированная на ценность для holder’ов и создателей."/>
-      <div className="grid gap-6 md:grid-cols-3">
-        {[1,2,3].map((ph) => (
-          <Card key={ph}>
-            <div className="mb-3 text-xs uppercase tracking-[0.2em] text-lime-300/80">Clove 0{ph}</div>
-            <h3 className="text-lg font-semibold">Фаза {ph}</h3>
+          <Card className="md:col-span-4">
+            <div className="text-sm text-white/60">{t("tokenomics.taxes")}</div>
+            <div className="mt-2 text-3xl font-extrabold">{t("tokenomics.taxesVal")}</div>
+            <p className="mt-3 text-sm text-white/60">No trade tax.</p>
+          </Card>
+          <Card className="md:col-span-4">
+            <div className="text-sm text-white/60">{t("tokenomics.liquidity")}</div>
+            <div className="mt-2 text-3xl font-extrabold">{t("tokenomics.liquidityVal")}</div>
+            <p className="mt-3 text-sm text-white/60">Pool fixed during launch period.</p>
+          </Card>
+          <Card className="md:col-span-6">
+            <h3 className="text-lg font-semibold">{t("tokenomics.dist")}</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
-              {ph===1 && (<>
-                <li>• Сайт, соцсети, запуск на DEX</li>
-                <li>• Блокировка LP, renounced</li>
-                <li>• Мем-наратив и визуальный язык</li>
-              </>)}
-              {ph===2 && (<>
-                <li>• NFT «Cloves» для активных</li>
-                <li>• Коллаборации с художниками</li>
-                <li>• Комьюнити-активации и раффлы</li>
-              </>)}
-              {ph===3 && (<>
-                <li>• Garlic DAO (гранты авторам)</li>
-                <li>• Мини-игры/интеграции</li>
-                <li>• Список централизованных бирж (по возможности)</li>
-              </>)}
+              <li>• {t("tokenomics.distList.0")}</li>
+              <li>• {t("tokenomics.distList.1")}</li>
+              <li>• {t("tokenomics.distList.2")}</li>
+              <li>• {t("tokenomics.distList.3")}</li>
             </ul>
           </Card>
-        ))}
-      </div>
-    </Container>
-  </section>
-);
-
-/* ----------------------- КАК КУПИТЬ ----------------------- */
-const HowToBuy = () => (
-  <section id="buy" className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle kicker="Как купить" title="Три шага без суеты" caption="Кошелёк — базовая монета — обмен. Дальше культура."/>
-      <div className="grid gap-6 md:grid-cols-3">
-        <Card><div className="text-sm text-white/60">Шаг 1</div><h3 className="mt-1 text-lg font-semibold">Кошелёк</h3><p className="mt-2 text-sm text-white/70">MetaMask / Rabby / OKX. Выберите сеть (ETH/BSC).</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">База и газ</h3><p className="mt-2 text-sm text-white/70">Пополните ETH/BNB для обмена и комиссий.</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 3</div><h3 className="mt-1 text-lg font-semibold">Swap на $GARLIC</h3><p className="mt-2 text-sm text-white/70">Uniswap/PancakeSwap. Адрес контракта публикуется в день релиза.</p></Card>
-      </div>
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Btn onClick={() => document.getElementById("community")?.scrollIntoView({behavior:"smooth"})}>Вступить в комьюнити <Send className="h-4 w-4"/></Btn>
-        <span className="text-xs text-white/50">* Не финансовый совет. Крипторынок волатилен.</span>
-      </div>
-    </Container>
-  </section>
-);
-
-/* ----------------------- КОМЬЮНИТИ ----------------------- */
-const Community = () => (
-  <section id="community" className="relative py-20 md:py-28">
-    <Container>
-      <SectionTitle kicker="Комьюнити" title="Разумный мем: улыбка и дисциплина" caption="Анонсы, обсуждения, раффлы, билды — присоединяйся и приноси свою дольку вкуса."/>
-      <div className="flex flex-wrap items-center gap-4">
-        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
-        <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
-        <a href="/litepaper.pdf" target="_blank" rel="noreferrer" className="group">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">
-            <Shield className="h-4 w-4"/> Litepaper
-          </span>
-        </a>
-      </div>
-    </Container>
-  </section>
-);
-
-/* ----------------------- ФУТЕР ----------------------- */
-const Footer = () => (
-  <footer className="relative py-10 text-xs text-white/60">
-    <Container>
-      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-        <div className="flex items-center gap-2"><span className="text-lg">🧄</span><span>© {new Date().getFullYear()} Garlic. All smells reserved.</span></div>
-        <div className="flex items-center gap-4">
-          <a href="#" className="hover:text-white">Terms</a>
-          <a href="#" className="hover:text-white">Privacy</a>
-          <span className="text-white/40">Мем-проект. Доходность не гарантируется.</span>
+          <Card className="md:col-span-6">
+            <h3 className="text-lg font-semibold">{t("tokenomics.arch")}</h3>
+            <p className="mt-3 text-sm text-white/70">{t("tokenomics.archP")}</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Pill>{t("tokenomics.pills.0")}</Pill><Pill>{t("tokenomics.pills.1")}</Pill><Pill>{t("tokenomics.pills.2")}</Pill>
+            </div>
+          </Card>
         </div>
-      </div>
-    </Container>
-  </footer>
-);
+      </Container>
+    </section>
+  );
+};
 
-/* ----------------------- СТРАНИЦА ----------------------- */
+/* ======================= Roadmap ======================= */
+const Roadmap = () => {
+  const t = useT();
+  return (
+    <section id="roadmap" className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle kicker={t("roadmap.kicker")} title={t("roadmap.title")} caption={t("roadmap.caption")}/>
+        <div className="grid gap-6 md:grid-cols-3">
+          {[1,2,3].map((ph) => (
+            <Card key={ph}>
+              <div className="mb-3 text-xs uppercase tracking-[0.2em] text-lime-300/80">Clove 0{ph}</div>
+              <h3 className="text-lg font-semibold">{t("roadmap.phase")} {ph}</h3>
+              <ul className="mt-3 space-y-2 text-sm text-white/70">
+                {t(`roadmap.p${ph}.0`) && <li>• {t(`roadmap.p${ph}.0`)}</li>}
+                {t(`roadmap.p${ph}.1`) && <li>• {t(`roadmap.p${ph}.1`)}</li>}
+                {t(`roadmap.p${ph}.2`) && <li>• {t(`roadmap.p${ph}.2`)}</li>}
+              </ul>
+            </Card>
+          ))}
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+/* ======================= How to buy ======================= */
+const HowToBuy = () => {
+  const t = useT();
+  return (
+    <section id="buy" className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle kicker={t("buy.kicker")} title={t("buy.title")} caption={t("buy.caption")}/>
+        <div className="grid gap-6 md:grid-cols-3">
+          <Card><div className="text-sm text-white/60">1</div><h3 className="mt-1 text-lg font-semibold">{t("buy.s1")}</h3><p className="mt-2 text-sm text-white/70">{t("buy.s1p")}</p></Card>
+          <Card><div className="text-sm text-white/60">2</div><h3 className="mt-1 text-lg font-semibold">{t("buy.s2")}</h3><p className="mt-2 text-sm text-white/70">{t("buy.s2p")}</p></Card>
+          <Card><div className="text-sm text-white/60">3</div><h3 className="mt-1 text-lg font-semibold">{t("buy.s3")}</h3><p className="mt-2 text-sm text-white/70">{t("buy.s3p")}</p></Card>
+        </div>
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <Btn onClick={() => document.getElementById("community")?.scrollIntoView({behavior:"smooth"})}>{t("buy.cta")} <Send className="h-4 w-4"/></Btn>
+          <span className="text-xs text-white/50">{t("buy.note")}</span>
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+/* ======================= Community ======================= */
+const Community = () => {
+  const t = useT();
+  return (
+    <section id="community" className="relative py-20 md:py-28">
+      <Container>
+        <SectionTitle kicker={t("community.kicker")} title={t("community.title")} caption={t("community.caption")}/>
+        <div className="flex flex-wrap items-center gap-4">
+          <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
+          <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
+          <a href="/litepaper.pdf" target="_blank" rel="noreferrer" className="group">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">
+              <Shield className="h-4 w-4"/> Litepaper
+            </span>
+          </a>
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+/* ======================= Footer ======================= */
+const Footer = () => {
+  const t = useT();
+  return (
+    <footer className="relative py-10 text-xs text-white/60">
+      <Container>
+        <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+          <div className="flex items-center gap-2"><span className="text-lg">🧄</span><span>© {new Date().getFullYear()} Garlic. All smells reserved.</span></div>
+          <div className="flex items-center gap-4">
+            <a href="#" className="hover:text-white">Terms</a>
+            <a href="#" className="hover:text-white">Privacy</a>
+            <span className="text-white/40">{t("footer.disclaimer")}</span>
+          </div>
+        </div>
+      </Container>
+    </footer>
+  );
+};
+
+/* ======================= Page ======================= */
 export default function GarlicAwwwardsSite() {
+  const [lang, setLangState] = useState(FALLBACK);
+
+  // init from localStorage or browser
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("lang") : null;
+    if (saved && LANGS.includes(saved)) setLangState(saved);
+    else {
+      // simple browser-language guess
+      const b = typeof navigator !== "undefined" ? navigator.language.toLowerCase() : "";
+      if (b.startsWith("hi")) setLangState("hi");
+      else if (b.startsWith("id")) setLangState("id");
+      else setLangState("en");
+    }
+  }, []);
+
+  const setLang = (l) => {
+    setLangState(l);
+    try { localStorage.setItem("lang", l); } catch {}
+    // update html lang for a11y/SEO hint
+    if (typeof document !== "undefined") document.documentElement.lang = l;
+  };
+
   useEffect(() => {
     const onKey = (e) => { if ((e.key || "").toLowerCase() === "g") { document.getElementById("token")?.scrollIntoView({ behavior: "smooth" }); } };
     window.addEventListener("keydown", onKey);
@@ -652,28 +1000,37 @@ export default function GarlicAwwwardsSite() {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-[#0b0f0a] text-white selection:bg-lime-300/30 selection:text-white">
-      {/* фон */}
-      <Noise />
-      <div aria-hidden className="pointer-events-none fixed inset-0 z-0 [background:radial-gradient(circle_at_50%_-20%,rgba(190,242,100,0.15),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.12),transparent_40%)]" />
-      <FloatingCloves /> {/* под контентом */}
+    <LangContext.Provider value={{ lang, setLang }}>
+      <main className="relative min-h-screen bg-[#0b0f0a] text-white selection:bg-lime-300/30 selection:text-white">
+        {/* фоновые слои */}
+        <Noise />
+        <div aria-hidden className="pointer-events-none fixed inset-0 z-0 [background:radial-gradient(circle_at_50%_-20%,rgba(190,242,100,0.15),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.12),transparent_40%)]" />
+        <FloatingCloves /> {/* под контентом */}
 
-      {/* контент */}
-      <Header />
-      <Hero />
-      <About />
-      <Policy />
-      <Partners />
-      <Testimonials />
-      <Tokenomics />
-      <Roadmap />
-      <HowToBuy />
-      <Community />
-      <Footer />
+        {/* контент */}
+        <Header />
+        <Hero />
+        <About />
+        <Policy />
+        <Partners />
+        <Testimonials />
+        <Tokenomics />
+        <Roadmap />
+        <HowToBuy />
+        <Community />
+        <Footer />
 
-      <div className="fixed bottom-4 right-4 hidden rounded-full border border-white/15 bg-white/5 px-3 py-2 text-[11px] text-white/70 md:block">
-        Нажми <Kbd>G</Kbd> — токеномика
-      </div>
-    </main>
+        <LangHint />
+      </main>
+    </LangContext.Provider>
   );
 }
+
+const LangHint = () => {
+  const t = useT();
+  return (
+    <div className="fixed bottom-4 right-4 hidden rounded-full border border-white/15 bg-white/5 px-3 py-2 text-[11px] text-white/70 md:flex items-center gap-2">
+      {t("footer.hint")} <Kbd>G</Kbd> {t("footer.hintAfter")}
+    </div>
+  );
+};
