@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useContext, createContext } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
 import {
   Twitter, Send, Rocket, Shield, Coins, Sparkles,
   ChevronRight, ExternalLink, BadgeCheck, Lock, Link as LinkIcon, Quote, Layers, GaugeCircle
@@ -467,10 +467,77 @@ const Counter = ({ to, suffix }) => {
   return <>{val.toLocaleString()} {suffix}</>;
 };
 
+/* ======================= Language Switcher (custom dropdown) ======================= */
+const LanguageSwitcher = () => {
+  const { lang, setLang } = useContext(LangContext);
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const onDoc = (e) => { if (!ref.current?.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("mousedown", onDoc);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDoc);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const options = [
+    { value: "en", label: "EN", hint: "English" },
+    { value: "hi", label: "हिंदी", hint: "Hindi" },
+    { value: "id", label: "ID", hint: "Bahasa" },
+  ];
+  const current = options.find(o => o.value === lang) || options[0];
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-xs text-white/80 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-lime-300/50"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+      >
+        <span className="font-semibold">{current.label}</span>
+        <ChevronRight className={`h-3 w-3 transition-transform ${open ? "rotate-90" : "rotate-0"}`} />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 8, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            role="listbox"
+            className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl border border-white/10 bg-[#0b0f0a]/90 backdrop-blur-xl shadow-[0_10px_30px_-12px_rgba(0,0,0,.6)]"
+          >
+            {options.map(opt => (
+              <li key={opt.value}>
+                <button
+                  onClick={() => { setLang(opt.value); setOpen(false); }}
+                  role="option"
+                  aria-selected={lang === opt.value}
+                  className={`flex w-full items-center justify-between gap-2 px-3 py-2.5 text-sm
+                    ${lang === opt.value ? "bg-white/[0.07] text-white" : "text-white/80 hover:bg-white/[0.06]"}`}
+                >
+                  <span>{opt.label}</span>
+                  <span className="text-[10px] text-white/40">{opt.hint}</span>
+                </button>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 /* ======================= Header c переключателем ======================= */
 const Header = () => {
   const t = useT();
-  const { lang, setLang } = useContext(LangContext);
   return (
     <div className="fixed inset-x-0 top-0 z-40">
       <Container>
@@ -495,16 +562,7 @@ const Header = () => {
             <a href="#buy" className="hidden md:block">
               <Btn>{t("nav.buy")} $GARLIC <ChevronRight className="h-4 w-4"/></Btn>
             </a>
-            <select
-              aria-label="Language"
-              value={lang}
-              onChange={(e) => setLang(e.target.value)}
-              className="rounded-full border border-white/15 bg-white/[0.06] px-3 py-2 text-xs text-white/80 focus:outline-none"
-            >
-              <option value="en">EN</option>
-              <option value="hi">हिंदी</option>
-              <option value="id">ID</option>
-            </select>
+            <LanguageSwitcher />
           </div>
         </motion.div>
       </Container>
@@ -605,7 +663,7 @@ const About = () => {
           </Card>
           <Card>
             <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div>
-            <h3 className="text-lg font-semibold">{"Culture\u00A0›\u00A0marketing" /* визуальный маркер */}</h3>
+            <h3 className="text-lg font-semibold">{t("approach.c3t")}</h3>
             <p className="mt-2 text-sm text-white/70">{t("approach.c3p")}</p>
           </Card>
         </div>
@@ -978,7 +1036,6 @@ export default function GarlicAwwwardsSite() {
     const saved = typeof window !== "undefined" ? localStorage.getItem("lang") : null;
     if (saved && LANGS.includes(saved)) setLangState(saved);
     else {
-      // simple browser-language guess
       const b = typeof navigator !== "undefined" ? navigator.language.toLowerCase() : "";
       if (b.startsWith("hi")) setLangState("hi");
       else if (b.startsWith("id")) setLangState("id");
@@ -989,7 +1046,6 @@ export default function GarlicAwwwardsSite() {
   const setLang = (l) => {
     setLangState(l);
     try { localStorage.setItem("lang", l); } catch {}
-    // update html lang for a11y/SEO hint
     if (typeof document !== "undefined") document.documentElement.lang = l;
   };
 
