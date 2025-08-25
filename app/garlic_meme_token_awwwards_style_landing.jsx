@@ -175,7 +175,7 @@ const Header = () => (
         </nav>
         <div className="flex items-center gap-2">
           <a href="#buy" className="hidden md:block">
-            <Btn>Купить сейчас <ChevronRight className="h-4 w-4"/></Btn>
+            <Btn>Купить $GARLIC <ChevronRight className="h-4 w-4"/></Btn>
           </a>
         </div>
       </motion.div>
@@ -183,7 +183,7 @@ const Header = () => (
   </div>
 );
 
-/* ----------------------- HERO: доверие + хайп ----------------------- */
+/* ----------------------- HERO: спокойная уверенность ----------------------- */
 const Hero = () => {
   const { ref, x, y } = useMouseParallax(24);
   const sx = useSpring(x, { stiffness: 120, damping: 16 });
@@ -217,20 +217,20 @@ const Hero = () => {
           <motion.div className="relative z-10"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <div className="mb-4 flex items-center gap-2 text-xs text-white/70">
-              <Pill>#fairlaunch</Pill><Pill>#zerotax</Pill><Pill>#renounced</Pill>
+              <Pill>#fairlaunch</Pill><Pill>#zerotax</Pill><Pill>#transparent</Pill>
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-black leading-[0.95]">
               <span className="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-transparent">GARLIC</span>
-              <span className="block text-white/80">Честно запущен. Пахнет доверием — и хайпом.</span>
+              <span className="block text-white/80">Спокойная уверенность. Честные правила. Прозрачный мем.</span>
             </h1>
             <p className="mt-6 max-w-xl text-white/70">
-              Нулевая комиссия. Заблокированная ликвидность. Верифицированный контракт. Прозрачные ссылки —
-              чтобы ты тратил время на мемы, а не на проверки.
+              0% налогов, ликвидность заблокирована, контракт верифицирован и ownership&nbsp;renounced.
+              Мы создаём предсказуемую среду — рынок решает цену, комьюнити даёт импульс. DYOR.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="#buy"><Btn>Купить $GARLIC <ExternalLink className="h-4 w-4"/></Btn></a>
               <a href="#trust" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">Доказательства доверия</a>
-              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— токеномика</span></div>
+              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— к токеномике</span></div>
             </div>
           </motion.div>
 
@@ -240,19 +240,19 @@ const Hero = () => {
             <div className="relative aspect-square rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-2xl">
               <GarlicSVG className="h-full w-full" tiltX={sx} tiltY={sy} />
               <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-white/5" />
-              <div className="pointer-events-none absolute -left-6 top-6"><Pill>RENOUNCED • LOCKED • 0%</Pill></div>
+              <div className="pointer-events-none absolute -left-6 top-6"><Pill>Fair • 0% • Locked</Pill></div>
             </div>
           </motion.div>
         </div>
 
         <div className="mt-10 md:mt-14">
           <Marquee items={[
-            "Fair launch — без пресейла",
+            "Честный запуск — без пресейла",
             "Налоги 0%",
             "Ликвидность заблокирована",
             "Контракт верифицирован",
             "Ownership renounced",
-            "Комьюнити > всё"
+            "Комьюнити — ядро роста"
           ]} />
         </div>
       </Container>
@@ -260,65 +260,63 @@ const Hero = () => {
   );
 };
 
-/* ----------------------- ABOUT: почему это заходит ----------------------- */
+/* ----------------------- ABOUT ----------------------- */
 const About = () => (
   <section id="about" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle
-        kicker="Почему это работает"
-        title="Простой набор правил, который люди уважают"
-        caption="Хайп строится на эмоциях, доверие — на фактах. Мы совместили оба столпа."
+        kicker="Почему мы"
+        title="Профессионально сделано. Мем — это формат, не хаос"
+        caption="Никаких трюков: простые правила, которые инвесторы понимают и уважают."
       />
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Fair • Честный старт</h3>
-          <p className="mt-2 text-sm text-white/70">Без пресейла и приватных аллокаций. Старт для всех — одинаковый.</p>
+          <h3 className="text-lg font-semibold">Fair • одинаковый старт</h3>
+          <p className="mt-2 text-sm text-white/70">Без приватных аллокаций и скрытых условий. Чистая отправная точка.</p>
         </Card>
         <Card>
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">0% • Свобода сделки</h3>
-          <p className="mt-2 text-sm text-white/70">Покупай и продавай без налогов. Только газ сети.</p>
+          <h3 className="text-lg font-semibold">0% • свобода сделки</h3>
+          <p className="mt-2 text-sm text-white/70">Покупай/продавай без налогов. Комиссия — только газ сети.</p>
         </Card>
         <Card>
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Мем-энергия</h3>
-          <p className="mt-2 text-sm text-white/70">Вирусный образ чеснока + культура комьюнити = органический рост.</p>
+          <h3 className="text-lg font-semibold">Культура > маркетинг</h3>
+          <p className="mt-2 text-sm text-white/70">Сильный символ (🧄) и органический контент от комьюнити.</p>
         </Card>
       </div>
     </Container>
   </section>
 );
 
-/* ----------------------- TRUST: пруфы и ссылки ----------------------- */
+/* ----------------------- TRUST ----------------------- */
 const Trust = () => (
   <section id="trust" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle
         kicker="Доверие"
-        title="Покажи пруфы — и люди сами сделают вывод"
-        caption="Всё, что мы говорим, подкрепляем ссылками. Проверь сам в один клик."
+        title="Проверяемые факты — основа спокойствия"
+        caption="Всё подкреплено ссылками: блокчейн-ссылки доступны каждому."
       />
       <div className="grid gap-6 md:grid-cols-3">
         <Card>
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div>
           <h3 className="text-lg font-semibold">Liquidity Locked</h3>
           <p className="mt-2 text-sm text-white/70">
-            Локери подтверждают. Публикуем tx-ссылку для проверки.
-            <br/><a className="text-lime-300 underline" href="https://etherscan.io/" target="_blank" rel="noreferrer">Смотреть tx</a>
+            Ликвидность зафиксирована в локере. Ссылка на tx публикуется при релизе.
           </p>
         </Card>
         <Card>
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><BadgeCheck className="h-5 w-5"/></div>
           <h3 className="text-lg font-semibold">Verified Contract</h3>
-          <p className="mt-2 text-sm text-white/70">Исходники сверены. Стандарты OpenZeppelin. <br/>Ссылка появится в день запуска.</p>
+          <p className="mt-2 text-sm text-white/70">Исходники сверены, стандарты OpenZeppelin. Адрес контракта — на странице запуска.</p>
         </Card>
         <Card>
           <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Renounced Ownership</h3>
+          <h3 className="text-lg font-semibold">Ownership Renounced</h3>
           <p className="mt-2 text-sm text-white/70">
-            Владение контрактом отозвано — власть у комьюнити. <br/>
-            <span className="text-white/50">Ссылка на tx — при релизе.</span>
+            Владение контрактом отзывается — решает комьюнити. Детали — в tx.
           </p>
         </Card>
       </div>
@@ -335,7 +333,7 @@ const Trust = () => (
         <Card>
           <h4 className="text-sm text-white/60">Налоги</h4>
           <div className="mt-2 text-2xl font-extrabold">0%</div>
-          <p className="mt-1 text-sm text-white/60">Никогда, ни на покупку, ни на продажу.</p>
+          <p className="mt-1 text-sm text-white/60">Без скрытых тумблеров. Только газ сети.</p>
         </Card>
         <Card>
           <h4 className="text-sm text-white/60">Политика</h4>
@@ -348,7 +346,7 @@ const Trust = () => (
   </section>
 );
 
-/* ----------------------- PARTNERS — уголки (без сплошной рамки) ----------------------- */
+/* ----------------------- PARTNERS — «уголки» без рамки ----------------------- */
 const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }) => {
   const gid = `grad-${keyName}`;
   const gidSoft = `grad-soft-${keyName}`;
@@ -356,7 +354,6 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
   const clipId = `clip-${keyName}`;
   const glowId = `glow-${keyName}`;
 
-  // мини-логотипы (вектор)
   const Icon = () => {
     switch (keyName) {
       case "uniswap":
@@ -441,13 +438,9 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
 
         {/* УГОЛКИ */}
         <g filter={`url(#${glowId})`}>
-          {/* top-left */}
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut" }} d="M6 6 H22 M6 6 V22" {...cornerStroke} />
-          {/* top-right */}
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.03 }} d="M174 6 H158 M174 6 V22" {...cornerStroke} />
-          {/* bottom-left */}
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 }} d="M6 46 H22 M6 46 V30" {...cornerStroke} />
-          {/* bottom-right */}
           <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.09 }} d="M174 46 H158 M174 46 V30" {...cornerStroke} />
         </g>
 
@@ -496,16 +489,16 @@ const Partners = () => {
   );
 };
 
-/* ----------------------- TESTIMONIALS: социальное доказательство ----------------------- */
+/* ----------------------- TESTIMONIALS: спокойный соцдоказ ----------------------- */
 const Testimonials = () => (
   <section className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Отзывы" title="Люди чувствуют аромат — и это заразно" caption="Мы не покупаем ботов и фейковые комменты. Только реальные мем-энтузиасты."/>
+      <SectionTitle kicker="Отзывы" title="Люди ценят ясность — и присоединяются" caption="Никакой накрутки: только органические комментарии и участие."/>
       <div className="grid gap-6 md:grid-cols-3">
         {[
-          {u:"@alpha_scavenger",t:"“Слишком чистая токеномика, чтобы игнорить. Поставил алерт — взял мешок.”"},
-          {u:"@memelord",t:"“Пахнет как $GARLIC — режет как перчик. Комьюнити уже делает приколы лучше брендов.”"},
-          {u:"@defi_builder",t:"“Renounced + locked + 0% — редкое комбо. Я за прозрачность. Влетаю.”"}
+          {u:"@alpha_scavenger",t:"“Чистая токеномика и прозрачные ссылки. Спокойно добавил в список наблюдения.”"},
+          {u:"@memelord",t:"“Мем подан профессионально. Комьюнити не токсичное — это редкость.”"},
+          {u:"@defi_builder",t:"“Renounced + locked + 0% — всё как надо. Следую обновлениям.”"}
         ].map((o, i) => (
           <Card key={i}>
             <div className="flex items-start gap-3">
@@ -526,13 +519,13 @@ const Testimonials = () => (
 const FAQ = () => (
   <section className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="FAQ" title="Вопрос — ответ за 3 секунды" />
+      <SectionTitle kicker="FAQ" title="Коротко и по делу" />
       <div className="grid gap-3 md:grid-cols-2">
         {[
-          {q:"Есть ли налоги на покупку/продажу?",a:"Нет. Налоги 0%. Платишь только газ сети."},
-          {q:"Будет ли пресейл или приват?",a:"Нет. Fair launch. Все — на одинаковых условиях."},
-          {q:"Контракт и лока ликвидности?",a:"Контракт верифицируем, владение отзываем, ликвидность блокируем. Ссылки на tx публикуем при релизе."},
-          {q:"Гарантируете рост цены?",a:"Нет. Это мем-проект. Действуй ответственно и делай своё исследование (DYOR)."}
+          {q:"Есть ли налоги на покупку/продажу?",a:"Нет. 0%. Комиссия — только газ сети."},
+          {q:"Будет ли пресейл или приват?",a:"Нет. Fair launch — одинаковые условия для всех."},
+          {q:"Контракт и лока ликвидности?",a:"Верифицируем исходники, ownership renounced, ликвидность блокируем. Ссылки публикуем при релизе."},
+          {q:"Обещаете доходность?",a:"Нет. Мы не обещаем прибыль и не даём инвестсоветов. Проект мемный, решение — за вами (DYOR)."}
         ].map(({q,a},i)=>(
           <details key={i} className="group rounded-2xl border border-white/10 bg-white/[0.02] p-4">
             <summary className="cursor-pointer list-none select-none text-sm font-medium text-white/90 flex items-center justify-between">
@@ -550,7 +543,7 @@ const FAQ = () => (
 const Tokenomics = () => (
   <section id="token" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Токеномика" title="Прозрачная, как стекло" caption="Минимум правил — максимум предсказуемости. Никаких скрытых тумблеров."/>
+      <SectionTitle kicker="Токеномика" title="Прозрачно и предсказуемо" caption="Минимум параметров — максимум ясности. Никаких скрытых переключателей."/>
       <div className="grid gap-6 md:grid-cols-12">
         <Card className="md:col-span-4">
           <div className="text-sm text-white/60">Общий supply</div>
@@ -560,12 +553,12 @@ const Tokenomics = () => (
         <Card className="md:col-span-4">
           <div className="text-sm text-white/60">Налоги на сделки</div>
           <div className="mt-2 text-3xl font-extrabold"><Counter to={0}/> %</div>
-          <p className="mt-3 text-sm text-white/60">Покупка и продажа — без налогов. Только газ.</p>
+          <p className="mt-3 text-sm text-white/60">Покупка и продажа — без налогов.</p>
         </Card>
         <Card className="md:col-span-4">
           <div className="text-sm text-white/60">Ликвидность</div>
           <div className="mt-2 text-3xl font-extrabold">Locked</div>
-          <p className="mt-3 text-sm text-white/60">Зафиксирована на DEX для защиты холдеров.</p>
+          <p className="mt-3 text-sm text-white/60">Зафиксирована в локере. Ссылка — при релизе.</p>
         </Card>
         <Card className="md:col-span-6">
           <h3 className="text-lg font-semibold">Распределение</h3>
@@ -580,7 +573,7 @@ const Tokenomics = () => (
           <h3 className="text-lg font-semibold">Контракт</h3>
           <p className="mt-3 text-sm text-white/70">Сеть: Ethereum или BSC. Адрес публикуем в день запуска. Исходники верифицируем, владение — renounce.</p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Pill>OpenZeppelin</Pill><Pill>Verified</Pill><Pill><BadgeCheck className="mr-1 inline h-3 w-3"/>Audited (TBA)</Pill>
+            <Pill>OpenZeppelin</Pill><Pill>Verified</Pill><Pill><BadgeCheck className="mr-1 inline h-3 w-3"/>Audit TBA</Pill>
           </div>
         </Card>
       </div>
@@ -592,7 +585,7 @@ const Tokenomics = () => (
 const Roadmap = () => (
   <section id="roadmap" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Дорожная карта" title="От запаха — к легенде" caption="Гибкая, мем-ориентированная. Комьюнити решает приоритеты голосом DAO."/>
+      <SectionTitle kicker="Дорожная карта" title="План без шума" caption="Гибкая, ориентированная на ценность комьюнити. Решения принимаем вместе."/>
       <div className="grid gap-6 md:grid-cols-3">
         {[1,2,3].map((ph) => (
           <Card key={ph}>
@@ -602,17 +595,17 @@ const Roadmap = () => (
               {ph===1 && (<>
                 <li>• Запуск сайта и соцсетей</li>
                 <li>• Листинг на DEX, лока LP</li>
-                <li>• Мем-кампания «#garlicaroma»</li>
+                <li>• Публичные ссылки-пруфы</li>
               </>)}
               {ph===2 && (<>
                 <li>• NFT-коллекция «Cloves»</li>
-                <li>• Коллаборации с художниками</li>
+                <li>• Партнёрства и коллаборации</li>
                 <li>• IRL-ивенты и мерч</li>
               </>)}
               {ph===3 && (<>
                 <li>• Garlic DAO (гранты авторам)</li>
                 <li>• Мини-игры/интеграции</li>
-                <li>• Листинги CEX (если получится)</li>
+                <li>• Листинги CEX (по возможности)</li>
               </>)}
             </ul>
           </Card>
@@ -626,15 +619,15 @@ const Roadmap = () => (
 const HowToBuy = () => (
   <section id="buy" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Как купить" title="3 шага — и ты с нами" caption="Вся магия — в децентрализации. Покупка — дело минут."/>
+      <SectionTitle kicker="Как купить" title="Три шага — без суеты" caption="Просто и прозрачно: кошелёк, базовая монета, обмен."/>
       <div className="grid gap-6 md:grid-cols-3">
-        <Card><div className="text-sm text-white/60">Шаг 1</div><h3 className="mt-1 text-lg font-semibold">Кошелёк</h3><p className="mt-2 text-sm text-white/70">MetaMask / Rabby / OKX. Выбери сеть (ETH/BSC).</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">Газ и базовая монета</h3><p className="mt-2 text-sm text-white/70">Пополни ETH/BNB через биржу или on-ramp.</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 3</div><h3 className="mt-1 text-lg font-semibold">Обмен на $GARLIC</h3><p className="mt-2 text-sm text-white/70">Uniswap/PancakeSwap. Проверь адрес контракта на этой странице.</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 1</div><h3 className="mt-1 text-lg font-semibold">Кошелёк</h3><p className="mt-2 text-sm text-white/70">MetaMask / Rabby / OKX. Выберите сеть (ETH/BSC).</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">База и газ</h3><p className="mt-2 text-sm text-white/70">Пополните ETH/BNB для обмена и комиссии сети.</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 3</div><h3 className="mt-1 text-lg font-semibold">Обмен на $GARLIC</h3><p className="mt-2 text-sm text-white/70">Uniswap/PancakeSwap. Проверьте адрес контракта на этой странице.</p></Card>
       </div>
       <div className="mt-8 flex flex-wrap items-center gap-3">
         <Btn onClick={() => document.getElementById("community")?.scrollIntoView({behavior:"smooth"})}>Вступить в комьюнити <Send className="h-4 w-4"/></Btn>
-        <span className="text-xs text-white/50">* Это не инвестсовет. DYOR. Крипта — риск.</span>
+        <span className="text-xs text-white/50">* Не обещаем доходность и не даём инвестсоветов. DYOR.</span>
       </div>
     </Container>
   </section>
@@ -644,7 +637,7 @@ const HowToBuy = () => (
 const Community = () => (
   <section id="community" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Сообщество" title="Хочешь понимать тренд — приходи раньше" caption="Анонсы, мем-конкурсы, раффлы, обсуждения билда — всё тут."/>
+      <SectionTitle kicker="Сообщество" title="Разумный мем: улыбаемся, но считаем" caption="Анонсы, обсуждения, раффлы — присоединяйтесь, если цените порядок и юмор."/>
       <div className="flex flex-wrap items-center gap-4">
         <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
         <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
@@ -667,7 +660,7 @@ const Footer = () => (
         <div className="flex items-center gap-4">
           <a href="#" className="hover:text-white">Terms</a>
           <a href="#" className="hover:text-white">Privacy</a>
-          <span className="text-white/40">Meme-проект. Никаких гарантий. DYOR.</span>
+          <span className="text-white/40">Meme-проект. Доходность не гарантируется. DYOR.</span>
         </div>
       </div>
     </Container>
