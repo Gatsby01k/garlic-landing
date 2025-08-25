@@ -267,39 +267,121 @@ const Trust = () => (
   </section>
 );
 
-/* ----------------------- PARTNERS (inline SVG badges, без файлов) ----------------------- */
-const ExchangeBadge = ({ label, href, glyph, from = "#a3e635", to = "#84cc16" }) => {
-  const id = `grad-${label.replace(/\s+/g, "-").toLowerCase()}`;
+/* ----------------------- PARTNERS (inline SVG badges, без эмодзи) ----------------------- */
+const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }) => {
+  const gid = `grad-${keyName}`;
+  const iid = `ig-${keyName}`;
+
+  const Icon = () => {
+    switch (keyName) {
+      case "uniswap":
+        return (
+          <g>
+            <path d="M8 10 v10 c0 8 6 14 14 14s14-6 14-14V10"
+              fill="none" stroke={`url(#${gid})`} strokeWidth="2.6" strokeLinecap="round" />
+            <path d="M8 10 Q 22 2 36 10"
+              fill="none" stroke={`url(#${gid})`} strokeWidth="2" strokeLinecap="round" opacity=".35" />
+          </g>
+        );
+      case "pancake":
+        return (
+          <g>
+            <rect x="8" y="8" width="24" height="9" rx="4.5" fill={`url(#${gid})`} opacity=".9" />
+            <rect x="6" y="17" width="28" height="10" rx="5" fill={`url(#${gid})`} opacity=".6" />
+          </g>
+        );
+      case "dexscreener":
+        return (
+          <g>
+            <polyline points="6,26 14,18 20,22 30,12"
+              fill="none" stroke={`url(#${gid})`} strokeWidth="2.6"
+              strokeLinecap="round" strokeLinejoin="round" />
+            <circle cx="14" cy="18" r="1.8" fill="#fff" opacity=".9" />
+            <circle cx="20" cy="22" r="1.8" fill="#fff" opacity=".9" />
+          </g>
+        );
+      case "coingecko":
+        return (
+          <g>
+            <circle cx="20" cy="20" r="14" fill={`url(#${gid})`} opacity=".65" />
+            <circle cx="16" cy="18" r="3.2" fill="#0b0f0a" opacity=".9" />
+            <path d="M20 26 q6 1 8 5" stroke="#0b0f0a" strokeWidth="2" opacity=".45" fill="none" strokeLinecap="round" />
+          </g>
+        );
+      case "cmc":
+        return (
+          <g>
+            <circle cx="20" cy="20" r="12" fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" />
+            <circle cx="20" cy="20" r="6"  fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" opacity=".6" />
+          </g>
+        );
+      case "opensea":
+        return (
+          <g>
+            <polygon points="22,8 28,20 16,20" fill={`url(#${gid})`} opacity=".9" />
+            <path d="M12 26 q8 -10 16 0" fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" />
+            <path d="M10 26 h20"        fill="none" stroke={`url(#${gid})`} strokeWidth="2.2" opacity=".55" />
+          </g>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <a href={href} target="_blank" rel="noreferrer" className="group">
       <motion.svg
-        width="160" height="44" viewBox="0 0 160 44"
+        width="180" height="52" viewBox="0 0 180 52"
         initial={false}
-        whileHover={{ y: -3, rotate: -1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 18 }}
-        className="drop-shadow-[0_8px_24px_rgba(132,204,22,0.15)]"
+        whileHover={{ y: -3, rotate: -0.8, scale: 1.02 }}
+        transition={{ type: "spring", stiffness: 320, damping: 20 }}
+        className="drop-shadow-[0_10px_28px_rgba(132,204,22,0.16)]"
       >
         <defs>
-          <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor={from} />
             <stop offset="100%" stopColor={to} />
           </linearGradient>
+          <filter id={iid} x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="6" result="b" />
+            <feMerge>
+              <feMergeNode in="b" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
+
+        {/* стеклянная подложка */}
+        <rect x="1" y="1" width="178" height="50" rx="14" fill="rgba(255,255,255,0.04)" />
+
+        {/* градиентная «волосяная» обводка с анимацией */}
         <motion.rect
-          x="0.5" y="0.5" width="159" height="43" rx="12"
-          fill="rgba(255,255,255,0.06)"
-          stroke={`url(#${id})`} strokeWidth="1.5"
-          strokeDasharray="10 10"
-          animate={{ strokeDashoffset: [0, 20] }}
-          transition={{ repeat: Infinity, duration: 2.2, ease: "linear" }}
+          x="0.75" y="0.75" width="178.5" height="50.5" rx="14.5"
+          fill="transparent"
+          stroke={`url(#${gid})`} strokeWidth="1.2"
+          strokeDasharray="14 12"
+          animate={{ strokeDashoffset: [0, 26] }}
+          transition={{ repeat: Infinity, duration: 2.4, ease: "linear" }}
+          style={{ filter: `url(#${iid})` }}
+          opacity=".9"
         />
-        <text x="14" y="27" fontSize="16" aria-hidden="true">{glyph}</text>
+        {/* тонкая внутренняя белая линия */}
+        <rect x="2" y="2" width="176" height="48" rx="13"
+          fill="transparent" stroke="rgba(255,255,255,0.12)" strokeWidth="0.8" />
+
+        {/* Логотип слева */}
+        <g transform="translate(10,6)">
+          <Icon />
+        </g>
+
+        {/* Название */}
         <text
-          x="40" y="27"
+          x="60" y="31"
           fontFamily="var(--font-sans), ui-sans-serif"
           fontSize="12"
-          letterSpacing="0.06em"
-          fill="#fff" opacity="0.92"
+          letterSpacing="0.08em"
+          fill="#fff"
+          opacity="0.92"
         >
           {label}
         </text>
@@ -309,13 +391,13 @@ const ExchangeBadge = ({ label, href, glyph, from = "#a3e635", to = "#84cc16" })
 };
 
 const Partners = () => {
-  const exchanges = [
-    { label: "Uniswap",      glyph: "🦄", href: "https://app.uniswap.org",       from: "#ff8bd5", to: "#ff3ac3" },
-    { label: "PancakeSwap",  glyph: "🥞", href: "https://pancakeswap.finance",   from: "#f7c473", to: "#d98324" },
-    { label: "DEX Screener", glyph: "📈", href: "https://dexscreener.com",       from: "#34d399", to: "#10b981" },
-    { label: "CoinGecko",    glyph: "🦎", href: "https://www.coingecko.com",     from: "#a3e635", to: "#84cc16" },
-    { label: "CMC",          glyph: "📊", href: "https://coinmarketcap.com",     from: "#60a5fa", to: "#3b82f6" },
-    { label: "OpenSea",      glyph: "⚓", href: "https://opensea.io",            from: "#93c5fd", to: "#60a5fa" },
+  const partners = [
+    { keyName: "uniswap",     label: "Uniswap",       href: "https://app.uniswap.org",     from: "#ff8bd5", to: "#ff3ac3" },
+    { keyName: "pancake",     label: "PancakeSwap",   href: "https://pancakeswap.finance", from: "#f7c473", to: "#d98324" },
+    { keyName: "dexscreener", label: "DEX Screener",  href: "https://dexscreener.com",     from: "#34d399", to: "#10b981" },
+    { keyName: "coingecko",   label: "CoinGecko",     href: "https://www.coingecko.com",   from: "#a3e635", to: "#84cc16" },
+    { keyName: "cmc",         label: "CoinMarketCap", href: "https://coinmarketcap.com",   from: "#60a5fa", to: "#3b82f6" },
+    { keyName: "opensea",     label: "OpenSea",       href: "https://opensea.io",          from: "#93c5fd", to: "#60a5fa" },
   ];
 
   return (
@@ -325,7 +407,7 @@ const Partners = () => {
           As seen on / Partners
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 place-items-center">
-          {exchanges.map((ex) => (<ExchangeBadge key={ex.label} {...ex} />))}
+          {partners.map((p) => <PartnerBadge key={p.keyName} {...p} />)}
         </div>
       </Container>
     </section>
