@@ -2,11 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { Twitter, Send, Rocket, Shield, Coins, Sparkles, ChevronRight, ExternalLink, BadgeCheck, CheckCircle, Lock, Link as LinkIcon, Quote } from "lucide-react";
-
-// Опциональный импорт shadcn Button, если есть в проекте
-let ShadcnBtn = null;
-try { ShadcnBtn = require("@/components/ui/button").Button; } catch (e) {}
+import { Twitter, Send, Rocket, Shield, Coins, Sparkles, ChevronRight, ExternalLink, BadgeCheck, Lock, Link as LinkIcon, Quote } from "lucide-react";
 
 function cn(...classes) { return classes.filter(Boolean).join(" "); }
 
@@ -54,25 +50,23 @@ const Kbd = ({ children }) => (
   <kbd className="inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[10px] uppercase tracking-wider text-white/70">{children}</kbd>
 );
 
-const Btn = ({ className, children, ...rest }) => {
-  if (ShadcnBtn) return React.createElement(ShadcnBtn, { className, ...rest }, children);
-  return (
-    <motion.button
-      whileHover={{ scale: 1.02, rotate: -1 }}
-      whileTap={{ scale: 0.98 }}
-      {...rest}
-      className={cn(
-        "relative inline-flex items-center gap-2 rounded-full px-5 py-3",
-        "font-semibold tracking-wide",
-        "bg-gradient-to-b from-lime-400 to-lime-500 text-black",
-        "shadow-[0_8px_20px_-6px_rgba(132,204,22,0.6)] hover:shadow-[0_12px_28px_-6px_rgba(132,204,22,0.75)]",
-        className
-      )}
-    >
-      {children}
-    </motion.button>
-  );
-};
+// Наш надёжный Btn без внешних зависимостей
+const Btn = ({ className, children, ...rest }) => (
+  <motion.button
+    whileHover={{ scale: 1.02, rotate: -1 }}
+    whileTap={{ scale: 0.98 }}
+    {...rest}
+    className={cn(
+      "relative inline-flex items-center gap-2 rounded-full px-5 py-3",
+      "font-semibold tracking-wide",
+      "bg-gradient-to-b from-lime-400 to-lime-500 text-black",
+      "shadow-[0_8px_20px_-6px_rgba(132,204,22,0.6)] hover:shadow-[0_12px_28px_-6px_rgba(132,204,22,0.75)]",
+      className
+    )}
+  >
+    {children}
+  </motion.button>
+);
 
 // ====== Хук параллакса ======
 function useMouseParallax(strength = 20) {
@@ -82,8 +76,8 @@ function useMouseParallax(strength = 20) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const r = el.getBoundingClientRect();
     const onMove = (e) => {
-      const r = el.getBoundingClientRect();
       const mx = e.clientX - r.left - r.width / 2;
       const my = e.clientY - r.top - r.height / 2;
       x.set((mx / r.width) * strength);
@@ -244,68 +238,32 @@ const About = () => (
   </section>
 );
 
-// ====== TRUST (новый блок доверия) ======
+// ====== TRUST ======
 const Trust = () => (
   <section id="trust" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle kicker="Trust & Transparency" title="Почему нам доверяют"
-        caption="Показываем факты, не обещания: ликвидность, верификация контракта и публичные ссылки." />
+        caption="Показываем факты: ликвидность, верификация контракта и публичные ссылки." />
       <div className="grid gap-6 md:grid-cols-3">
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Liquidity Locked</h3>
-          <p className="mt-2 text-sm text-white/70">
-            Ликвидность заблокирована на DEX. Смотри транзакцию на{" "}
-            <a className="text-lime-300 underline" href="https://etherscan.io/" target="_blank" rel="noreferrer">Etherscan</a>.
-          </p>
-        </Card>
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><BadgeCheck className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Verified Contract</h3>
-          <p className="mt-2 text-sm text-white/70">
-            Контракт верифицирован. Используем стандарты OpenZeppelin.
-          </p>
-        </Card>
-        <Card>
-          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div>
-          <h3 className="text-lg font-semibold">Audit (TBA)</h3>
-          <p className="mt-2 text-sm text-white/70">
-            Аудит запланирован. Отчёт будет опубликован и привязан к tx‑хэшу.
-          </p>
-        </Card>
+        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Liquidity Locked</h3><p className="mt-2 text-sm text-white/70">Ликвидность заблокирована на DEX. Смотри транзакцию на <a className="text-lime-300 underline" href="https://etherscan.io/" target="_blank" rel="noreferrer">Etherscan</a>.</p></Card>
+        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><BadgeCheck className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Verified Contract</h3><p className="mt-2 text-sm text-white/70">Контракт верифицирован. Используем стандарты OpenZeppelin.</p></Card>
+        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Audit (TBA)</h3><p className="mt-2 text-sm text-white/70">Аудит запланирован. Отчёт будет опубликован.</p></Card>
       </div>
       <div className="mt-6 grid gap-6 md:grid-cols-3">
-        <Card>
-          <h4 className="text-sm text-white/60">Контракт</h4>
-          <div className="mt-2 text-sm">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80">
-              <LinkIcon className="h-4 w-4"/> <span className="text-white/60">0x… (появится в день запуска)</span>
-            </span>
-          </div>
-        </Card>
-        <Card>
-          <h4 className="text-sm text-white/60">Налоги</h4>
-          <div className="mt-2 text-2xl font-extrabold">0%</div>
-          <p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p>
-        </Card>
-        <Card>
-          <h4 className="text-sm text-white/60">Комьюнити</h4>
-          <div className="mt-2 flex flex-wrap gap-2">
-            <Pill>DAO Multisig</Pill><Pill>Public Roadmap</Pill><Pill>Open Discord</Pill>
-          </div>
-        </Card>
+        <Card><h4 className="text-sm text-white/60">Контракт</h4><div className="mt-2 text-sm"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80"><LinkIcon className="h-4 w-4"/> <span className="text-white/60">0x… (в день запуска)</span></span></div></Card>
+        <Card><h4 className="text-sm text-white/60">Налоги</h4><div className="mt-2 text-2xl font-extrabold">0%</div><p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p></Card>
+        <Card><h4 className="text-sm text-white/60">Комьюнити</h4><div className="mt-2 flex flex-wrap gap-2"><Pill>DAO Multisig</Pill><Pill>Public Roadmap</Pill><Pill>Open Discord</Pill></div></Card>
       </div>
     </Container>
   </section>
 );
 
-// ====== PARTNERS (as seen on) ======
+// ====== PARTNERS ======
 const Partners = () => (
   <section className="relative py-16">
     <Container>
       <div className="mb-8 text-center text-xs tracking-[0.2em] uppercase text-white/50">As seen on / Partners</div>
       <div className="grid grid-cols-2 md:grid-cols-6 gap-4 place-items-center opacity-80">
-        {/* Положи логотипы в /public/partners/*.svg и замени пути ниже */}
         <img src="/partners/coingecko.svg" className="h-6 md:h-7" alt="CoinGecko"/>
         <img src="/partners/cmc.svg" className="h-6 md:h-7" alt="CMC"/>
         <img src="/partners/uniswap.svg" className="h-6 md:h-7" alt="Uniswap"/>
@@ -339,7 +297,7 @@ const Testimonials = () => (
   </section>
 );
 
-// ====== FAQ (на details/summary — без библиотек) ======
+// ====== FAQ ======
 const FAQ = () => (
   <section className="relative py-20 md:py-28">
     <Container>
@@ -363,7 +321,7 @@ const FAQ = () => (
   </section>
 );
 
-// ====== TOKENOMICS / ROADMAP / BUY / COMMUNITY / FOOTER (без изменений по сути) ======
+// ====== Остальные секции ======
 const Tokenomics = () => (
   <section id="token" className="relative py-20 md:py-28">
     <Container>
@@ -462,7 +420,6 @@ export default function GarlicAwwwardsSite() {
       <Hero />
       <About />
 
-      {/* Доверие и социальные доказательства */}
       <Trust />
       <Partners />
       <Testimonials />
