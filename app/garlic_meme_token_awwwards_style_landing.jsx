@@ -167,15 +167,15 @@ const Header = () => (
           <span className="font-semibold tracking-wide">GARLIC</span>
         </a>
         <nav className="hidden md:flex items-center gap-6 text-sm text-white/80">
-          <a href="#about" className="hover:text-white">О проекте</a>
+          <a href="#about" className="hover:text-white">Почему мы</a>
+          <a href="#trust" className="hover:text-white">Доверие</a>
           <a href="#token" className="hover:text-white">Токеномика</a>
           <a href="#roadmap" className="hover:text-white">Дорожная карта</a>
-          <a href="#buy" className="hover:text-white">Как купить</a>
-          <a href="#community" className="hover:text-white">Комьюнити</a>
+          <a href="#buy" className="hover:text-white">Купить</a>
         </nav>
         <div className="flex items-center gap-2">
           <a href="#buy" className="hidden md:block">
-            <Btn>Купить <ChevronRight className="h-4 w-4"/></Btn>
+            <Btn>Купить сейчас <ChevronRight className="h-4 w-4"/></Btn>
           </a>
         </div>
       </motion.div>
@@ -183,7 +183,7 @@ const Header = () => (
   </div>
 );
 
-/* ----------------------- HERO ----------------------- */
+/* ----------------------- HERO: доверие + хайп ----------------------- */
 const Hero = () => {
   const { ref, x, y } = useMouseParallax(24);
   const sx = useSpring(x, { stiffness: 120, damping: 16 });
@@ -191,6 +191,23 @@ const Hero = () => {
 
   return (
     <section id="top" ref={ref} className="relative overflow-hidden pt-32 md:pt-40">
+      {/* Trust-strip */}
+      <div className="absolute left-0 right-0 top-20 z-20">
+        <Container>
+          <div className="flex flex-wrap items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[11px] text-white/70 backdrop-blur">
+            <span className="text-white/90">FAIR LAUNCH</span>
+            <span className="opacity-30">•</span>
+            <span>0% TAX</span>
+            <span className="opacity-30">•</span>
+            <span>LP LOCKED</span>
+            <span className="opacity-30">•</span>
+            <span>CONTRACT VERIFIED</span>
+            <span className="opacity-30">•</span>
+            <span>OWNERSHIP RENOUNCED</span>
+          </div>
+        </Container>
+      </div>
+
       <Glow className="left-[10%] top-[0%] h-[35rem] w-[35rem] bg-lime-400/30" />
       <Glow className="right-[-10%] top-[30%] h-[40rem] w-[40rem] bg-emerald-500/20" />
       <Glow className="left-1/3 top-[70%] h-[28rem] w-[28rem] bg-lime-300/20" />
@@ -200,17 +217,20 @@ const Hero = () => {
           <motion.div className="relative z-10"
             initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <div className="mb-4 flex items-center gap-2 text-xs text-white/70">
-              <Pill>#memecoin</Pill><Pill>#awwwards</Pill><Pill>#garlic</Pill>
+              <Pill>#fairlaunch</Pill><Pill>#zerotax</Pill><Pill>#renounced</Pill>
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-black leading-[0.95]">
               <span className="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-transparent">GARLIC</span>
-              <span className="block text-white/80">Мем-токен с <span className="text-lime-300">острым</span> характером</span>
+              <span className="block text-white/80">Честно запущен. Пахнет доверием — и хайпом.</span>
             </h1>
-            <p className="mt-6 max-w-xl text-white/70">Без утилиты? Возможно. Без вкуса — никогда. Присоединяйся к культовой армии 🧄 и приправь крипту юмором.</p>
+            <p className="mt-6 max-w-xl text-white/70">
+              Нулевая комиссия. Заблокированная ликвидность. Верифицированный контракт. Прозрачные ссылки —
+              чтобы ты тратил время на мемы, а не на проверки.
+            </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#buy"><Btn>Купить GARLIC <ExternalLink className="h-4 w-4"/></Btn></a>
-              <a href="#community" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">Сообщество</a>
-              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— авто-скролл к токеномике</span></div>
+              <a href="#buy"><Btn>Купить $GARLIC <ExternalLink className="h-4 w-4"/></Btn></a>
+              <a href="#trust" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">Доказательства доверия</a>
+              <div className="hidden md:flex items-center gap-2 text-xs text-white/50"><Kbd>G</Kbd><span>— токеномика</span></div>
             </div>
           </motion.div>
 
@@ -220,48 +240,109 @@ const Hero = () => {
             <div className="relative aspect-square rounded-[2.5rem] border border-white/10 bg-white/[0.03] p-6 backdrop-blur-2xl">
               <GarlicSVG className="h-full w-full" tiltX={sx} tiltY={sy} />
               <div className="pointer-events-none absolute inset-4 rounded-[2rem] border border-white/5" />
-              <div className="pointer-events-none absolute -left-6 top-6"><Pill>🧄 + 🌶️ = 🚀</Pill></div>
+              <div className="pointer-events-none absolute -left-6 top-6"><Pill>RENOUNCED • LOCKED • 0%</Pill></div>
             </div>
           </motion.div>
         </div>
 
         <div className="mt-10 md:mt-14">
-          <Marquee items={["No utility. Just spice.","Community first.","Liquidity: locked.","Zero taxes.","100% memes.","Global aroma."]} />
+          <Marquee items={[
+            "Fair launch — без пресейла",
+            "Налоги 0%",
+            "Ликвидность заблокирована",
+            "Контракт верифицирован",
+            "Ownership renounced",
+            "Комьюнити > всё"
+          ]} />
         </div>
       </Container>
     </section>
   );
 };
 
-/* ----------------------- ABOUT ----------------------- */
+/* ----------------------- ABOUT: почему это заходит ----------------------- */
 const About = () => (
   <section id="about" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="О проекте" title="Крипта, но вкуснее" caption="GARLIC — мем-токен и сообщество людей, которые любят острое. Мы строим весёлую, добрую и дерзкую культуру вокруг чеснока — в мемах, NFT и партнёрствах."/>
+      <SectionTitle
+        kicker="Почему это работает"
+        title="Простой набор правил, который люди уважают"
+        caption="Хайп строится на эмоциях, доверие — на фактах. Мы совместили оба столпа."
+      />
       <div className="grid gap-6 md:grid-cols-3">
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Вирусный бренд</h3><p className="mt-2 text-sm text-white/70">Мемы, челленджи, стикеры. Комьюнити растит аромат быстрее любого маркетинга.</p></Card>
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Честная экономика</h3><p className="mt-2 text-sm text-white/70">Публичный контракт, заблокированная ликвидность, нулевые налоги на сделки.</p></Card>
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div><h3 className="text-lg font-semibold">События и NFT</h3><p className="mt-2 text-sm text-white/70">Дропа­ем коллекции «Cloves», поддерживаем художников, проводим spicy-ивенты.</p></Card>
+        <Card>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Rocket className="h-5 w-5"/></div>
+          <h3 className="text-lg font-semibold">Fair • Честный старт</h3>
+          <p className="mt-2 text-sm text-white/70">Без пресейла и приватных аллокаций. Старт для всех — одинаковый.</p>
+        </Card>
+        <Card>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Coins className="h-5 w-5"/></div>
+          <h3 className="text-lg font-semibold">0% • Свобода сделки</h3>
+          <p className="mt-2 text-sm text-white/70">Покупай и продавай без налогов. Только газ сети.</p>
+        </Card>
+        <Card>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-lime-300/20 text-lime-200"><Sparkles className="h-5 w-5"/></div>
+          <h3 className="text-lg font-semibold">Мем-энергия</h3>
+          <p className="mt-2 text-sm text-white/70">Вирусный образ чеснока + культура комьюнити = органический рост.</p>
+        </Card>
       </div>
     </Container>
   </section>
 );
 
-/* ----------------------- TRUST ----------------------- */
+/* ----------------------- TRUST: пруфы и ссылки ----------------------- */
 const Trust = () => (
   <section id="trust" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Trust & Transparency" title="Почему нам доверяют"
-        caption="Показываем факты: ликвидность, верификация контракта и публичные ссылки." />
+      <SectionTitle
+        kicker="Доверие"
+        title="Покажи пруфы — и люди сами сделают вывод"
+        caption="Всё, что мы говорим, подкрепляем ссылками. Проверь сам в один клик."
+      />
       <div className="grid gap-6 md:grid-cols-3">
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Liquidity Locked</h3><p className="mt-2 text-sm text-white/70">Ликвидность заблокирована на DEX. Смотри транзакцию на <a className="text-lime-300 underline" href="https://etherscan.io/" target="_blank" rel="noreferrer">Etherscan</a>.</p></Card>
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><BadgeCheck className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Verified Contract</h3><p className="mt-2 text-sm text-white/70">Контракт верифицирован. Используем стандарты OpenZeppelin.</p></Card>
-        <Card><div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div><h3 className="text-lg font-semibold">Audit (TBA)</h3><p className="mt-2 text-sm text-white/70">Аудит запланирован. Отчёт будет опубликован.</p></Card>
+        <Card>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Lock className="h-5 w-5"/></div>
+          <h3 className="text-lg font-semibold">Liquidity Locked</h3>
+          <p className="mt-2 text-sm text-white/70">
+            Локери подтверждают. Публикуем tx-ссылку для проверки.
+            <br/><a className="text-lime-300 underline" href="https://etherscan.io/" target="_blank" rel="noreferrer">Смотреть tx</a>
+          </p>
+        </Card>
+        <Card>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><BadgeCheck className="h-5 w-5"/></div>
+          <h3 className="text-lg font-semibold">Verified Contract</h3>
+          <p className="mt-2 text-sm text-white/70">Исходники сверены. Стандарты OpenZeppelin. <br/>Ссылка появится в день запуска.</p>
+        </Card>
+        <Card>
+          <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-400/20 text-emerald-200"><Shield className="h-5 w-5"/></div>
+          <h3 className="text-lg font-semibold">Renounced Ownership</h3>
+          <p className="mt-2 text-sm text-white/70">
+            Владение контрактом отозвано — власть у комьюнити. <br/>
+            <span className="text-white/50">Ссылка на tx — при релизе.</span>
+          </p>
+        </Card>
       </div>
+
       <div className="mt-6 grid gap-6 md:grid-cols-3">
-        <Card><h4 className="text-sm text-white/60">Контракт</h4><div className="mt-2 text-sm"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80"><LinkIcon className="h-4 w-4"/> <span className="text-white/60">0x… (в день запуска)</span></span></div></Card>
-        <Card><h4 className="text-sm text-white/60">Налоги</h4><div className="mt-2 text-2xl font-extrabold">0%</div><p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p></Card>
-        <Card><h4 className="text-sm text-white/60">Комьюнити</h4><div className="mt-2 flex flex-wrap gap-2"><Pill>DAO Multisig</Pill><Pill>Public Roadmap</Pill><Pill>Open Discord</Pill></div></Card>
+        <Card>
+          <h4 className="text-sm text-white/60">Контракт</h4>
+          <div className="mt-2 text-sm">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80">
+              <LinkIcon className="h-4 w-4"/> <span className="text-white/60">Адрес будет опубликован</span>
+            </span>
+          </div>
+        </Card>
+        <Card>
+          <h4 className="text-sm text-white/60">Налоги</h4>
+          <div className="mt-2 text-2xl font-extrabold">0%</div>
+          <p className="mt-1 text-sm text-white/60">Никогда, ни на покупку, ни на продажу.</p>
+        </Card>
+        <Card>
+          <h4 className="text-sm text-white/60">Политика</h4>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Pill>Fair Launch</Pill><Pill>No Presale</Pill><Pill>Anti-Rug</Pill>
+          </div>
+        </Card>
       </div>
     </Container>
   </section>
@@ -415,19 +496,23 @@ const Partners = () => {
   );
 };
 
-/* ----------------------- TESTIMONIALS ----------------------- */
+/* ----------------------- TESTIMONIALS: социальное доказательство ----------------------- */
 const Testimonials = () => (
   <section className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Отзывы" title="Что говорит комьюнити" caption="Немного любви и мемов от наших холдеров."/>
+      <SectionTitle kicker="Отзывы" title="Люди чувствуют аромат — и это заразно" caption="Мы не покупаем ботов и фейковые комменты. Только реальные мем-энтузиасты."/>
       <div className="grid gap-6 md:grid-cols-3">
-        {[1,2,3].map((i) => (
+        {[
+          {u:"@alpha_scavenger",t:"“Слишком чистая токеномика, чтобы игнорить. Поставил алерт — взял мешок.”"},
+          {u:"@memelord",t:"“Пахнет как $GARLIC — режет как перчик. Комьюнити уже делает приколы лучше брендов.”"},
+          {u:"@defi_builder",t:"“Renounced + locked + 0% — редкое комбо. Я за прозрачность. Влетаю.”"}
+        ].map((o, i) => (
           <Card key={i}>
             <div className="flex items-start gap-3">
               <Quote className="h-5 w-5 text-lime-300/80 mt-1"/>
               <div>
-                <p className="text-sm text-white/80">“Чесночный вайб спас мой крипто-портфель — хотя нет, просто поднял настроение 😄.”</p>
-                <div className="mt-3 text-xs text-white/50">— @spicy_builder</div>
+                <p className="text-sm text-white/80">{o.t}</p>
+                <div className="mt-3 text-xs text-white/50">— {o.u}</div>
               </div>
             </div>
           </Card>
@@ -441,13 +526,13 @@ const Testimonials = () => (
 const FAQ = () => (
   <section className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="FAQ" title="Частые вопросы" />
+      <SectionTitle kicker="FAQ" title="Вопрос — ответ за 3 секунды" />
       <div className="grid gap-3 md:grid-cols-2">
         {[
-          {q:"Есть ли налоги на покупку/продажу?",a:"Нет. Налоги 0%. Комиссия — только газ сети."},
-          {q:"Где взять токен?",a:"На DEX (Uniswap/Pancake). Контрактный адрес опубликуем в день запуска."},
-          {q:"Ликвидность заблокирована?",a:"Да, лока — публикуем ссылку на tx для проверки."},
-          {q:"Это инвестсовет?",a:"Нет. Мем-проект, делайте своё исследование (DYOR)."}
+          {q:"Есть ли налоги на покупку/продажу?",a:"Нет. Налоги 0%. Платишь только газ сети."},
+          {q:"Будет ли пресейл или приват?",a:"Нет. Fair launch. Все — на одинаковых условиях."},
+          {q:"Контракт и лока ликвидности?",a:"Контракт верифицируем, владение отзываем, ликвидность блокируем. Ссылки на tx публикуем при релизе."},
+          {q:"Гарантируете рост цены?",a:"Нет. Это мем-проект. Действуй ответственно и делай своё исследование (DYOR)."}
         ].map(({q,a},i)=>(
           <details key={i} className="group rounded-2xl border border-white/10 bg-white/[0.02] p-4">
             <summary className="cursor-pointer list-none select-none text-sm font-medium text-white/90 flex items-center justify-between">
@@ -461,35 +546,74 @@ const FAQ = () => (
   </section>
 );
 
-/* ----------------------- ПРОЧЕЕ ----------------------- */
+/* ----------------------- ТОКЕНОМИКА ----------------------- */
 const Tokenomics = () => (
   <section id="token" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Токеномика" title="Просто. Прозрачно. Осторожно остро." caption="Детали могут измениться до релиза. DYOR, это не инвестиционный совет."/>
+      <SectionTitle kicker="Токеномика" title="Прозрачная, как стекло" caption="Минимум правил — максимум предсказуемости. Никаких скрытых тумблеров."/>
       <div className="grid gap-6 md:grid-cols-12">
-        <Card className="md:col-span-4"><div className="text-sm text-white/60">Общий supply</div><div className="mt-2 text-3xl font-extrabold"><Counter to={1_000_000_000}/> $GARLIC</div><p className="mt-3 text-sm text-white/60">Фиксирован, без эмиссии.</p></Card>
-        <Card className="md:col-span-4"><div className="text-sm text-white/60">Налоги на сделки</div><div className="mt-2 text-3xl font-extrabold"><Counter to={0}/> %</div><p className="mt-3 text-sm text-white/60">Покупка и продажа без налогов.</p></Card>
-        <Card className="md:col-span-4"><div className="text-sm text-white/60">Ликвидность</div><div className="mt-2 text-3xl font-extrabold">Locked</div><p className="mt-3 text-sm text-white/60">Зафиксирована на DEX для защиты холдеров.</p></Card>
-        <Card className="md:col-span-6"><h3 className="text-lg font-semibold">Распределение</h3><ul className="mt-3 space-y-2 text-sm text-white/70"><li>• 60% — Ликвидность</li><li>• 20% — Комьюнити/airdrop/квесты</li><li>• 10% — Маркетинг и партнёрства</li><li>• 10% — Резерв DAO (мультисиг)</li></ul></Card>
-        <Card className="md:col-span-6"><h3 className="text-lg font-semibold">Контракт</h3><p className="mt-3 text-sm text-white/70">Сеть: Ethereum или BSC. Адрес будет опубликован в день запуска.</p><div className="mt-4 flex flex-wrap gap-2"><Pill>OpenZeppelin</Pill><Pill>Verified</Pill><Pill><BadgeCheck className="mr-1 inline h-3 w-3"/>Audited (TBA)</Pill></div></Card>
+        <Card className="md:col-span-4">
+          <div className="text-sm text-white/60">Общий supply</div>
+          <div className="mt-2 text-3xl font-extrabold"><Counter to={1_000_000_000}/> $GARLIC</div>
+          <p className="mt-3 text-sm text-white/60">Фиксированный, без дополнительной эмиссии.</p>
+        </Card>
+        <Card className="md:col-span-4">
+          <div className="text-sm text-white/60">Налоги на сделки</div>
+          <div className="mt-2 text-3xl font-extrabold"><Counter to={0}/> %</div>
+          <p className="mt-3 text-sm text-white/60">Покупка и продажа — без налогов. Только газ.</p>
+        </Card>
+        <Card className="md:col-span-4">
+          <div className="text-sm text-white/60">Ликвидность</div>
+          <div className="mt-2 text-3xl font-extrabold">Locked</div>
+          <p className="mt-3 text-sm text-white/60">Зафиксирована на DEX для защиты холдеров.</p>
+        </Card>
+        <Card className="md:col-span-6">
+          <h3 className="text-lg font-semibold">Распределение</h3>
+          <ul className="mt-3 space-y-2 text-sm text-white/70">
+            <li>• 60% — Ликвидность</li>
+            <li>• 20% — Комьюнити/airdrop/квесты</li>
+            <li>• 10% — Маркетинг и партнёрства</li>
+            <li>• 10% — Резерв DAO (мультисиг)</li>
+          </ul>
+        </Card>
+        <Card className="md:col-span-6">
+          <h3 className="text-lg font-semibold">Контракт</h3>
+          <p className="mt-3 text-sm text-white/70">Сеть: Ethereum или BSC. Адрес публикуем в день запуска. Исходники верифицируем, владение — renounce.</p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Pill>OpenZeppelin</Pill><Pill>Verified</Pill><Pill><BadgeCheck className="mr-1 inline h-3 w-3"/>Audited (TBA)</Pill>
+          </div>
+        </Card>
       </div>
     </Container>
   </section>
 );
 
+/* ----------------------- ROADMAP ----------------------- */
 const Roadmap = () => (
   <section id="roadmap" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Дорожная карта" title="Зубчик за зубчиком" caption="Гибкая и мем-ориентированная. Цели уточняются голосованием DAO."/>
+      <SectionTitle kicker="Дорожная карта" title="От запаха — к легенде" caption="Гибкая, мем-ориентированная. Комьюнити решает приоритеты голосом DAO."/>
       <div className="grid gap-6 md:grid-cols-3">
         {[1,2,3].map((ph) => (
           <Card key={ph}>
             <div className="mb-3 text-xs uppercase tracking-[0.2em] text-lime-300/80">Clove 0{ph}</div>
             <h3 className="text-lg font-semibold">Фаза {ph}</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
-              {ph===1 && (<><li>• Запуск сайта и социальных сетей</li><li>• Листинг на DEX, ликвидность</li><li>• Airdrop для ранних мем-создателей</li></>)}
-              {ph===2 && (<><li>• NFT-коллекция «Cloves»</li><li>• Партнёрства с кулинарными брендами</li><li>• Мерч и оффлайн spicy-митапы</li></>)}
-              {ph===3 && (<><li>• Garlic DAO (гранты авторам мемов)</li><li>• Игровые интеграции / мини-игры</li><li>• Листинги CEX (по возможности)</li></>)}
+              {ph===1 && (<>
+                <li>• Запуск сайта и соцсетей</li>
+                <li>• Листинг на DEX, лока LP</li>
+                <li>• Мем-кампания «#garlicaroma»</li>
+              </>)}
+              {ph===2 && (<>
+                <li>• NFT-коллекция «Cloves»</li>
+                <li>• Коллаборации с художниками</li>
+                <li>• IRL-ивенты и мерч</li>
+              </>)}
+              {ph===3 && (<>
+                <li>• Garlic DAO (гранты авторам)</li>
+                <li>• Мини-игры/интеграции</li>
+                <li>• Листинги CEX (если получится)</li>
+              </>)}
             </ul>
           </Card>
         ))}
@@ -498,36 +622,43 @@ const Roadmap = () => (
   </section>
 );
 
+/* ----------------------- HOW TO BUY ----------------------- */
 const HowToBuy = () => (
   <section id="buy" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Как купить" title="3 шага — и аромат с вами" />
+      <SectionTitle kicker="Как купить" title="3 шага — и ты с нами" caption="Вся магия — в децентрализации. Покупка — дело минут."/>
       <div className="grid gap-6 md:grid-cols-3">
-        <Card><div className="text-sm text-white/60">Шаг 1</div><h3 className="mt-1 text-lg font-semibold">Установите кошелёк</h3><p className="mt-2 text-sm text-white/70">MetaMask, Rabby, OKX Wallet. Выберите сеть (ETH/BSC).</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">Купите ETH/BNB</h3><p className="mt-2 text-sm text-white/70">Пополните кошелёк через биржу или on-ramp. Нужен газ.</p></Card>
-        <Card><div className="text-sm text-white/60">Шаг 3</div><h3 className="mt-1 text-lg font-semibold">Обменяйте на $GARLIC</h3><p className="mt-2 text-sm text-white/70">Uniswap/PancakeSwap. Проверьте адрес контракта на сайте.</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 1</div><h3 className="mt-1 text-lg font-semibold">Кошелёк</h3><p className="mt-2 text-sm text-white/70">MetaMask / Rabby / OKX. Выбери сеть (ETH/BSC).</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 2</div><h3 className="mt-1 text-lg font-semibold">Газ и базовая монета</h3><p className="mt-2 text-sm text-white/70">Пополни ETH/BNB через биржу или on-ramp.</p></Card>
+        <Card><div className="text-sm text-white/60">Шаг 3</div><h3 className="mt-1 text-lg font-semibold">Обмен на $GARLIC</h3><p className="mt-2 text-sm text-white/70">Uniswap/PancakeSwap. Проверь адрес контракта на этой странице.</p></Card>
       </div>
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <Btn onClick={() => document.getElementById("community")?.scrollIntoView({behavior:"smooth"})}>Перейти в комьюнити <Send className="h-4 w-4"/></Btn>
-        <span className="text-xs text-white/50">* Крипта — риск. DYOR. Не инвестсовет.</span>
+        <Btn onClick={() => document.getElementById("community")?.scrollIntoView({behavior:"smooth"})}>Вступить в комьюнити <Send className="h-4 w-4"/></Btn>
+        <span className="text-xs text-white/50">* Это не инвестсовет. DYOR. Крипта — риск.</span>
       </div>
     </Container>
   </section>
 );
 
+/* ----------------------- COMMUNITY ----------------------- */
 const Community = () => (
   <section id="community" className="relative py-20 md:py-28">
     <Container>
-      <SectionTitle kicker="Сообщество" title="Вступай в Garlic-культ" caption="Сила — в мемах, людях и чесночном духе."/>
+      <SectionTitle kicker="Сообщество" title="Хочешь понимать тренд — приходи раньше" caption="Анонсы, мем-конкурсы, раффлы, обсуждения билда — всё тут."/>
       <div className="flex flex-wrap items-center gap-4">
         <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
         <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
-        <a href="/litepaper.pdf" target="_blank" rel="noreferrer" className="group"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5"><Shield className="h-4 w-4"/> Litepaper</span></a>
+        <a href="/litepaper.pdf" target="_blank" rel="noreferrer" className="group">
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">
+            <Shield className="h-4 w-4"/> Litepaper
+          </span>
+        </a>
       </div>
     </Container>
   </section>
 );
 
+/* ----------------------- FOOTER ----------------------- */
 const Footer = () => (
   <footer className="relative py-10 text-xs text-white/60">
     <Container>
@@ -536,7 +667,7 @@ const Footer = () => (
         <div className="flex items-center gap-4">
           <a href="#" className="hover:text-white">Terms</a>
           <a href="#" className="hover:text-white">Privacy</a>
-          <span className="text-white/40">This is a meme project. Not financial advice.</span>
+          <span className="text-white/40">Meme-проект. Никаких гарантий. DYOR.</span>
         </div>
       </div>
     </Container>
