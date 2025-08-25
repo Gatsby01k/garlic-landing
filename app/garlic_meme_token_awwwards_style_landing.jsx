@@ -2,12 +2,15 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { Twitter, Send, Rocket, Shield, Coins, Sparkles, ChevronRight, ExternalLink, BadgeCheck, Lock, Link as LinkIcon, Quote } from "lucide-react";
+import {
+  Twitter, Send, Rocket, Shield, Coins, Sparkles,
+  ChevronRight, ExternalLink, BadgeCheck, Lock, Link as LinkIcon, Quote
+} from "lucide-react";
 import FloatingCloves from "./components/FloatingCloves";
 
 function cn(...classes) { return classes.filter(Boolean).join(" "); }
 
-// ====== Общие маленькие компоненты ======
+/* ----------------------- БАЗОВЫЕ МАЛЕНЬКИЕ КОМПОНЕНТЫ ----------------------- */
 const Container = ({ className, children }) => (
   <div className={cn("mx-auto w-full max-w-[1200px] px-4 md:px-8", className)}>{children}</div>
 );
@@ -23,8 +26,14 @@ const SectionTitle = ({ kicker, title, caption, className }) => (
 );
 
 const Noise = () => (
-  <div aria-hidden className="pointer-events-none fixed inset-0 z-[1] opacity-[0.06] mix-blend-soft-light"
-       style={{ backgroundImage:"url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"140\" height=\"140\"><filter id=\"n\"><feTurbulence baseFrequency=\"0.7\" numOctaves=\"3\"/></filter><rect width=\"100%\" height=\"100%\" filter=\"url(%23n)\" opacity=\"0.8\"/></svg>')" }} />
+  <div
+    aria-hidden
+    className="pointer-events-none fixed inset-0 z-[1] opacity-[0.06] mix-blend-soft-light"
+    style={{
+      backgroundImage:
+        'url("data:image/svg+xml;utf8,<svg xmlns=\\"http://www.w3.org/2000/svg\\" width=\\"140\\" height=\\"140\\"><filter id=\\"n\\"><feTurbulence baseFrequency=\\"0.7\\" numOctaves=\\"3\\"/></filter><rect width=\\"100%\\" height=\\"100%\\" filter=\\"url(%23n)\\" opacity=\\"0.8\\"/></svg>")'
+    }}
+  />
 );
 
 const Glow = ({ className }) => (<div className={cn("absolute -z-10 blur-3xl", className)} />);
@@ -68,7 +77,7 @@ const Btn = ({ className, children, ...rest }) => (
   </motion.button>
 );
 
-// ====== Хук параллакса ======
+/* ----------------------- ПАРАЛЛАКС ----------------------- */
 function useMouseParallax(strength = 20) {
   const ref = useRef(null);
   const x = useMotionValue(0);
@@ -91,7 +100,7 @@ function useMouseParallax(strength = 20) {
   return { ref, x, y };
 }
 
-// ====== SVG-логотип ======
+/* ----------------------- ЛОГО SVG ----------------------- */
 const GarlicSVG = ({ className, tiltX, tiltY }) => (
   <motion.svg viewBox="0 0 300 300" className={cn("drop-shadow-2xl", className)}
     style={{ x: tiltX, y: tiltY }} initial={{ rotate: -6, scale: 0.9 }}
@@ -113,7 +122,7 @@ const GarlicSVG = ({ className, tiltX, tiltY }) => (
 
 const Pill = ({ children }) => (<span className="rounded-full border border-lime-300/30 bg-lime-300/10 px-3 py-1 text-xs text-lime-200">{children}</span>);
 
-// ====== Маркиза ======
+/* ----------------------- МАРКИЗА ----------------------- */
 const Marquee = ({ items }) => (
   <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
     <div className="animate-[marquee_18s_linear_infinite] whitespace-nowrap">
@@ -127,7 +136,7 @@ const Marquee = ({ items }) => (
   </div>
 );
 
-// ====== Счётчик ======
+/* ----------------------- СЧЁТЧИК ----------------------- */
 const Counter = ({ to, suffix }) => {
   const [val, setVal] = useState(0);
   useEffect(() => {
@@ -143,7 +152,7 @@ const Counter = ({ to, suffix }) => {
   return <>{val.toLocaleString()} {suffix}</>;
 };
 
-// ====== Хедер ======
+/* ----------------------- ХЕДЕР ----------------------- */
 const Header = () => (
   <div className="fixed inset-x-0 top-0 z-40">
     <Container>
@@ -174,7 +183,7 @@ const Header = () => (
   </div>
 );
 
-// ====== HERO ======
+/* ----------------------- HERO ----------------------- */
 const Hero = () => {
   const { ref, x, y } = useMouseParallax(24);
   const sx = useSpring(x, { stiffness: 120, damping: 16 });
@@ -197,7 +206,7 @@ const Hero = () => {
               <span className="bg-gradient-to-r from-white via-lime-200 to-lime-400 bg-clip-text text-transparent">GARLIC</span>
               <span className="block text-white/80">Мем-токен с <span className="text-lime-300">острым</span> характером</span>
             </h1>
-            <p className="mt-6 max-w-xl text-white/70">Без утилиты? Возможно. Без вкуса — никогда. Присоединяйся к культа­вой армии 🧄 и приправь крипту юмором.</p>
+            <p className="mt-6 max-w-xl text-white/70">Без утилиты? Возможно. Без вкуса — никогда. Присоединяйся к культовой армии 🧄 и приправь крипту юмором.</p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <a href="#buy"><Btn>Купить GARLIC <ExternalLink className="h-4 w-4"/></Btn></a>
               <a href="#community" className="rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5">Сообщество</a>
@@ -224,7 +233,7 @@ const Hero = () => {
   );
 };
 
-// ====== ABOUT ======
+/* ----------------------- ABOUT ----------------------- */
 const About = () => (
   <section id="about" className="relative py-20 md:py-28">
     <Container>
@@ -238,7 +247,7 @@ const About = () => (
   </section>
 );
 
-// ====== TRUST ======
+/* ----------------------- TRUST ----------------------- */
 const Trust = () => (
   <section id="trust" className="relative py-20 md:py-28">
     <Container>
@@ -258,24 +267,72 @@ const Trust = () => (
   </section>
 );
 
-// ====== PARTNERS ======
-const Partners = () => (
-  <section className="relative py-16">
-    <Container>
-      <div className="mb-8 text-center text-xs tracking-[0.2em] uppercase text-white/50">As seen on / Partners</div>
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-4 place-items-center opacity-80">
-        <img src="/partners/coingecko.svg" className="h-6 md:h-7" alt="CoinGecko"/>
-        <img src="/partners/cmc.svg" className="h-6 md:h-7" alt="CMC"/>
-        <img src="/partners/uniswap.svg" className="h-6 md:h-7" alt="Uniswap"/>
-        <img src="/partners/pancake.svg" className="h-6 md:h-7" alt="PancakeSwap"/>
-        <img src="/partners/dexscreener.svg" className="h-6 md:h-7" alt="DEX Screener"/>
-        <img src="/partners/opensea.svg" className="h-6 md:h-7" alt="OpenSea"/>
-      </div>
-    </Container>
-  </section>
-);
+/* ----------------------- PARTNERS (inline SVG badges, без файлов) ----------------------- */
+const ExchangeBadge = ({ label, href, glyph, from = "#a3e635", to = "#84cc16" }) => {
+  const id = `grad-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className="group">
+      <motion.svg
+        width="160" height="44" viewBox="0 0 160 44"
+        initial={false}
+        whileHover={{ y: -3, rotate: -1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 18 }}
+        className="drop-shadow-[0_8px_24px_rgba(132,204,22,0.15)]"
+      >
+        <defs>
+          <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor={from} />
+            <stop offset="100%" stopColor={to} />
+          </linearGradient>
+        </defs>
+        <motion.rect
+          x="0.5" y="0.5" width="159" height="43" rx="12"
+          fill="rgba(255,255,255,0.06)"
+          stroke={`url(#${id})`} strokeWidth="1.5"
+          strokeDasharray="10 10"
+          animate={{ strokeDashoffset: [0, 20] }}
+          transition={{ repeat: Infinity, duration: 2.2, ease: "linear" }}
+        />
+        <text x="14" y="27" fontSize="16" aria-hidden="true">{glyph}</text>
+        <text
+          x="40" y="27"
+          fontFamily="var(--font-sans), ui-sans-serif"
+          fontSize="12"
+          letterSpacing="0.06em"
+          fill="#fff" opacity="0.92"
+        >
+          {label}
+        </text>
+      </motion.svg>
+    </a>
+  );
+};
 
-// ====== TESTIMONIALS ======
+const Partners = () => {
+  const exchanges = [
+    { label: "Uniswap",      glyph: "🦄", href: "https://app.uniswap.org",       from: "#ff8bd5", to: "#ff3ac3" },
+    { label: "PancakeSwap",  glyph: "🥞", href: "https://pancakeswap.finance",   from: "#f7c473", to: "#d98324" },
+    { label: "DEX Screener", glyph: "📈", href: "https://dexscreener.com",       from: "#34d399", to: "#10b981" },
+    { label: "CoinGecko",    glyph: "🦎", href: "https://www.coingecko.com",     from: "#a3e635", to: "#84cc16" },
+    { label: "CMC",          glyph: "📊", href: "https://coinmarketcap.com",     from: "#60a5fa", to: "#3b82f6" },
+    { label: "OpenSea",      glyph: "⚓", href: "https://opensea.io",            from: "#93c5fd", to: "#60a5fa" },
+  ];
+
+  return (
+    <section className="relative py-16">
+      <Container>
+        <div className="mb-8 text-center text-xs tracking-[0.2em] uppercase text-white/50">
+          As seen on / Partners
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 place-items-center">
+          {exchanges.map((ex) => (<ExchangeBadge key={ex.label} {...ex} />))}
+        </div>
+      </Container>
+    </section>
+  );
+};
+
+/* ----------------------- TESTIMONIALS ----------------------- */
 const Testimonials = () => (
   <section className="relative py-20 md:py-28">
     <Container>
@@ -297,7 +354,7 @@ const Testimonials = () => (
   </section>
 );
 
-// ====== FAQ ======
+/* ----------------------- FAQ ----------------------- */
 const FAQ = () => (
   <section className="relative py-20 md:py-28">
     <Container>
@@ -321,7 +378,7 @@ const FAQ = () => (
   </section>
 );
 
-// ====== Остальные секции ======
+/* ----------------------- ОСТАЛЬНЫЕ СЕКЦИИ ----------------------- */
 const Tokenomics = () => (
   <section id="token" className="relative py-20 md:py-28">
     <Container>
@@ -403,7 +460,7 @@ const Footer = () => (
   </footer>
 );
 
-// ====== Страница ======
+/* ----------------------- СТРАНИЦА ----------------------- */
 export default function GarlicAwwwardsSite() {
   useEffect(() => {
     const onKey = (e) => { if ((e.key || "").toLowerCase() === "g") { document.getElementById("token")?.scrollIntoView({ behavior: "smooth" }); } };
@@ -416,14 +473,14 @@ export default function GarlicAwwwardsSite() {
       {/* фоновые слои */}
       <Noise />
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0 [background:radial-gradient(circle_at_50%_-20%,rgba(190,242,100,0.15),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.12),transparent_40%)]" />
-      <FloatingCloves /> {/* ← летает под контентом */}
+      <FloatingCloves /> {/* ← под контентом, но поверх градиента */}
 
       {/* контент */}
       <Header />
       <Hero />
       <About />
       <Trust />
-      <Partners />
+      <Partners /> {/* inline SVG бейджи — без файлов */}
       <Testimonials />
       <Tokenomics />
       <Roadmap />
