@@ -31,16 +31,15 @@ const Clove = ({ x, size, delay, drift = 20 }) => (
 );
 
 export default function FloatingCloves() {
-  // больше частиц и разнообразия
   const items = Array.from({ length: 18 }, (_, i) => ({
-    x: 4 + i * (96 / 17),                // равномерно по ширине
+    x: 4 + i * (96 / 17),                // по ширине
     size: 16 + ((i * 11) % 18),          // 16..34 px
     delay: i * 0.25,
     drift: 14 + (i % 5) * 6              // горизонтальный дрейф
   }));
 
   return (
-    // делаем слой фиксированным и заметным: поверх градиента, но без кликов
+    // поверх градиента, но под контентом
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[2]">
       <div className="absolute inset-0 [mask-image:linear-gradient(to_bottom,transparent,black_12%,black_88%,transparent)]">
         {items.map((p, i) => <Clove key={i} {...p} />)}
