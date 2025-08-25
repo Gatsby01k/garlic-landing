@@ -10,7 +10,7 @@ import FloatingCloves from "./components/FloatingCloves";
 
 function cn(...classes) { return classes.filter(Boolean).join(" "); }
 
-/* ----------------------- БАЗОВЫЕ МАЛЕНЬКИЕ КОМПОНЕНТЫ ----------------------- */
+/* ----------------------- БАЗОВЫЕ КОМПОНЕНТЫ ----------------------- */
 const Container = ({ className, children }) => (
   <div className={cn("mx-auto w-full max-w-[1200px] px-4 md:px-8", className)}>{children}</div>
 );
@@ -260,14 +260,14 @@ const Trust = () => (
       </div>
       <div className="mt-6 grid gap-6 md:grid-cols-3">
         <Card><h4 className="text-sm text-white/60">Контракт</h4><div className="mt-2 text-sm"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-3 py-1 text-white/80"><LinkIcon className="h-4 w-4"/> <span className="text-white/60">0x… (в день запуска)</span></span></div></Card>
-        <Card><h4 className="text-sm text-white/60">Налоги</h4><div className="mt-2 text-2xl font-exрабold">0%</div><p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p></Card>
+        <Card><h4 className="text-sm text-white/60">Налоги</h4><div className="mt-2 text-2xl font-extrabold">0%</div><p className="mt-1 text-sm text-white/60">Без «скрытых» комиссий.</p></Card>
         <Card><h4 className="text-sm text-white/60">Комьюнити</h4><div className="mt-2 flex flex-wrap gap-2"><Pill>DAO Multisig</Pill><Pill>Public Roadmap</Pill><Pill>Open Discord</Pill></div></Card>
       </div>
     </Container>
   </section>
 );
 
-/* ----------------------- PARTNERS — PartnerBadge v3 (awwwards border) ----------------------- */
+/* ----------------------- PARTNERS — уголки (без сплошной рамки) ----------------------- */
 const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }) => {
   const gid = `grad-${keyName}`;
   const gidSoft = `grad-soft-${keyName}`;
@@ -275,55 +275,51 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
   const clipId = `clip-${keyName}`;
   const glowId = `glow-${keyName}`;
 
+  // мини-логотипы (вектор)
   const Icon = () => {
     switch (keyName) {
       case "uniswap":
         return (
           <g>
-            <path d="M8 10 v10 c0 8 6 14 14 14s14-6 14-14V10"
-              fill="none" stroke={`url(#${gid})`} strokeWidth="2.6" strokeLinecap="round" />
-            <path d="M8 10 Q 22 2 36 10"
-              fill="none" stroke={`url(#${gid})`} strokeWidth="2" strokeLinecap="round" opacity=".35" />
+            <path d="M8 10 v10 c0 8 6 14 14 14s14-6 14-14V10" fill="none" stroke={`url(#${gid})`} strokeWidth="2.6" strokeLinecap="round"/>
+            <path d="M8 10 Q 22 2 36 10" fill="none" stroke={`url(#${gid})`} strokeWidth="2" strokeLinecap="round" opacity=".35"/>
           </g>
         );
       case "pancake":
         return (
           <g>
-            <rect x="8" y="8" width="24" height="9" rx="4.5" fill={`url(#${gid})`} opacity=".9" />
-            <rect x="6" y="17" width="28" height="10" rx="5" fill={`url(#${gid})`} opacity=".6" />
+            <rect x="8" y="8" width="24" height="9" rx="4.5" fill={`url(#${gid})`} opacity=".9"/>
+            <rect x="6" y="17" width="28" height="10" rx="5" fill={`url(#${gid})`} opacity=".6"/>
           </g>
         );
       case "dexscreener":
         return (
           <g>
-            <polyline points="6,26 14,18 20,22 30,12"
-              fill="none" stroke={`url(#${gid})`} strokeWidth="2.6"
-              strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="14" cy="18" r="1.8" fill="#fff" opacity=".9" />
-            <circle cx="20" cy="22" r="1.8" fill="#fff" opacity=".9" />
+            <polyline points="6,26 14,18 20,22 30,12" fill="none" stroke={`url(#${gid})`} strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
+            <circle cx="14" cy="18" r="1.8" fill="#fff" opacity=".9"/><circle cx="20" cy="22" r="1.8" fill="#fff" opacity=".9"/>
           </g>
         );
       case "coingecko":
         return (
           <g>
-            <circle cx="20" cy="20" r="14" fill={`url(#${gid})`} opacity=".65" />
-            <circle cx="16" cy="18" r="3.2" fill="#0b0f0a" opacity=".9" />
-            <path d="M20 26 q6 1 8 5" stroke="#0b0f0a" strokeWidth="2" opacity=".45" fill="none" strokeLinecap="round" />
+            <circle cx="20" cy="20" r="14" fill={`url(#${gid})`} opacity=".65"/>
+            <circle cx="16" cy="18" r="3.2" fill="#0b0f0a" opacity=".9"/>
+            <path d="M20 26 q6 1 8 5" stroke="#0b0f0a" strokeWidth="2" opacity=".45" fill="none" strokeLinecap="round"/>
           </g>
         );
       case "cmc":
         return (
           <g>
-            <circle cx="20" cy="20" r="12" fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" />
-            <circle cx="20" cy="20" r="6"  fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" opacity=".6" />
+            <circle cx="20" cy="20" r="12" fill="none" stroke={`url(#${gid})`} strokeWidth="2.4"/>
+            <circle cx="20" cy="20" r="6"  fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" opacity=".6"/>
           </g>
         );
       case "opensea":
         return (
           <g>
-            <polygon points="22,8 28,20 16,20" fill={`url(#${gid})`} opacity=".9" />
-            <path d="M12 26 q8 -10 16 0" fill="none" stroke={`url(#${gid})`} strokeWidth="2.4" />
-            <path d="M10 26 h20"        fill="none" stroke={`url(#${gid})`} strokeWidth="2.2" opacity=".55" />
+            <polygon points="22,8 28,20 16,20" fill={`url(#${gid})`} opacity=".9"/>
+            <path d="M12 26 q8 -10 16 0" fill="none" stroke={`url(#${gid})`} strokeWidth="2.4"/>
+            <path d="M10 26 h20"        fill="none" stroke={`url(#${gid})`} strokeWidth="2.2" opacity=".55"/>
           </g>
         );
       default:
@@ -331,93 +327,63 @@ const PartnerBadge = ({ keyName, label, href, from = "#a3e635", to = "#84cc16" }
     }
   };
 
+  const cornerStroke = { stroke: `url(#${gid})`, strokeWidth: 1.8, strokeLinecap: "round", fill: "none" };
+
   return (
     <a href={href} target="_blank" rel="noreferrer" className="group">
       <motion.svg
         width="180" height="52" viewBox="0 0 180 52"
-        initial="rest"
-        whileHover="hover"
+        initial="rest" whileHover="hover"
         transition={{ type: "spring", stiffness: 320, damping: 20 }}
         className="drop-shadow-[0_10px_28px_rgba(132,204,22,0.16)]"
       >
         <defs>
           <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor={from} />
-            <stop offset="100%" stopColor={to} />
+            <stop offset="0%" stopColor={from} /><stop offset="100%" stopColor={to} />
           </linearGradient>
           <linearGradient id={gidSoft} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.06" />
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.22"/><stop offset="100%" stopColor="#ffffff" stopOpacity="0"/>
           </linearGradient>
           <linearGradient id={gidShine} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stopColor="#fff" stopOpacity="0" />
-            <stop offset="50%"  stopColor="#fff" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#fff" stopOpacity="0"/><stop offset="50%" stopColor="#fff" stopOpacity="0.6"/><stop offset="100%" stopColor="#fff" stopOpacity="0"/>
           </linearGradient>
-          <clipPath id={clipId}>
-            <rect x="1.5" y="1.5" width="177" height="49" rx="13.5" />
-          </clipPath>
+          <clipPath id={clipId}><rect x="1.5" y="1.5" width="177" height="49" rx="13.5"/></clipPath>
           <filter id={glowId} x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b" />
-            <feMerge>
-              <feMergeNode in="b" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
 
-        {/* стекло-подложка */}
-        <rect x="1" y="1" width="178" height="50" rx="14" fill="rgba(255,255,255,0.04)" />
+        {/* стекло-карточка без полной рамки */}
+        <rect x="1" y="1" width="178" height="50" rx="14" fill="rgba(255,255,255,0.06)"/>
+        {/* мягкий верхний глянец */}
+        <rect x="2" y="2" width="176" height="24" rx="13" fill={`url(#${gidSoft})`} opacity=".8"/>
 
-        {/* ОБВОДКИ: волос + точки + глоу */}
+        {/* УГОЛКИ */}
         <g filter={`url(#${glowId})`}>
-          <motion.rect
-            x="0.75" y="0.75" width="178.5" height="50.5" rx="14.5"
-            fill="transparent"
-            stroke={`url(#${gid})`} strokeWidth="1.2"
-            strokeDasharray="18 12 2 12"
-            animate={{ strokeDashoffset: [0, 26] }}
-            transition={{ repeat: Infinity, duration: 2.6, ease: "linear" }}
-            opacity=".95"
-          />
-          <motion.rect
-            x="0.75" y="0.75" width="178.5" height="50.5" rx="14.5"
-            fill="transparent"
-            stroke={`url(#${gid})`} strokeWidth="1.2"
-            strokeDasharray="1 8"
-            strokeLinecap="round"
-            animate={{ strokeDashoffset: [0, 9] }}
-            transition={{ repeat: Infinity, duration: 1.8, ease: "linear" }}
-            opacity=".55"
-          />
+          {/* top-left */}
+          <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut" }} d="M6 6 H22 M6 6 V22" {...cornerStroke} />
+          {/* top-right */}
+          <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.03 }} d="M174 6 H158 M174 6 V22" {...cornerStroke} />
+          {/* bottom-left */}
+          <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.06 }} d="M6 46 H22 M6 46 V30" {...cornerStroke} />
+          {/* bottom-right */}
+          <motion.path variants={{ rest: { pathLength: 0 }, hover: { pathLength: 1 } }} transition={{ duration: 0.5, ease: "easeOut", delay: 0.09 }} d="M174 46 H158 M174 46 V30" {...cornerStroke} />
         </g>
 
-        {/* внутренний «премиум»-штрих */}
-        <rect x="2" y="2" width="176" height="48" rx="13"
-          fill="transparent" stroke={`url(#${gidSoft})`} strokeWidth="0.9" />
-
-        {/* бегущий блик (hover) */}
+        {/* бегущий блик по карточке */}
         <g clipPath={`url(#${clipId})`}>
           <motion.rect
-            variants={{ rest: { x: -60, opacity: 0 }, hover: { x: 220, opacity: 0.9 } }}
-            y="0" width="60" height="52" rx="14"
+            variants={{ rest: { x: -70, opacity: 0 }, hover: { x: 220, opacity: 0.85 } }}
+            y="0" width="70" height="52" rx="14"
             fill={`url(#${gidShine})`}
             transition={{ duration: 0.9, ease: "easeOut" }}
             style={{ mixBlendMode: "screen" }}
           />
         </g>
 
-        {/* Лого и текст */}
-        <g transform="translate(10,6)">
-          <Icon />
-        </g>
-        <text
-          x="60" y="31"
-          fontFamily="var(--font-sans), ui-sans-serif"
-          fontSize="12"
-          letterSpacing="0.08em"
-          fill="#fff" opacity="0.92"
-        >
+        {/* Лого + текст */}
+        <g transform="translate(10,6)"><Icon /></g>
+        <text x="60" y="31" fontFamily="var(--font-sans), ui-sans-serif" fontSize="12" letterSpacing="0.08em" fill="#fff" opacity="0.92">
           {label}
         </text>
       </motion.svg>
@@ -495,7 +461,7 @@ const FAQ = () => (
   </section>
 );
 
-/* ----------------------- ОСТАЛЬНЫЕ СЕКЦИИ ----------------------- */
+/* ----------------------- ПРОЧЕЕ ----------------------- */
 const Tokenomics = () => (
   <section id="token" className="relative py-20 md:py-28">
     <Container>
@@ -554,7 +520,7 @@ const Community = () => (
     <Container>
       <SectionTitle kicker="Сообщество" title="Вступай в Garlic-культ" caption="Сила — в мемах, людях и чесночном духе."/>
       <div className="flex flex-wrap items-center gap-4">
-        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg белый text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
+        <a href="https://twitter.com/" target="_blank" rel="noreferrer" className="group"><Btn className="bg-white text-black hover:opacity-90"><Twitter className="h-4 w-4"/> X (Twitter)</Btn></a>
         <a href="https://t.me/" target="_blank" rel="noreferrer" className="group"><Btn><Send className="h-4 w-4"/> Telegram</Btn></a>
         <a href="/litepaper.pdf" target="_blank" rel="noreferrer" className="group"><span className="inline-flex items-center gap-2 rounded-full border border-white/15 px-5 py-3 text-sm text-white/80 hover:bg-white/5"><Shield className="h-4 w-4"/> Litepaper</span></a>
       </div>
@@ -590,14 +556,14 @@ export default function GarlicAwwwardsSite() {
       {/* фоновые слои */}
       <Noise />
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0 [background:radial-gradient(circle_at_50%_-20%,rgba(190,242,100,0.15),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.12),transparent_40%)]" />
-      <FloatingCloves /> {/* ← под контентом, но поверх градиента */}
+      <FloatingCloves /> {/* под контентом */}
 
       {/* контент */}
       <Header />
       <Hero />
       <About />
       <Trust />
-      <Partners /> {/* новые бейджи */}
+      <Partners />
       <Testimonials />
       <Tokenomics />
       <Roadmap />
