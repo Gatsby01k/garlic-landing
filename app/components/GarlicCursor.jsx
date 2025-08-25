@@ -16,9 +16,8 @@ const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
 export default function GarlicCursor() {
   const [enabled, setEnabled] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [activeEl, setActiveEl] = useState(null);
+  const [hasTarget, setHasTarget] = useState(false);
   const [isDown, setIsDown] = useState(false);
-  const [label, setLabel] = useState("");
 
   // mouse coords -> smooth follower
   const mx = useMotionValue(0);
@@ -34,7 +33,6 @@ export default function GarlicCursor() {
   useEffect(() => {
     if (!isFinePointer()) return;
 
-    // включаем на следующий тик — безопаснее для гидрации
     const id = setTimeout(() => setEnabled(true), 0);
 
     const onMove = (e) => {
@@ -42,7 +40,6 @@ export default function GarlicCursor() {
       mx.set(e.clientX);
       my.set(e.clientY);
 
-      // угол «поворота» чеснока
       const now = performance.now();
       const dt = now - (last.current.t || now);
       const dx = e.clientX - (last.current.x || e.clientX);
@@ -50,20 +47,8 @@ export default function GarlicCursor() {
       rotMV.set(angle);
       last.current = { x: e.clientX, y: e.clientY, t: now };
 
-      // что под курсором?
       const el = e.target?.closest?.(INTERACTIVE);
-      setActiveEl(el || null);
-
-      if (el) {
-        const custom = el.getAttribute("data-cursor-label");
-        if (custom) setLabel(custom.toUpperCase());
-        else if (el.tagName === "A") setLabel("OPEN");
-        else if (el.tagName === "BUTTON" || el.getAttribute("role") === "button")
-          setLabel("CLICK");
-        else setLabel("");
-      } else {
-        setLabel("");
-      }
+      setHasTarget(Boolean(el));
     };
 
     const onEnter = () => setVisible(true);
@@ -88,16 +73,10 @@ export default function GarlicCursor() {
   }, [mx, my, rotMV]);
 
   // показываем РОВНО ОДНУ сущность:
-  // - idle: только белая точка
-  // - над интерактивом/при клике: только кольцо + чеснок (+лейбл)
-  const showRing = Boolean(activeEl) || isDown;
-  const showDot = !showRing;
+  const showRing = hasTarget || isDown; // кольцо только над интерактивом/при клике
+  const showDot = !showRing;            // иначе — белая точка
 
-  const ringSize = useMemo(() => {
-    if (!showRing) return 0;
-    return isDown ? 30 : 60;
-  }, [showRing, isDown]);
-
+  const ringSize = useMemo(() => (showRing ? (isDown ? 30 : 60) : 0), [showRing, isDown]);
   const dotSize = showDot ? 6 : 0;
 
   if (!enabled) return null;
@@ -124,7 +103,7 @@ export default function GarlicCursor() {
         }}
       />
 
-      {/* RING — только над интерактивом */}
+      {/* RING + GARLIC ICON */}
       <div className="relative" style={{ transform: "translate(-50%, -50%)" }}>
         <motion.div
           animate={{
@@ -139,7 +118,6 @@ export default function GarlicCursor() {
           className="rounded-full border border-white/90 backdrop-blur-[2px] mix-blend-difference shadow-[0_0_0_1px_rgba(255,255,255,0.04)]"
         />
 
-        {/* GARLIC ICON внутри кольца */}
         <motion.svg
           viewBox="0 0 64 64"
           width={showRing ? ringSize * 0.52 : 0}
@@ -174,17 +152,6 @@ export default function GarlicCursor() {
           <path d="M32 6c2.2 2.7 3.2 6.5 2.6 9.7-1.6-1.6-3.8-2.7-6-3.2.5-2.6 1.6-4.8 3.4-6.5z"
             fill="#b4f28a" stroke="#4d7c0f" strokeWidth="1.4" opacity=".95"/>
         </motion.svg>
-
-        {/* LABEL — тоже только над интерактивом */}
-        <motion.div
-          initial={false}
-          animate={{ opacity: showRing && label ? 1 : 0, scale: showRing && label ? 1 : 0.9 }}
-          transition={{ duration: 0.12 }}
-          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-[10px] font-semibold uppercase tracking-widest mix-blend-difference"
-          style={{ color: "#fff" }}
-        >
-          {label}
-        </motion.div>
       </div>
 
       {/* DOT — только в «idle» режиме */}
