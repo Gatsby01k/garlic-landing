@@ -1,28 +1,25 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { Twitter, Send, Rocket, Shield, Coins, Sparkles, ChevronRight, ExternalLink, BadgeCheck } from "lucide-react";
-// If shadcn/ui is available in your environment, these imports will style Buttons nicely.
-// Otherwise, our fallback <Btn> component below will be used.
-let ShadcnBtn: any = null;
-try {
-  // @ts-ignore
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  ShadcnBtn = require("@/components/ui/button").Button;
-} catch {}
 
-function cn(...classes: (string | undefined | false | null)[]) {
+// Пытаемся подтянуть shadcn-кнопку, если она есть (опционально)
+let ShadcnBtn = null;
+try {
+  ShadcnBtn = require("@/components/ui/button").Button;
+} catch (e) {}
+
+function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 // --- Small UI Primitives ---
-const Container: React.FC<{ className?: string }> = ({ className, children }) => (
+const Container = ({ className, children }) => (
   <div className={cn("mx-auto w-full max-w-[1200px] px-4 md:px-8", className)}>{children}</div>
 );
 
-const SectionTitle: React.FC<{ kicker?: string; title: string; caption?: string; className?: string }>
-= ({ kicker, title, caption, className }) => (
+const SectionTitle = ({ kicker, title, caption, className }) => (
   <div className={cn("mb-10 text-center", className)}>
     {kicker && (<div className="mb-2 text-xs tracking-[0.2em] uppercase text-lime-300/80">{kicker}</div>)}
     <h2 className="text-3xl md:text-5xl font-extrabold leading-tight bg-gradient-to-r from-lime-300 via-white to-lime-400 bg-clip-text text-transparent">
@@ -32,7 +29,7 @@ const SectionTitle: React.FC<{ kicker?: string; title: string; caption?: string;
   </div>
 );
 
-const Noise: React.FC = () => (
+const Noise = () => (
   <div
     aria-hidden
     className="pointer-events-none fixed inset-0 z-[1] opacity-[0.06] mix-blend-soft-light"
@@ -43,11 +40,11 @@ const Noise: React.FC = () => (
   />
 );
 
-const Glow: React.FC<{ className?: string }> = ({ className }) => (
+const Glow = ({ className }) => (
   <div className={cn("absolute -z-10 blur-3xl", className)} />
 );
 
-const Card: React.FC<{ className?: string }> = ({ className, children }) => (
+const Card = ({ className, children }) => (
   <div className={cn(
     "group relative rounded-3xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-xl",
     "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05),0_10px_30px_-10px_rgba(0,0,0,0.45)]",
@@ -56,21 +53,19 @@ const Card: React.FC<{ className?: string }> = ({ className, children }) => (
     className
   )}
   >
-    {/* subtle gradient border */}
     <div className="pointer-events-none absolute inset-0 rounded-3xl [background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.02))] opacity-70" />
     {children}
   </div>
 );
 
-const Kbd: React.FC = ({ children }) => (
+const Kbd = ({ children }) => (
   <kbd className="inline-flex items-center gap-1 rounded-md border border-white/10 bg-white/[0.04] px-2 py-1 text-[10px] uppercase tracking-wider text-white/70">
     {children}
   </kbd>
 );
 
-// --- Fancy Button with magnetic hover ---
-const Btn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }>
-= ({ className, children, ...rest }) => {
+// --- Fancy Button ---
+const Btn = ({ className, children, ...rest }) => {
   if (ShadcnBtn) return React.createElement(ShadcnBtn, { className, ...rest }, children);
   return (
     <button
@@ -92,14 +87,14 @@ const Btn: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: 
 
 // --- Mouse Parallax Hook ---
 function useMouseParallax(strength = 20) {
-  const ref = useRef<HTMLDivElement | null>(null);
+  const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const onMove = (e: MouseEvent) => {
+    const onMove = (e) => {
       const rect = el.getBoundingClientRect();
       const mx = e.clientX - rect.left - rect.width / 2;
       const my = e.clientY - rect.top - rect.height / 2;
@@ -115,12 +110,11 @@ function useMouseParallax(strength = 20) {
     };
   }, [x, y, strength]);
 
-  return { ref, x, y } as const;
+  return { ref, x, y };
 }
 
 // --- SVG Garlic (stylized) ---
-const GarlicSVG: React.FC<{ className?: string } & { tiltX?: any; tiltY?: any }>
-= ({ className, tiltX, tiltY }) => (
+const GarlicSVG = ({ className, tiltX, tiltY }) => (
   <motion.svg
     viewBox="0 0 300 300"
     className={cn("drop-shadow-2xl", className)}
@@ -143,28 +137,24 @@ const GarlicSVG: React.FC<{ className?: string } & { tiltX?: any; tiltY?: any }>
         <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
       </filter>
     </defs>
-    {/* Bulb */}
     <path d="M150 60c-10 18-16 29-24 38-28 33-50 38-50 82 0 42 37 68 74 68s74-26 74-68c0-44-22-49-50-82-8-9-14-20-24-38z" fill="url(#gBulb)" stroke="url(#gStroke)" strokeWidth="3" />
-    {/* Ridges */}
     <path d="M150 64c-6 36-12 62-12 116" stroke="#4d7c0f" strokeWidth="2" opacity=".4"/>
     <path d="M170 74c-4 32-8 60-8 102" stroke="#4d7c0f" strokeWidth="2" opacity=".3"/>
     <path d="M130 74c4 32 8 60 8 102" stroke="#4d7c0f" strokeWidth="2" opacity=".3"/>
-    {/* Neck */}
     <path d="M150 40c8 10 12 24 10 36-6-6-14-10-22-12 2-10 6-18 12-24z" fill="#b4f28a" stroke="#4d7c0f" strokeWidth="2" filter="url(#soft)"/>
-    {/* Shine */}
     <ellipse cx="120" cy="150" rx="12" ry="28" fill="#fff" opacity=".25"/>
     <ellipse cx="185" cy="180" rx="8" ry="18" fill="#fff" opacity=".18"/>
   </motion.svg>
 );
 
-const Pill: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const Pill = ({ children }) => (
   <span className="rounded-full border border-lime-300/30 bg-lime-300/10 px-3 py-1 text-xs text-lime-200">
     {children}
   </span>
 );
 
 // --- Marquee ---
-const Marquee: React.FC<{ items: string[] }> = ({ items }) => (
+const Marquee = ({ items }) => (
   <div className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
     <div className="animate-[marquee_18s_linear_infinite] whitespace-nowrap">
       {items.concat(items).map((it, i) => (
@@ -173,18 +163,16 @@ const Marquee: React.FC<{ items: string[] }> = ({ items }) => (
         </span>
       ))}
     </div>
-    <style>{`
-      @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    `}</style>
+    <style>{`@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
   </div>
 );
 
 // --- Animated Counter ---
-const Counter: React.FC<{ to: number; suffix?: string }> = ({ to, suffix }) => {
+const Counter = ({ to, suffix }) => {
   const [val, setVal] = useState(0);
   useEffect(() => {
     const start = performance.now();
-    const loop = (t: number) => {
+    const loop = (t) => {
       const p = Math.min(1, (t - start) / 1200);
       setVal(Math.round(to * (0.5 - Math.cos(Math.PI * p) / 2))); // easeInOut
       if (p < 1) requestAnimationFrame(loop);
@@ -196,7 +184,7 @@ const Counter: React.FC<{ to: number; suffix?: string }> = ({ to, suffix }) => {
 };
 
 // --- Sticky Header ---
-const Header: React.FC = () => (
+const Header = () => (
   <div className="fixed inset-x-0 top-0 z-40">
     <Container>
       <div className="mt-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-2 backdrop-blur-xl">
@@ -222,14 +210,13 @@ const Header: React.FC = () => (
 );
 
 // --- HERO ---
-const Hero: React.FC = () => {
+const Hero = () => {
   const { ref, x, y } = useMouseParallax(24);
   const sx = useSpring(x, { stiffness: 120, damping: 16 });
   const sy = useSpring(y, { stiffness: 120, damping: 16 });
 
   return (
-    <section id="top" ref={ref as any} className="relative overflow-hidden pt-32 md:pt-40">
-      {/* background glows */}
+    <section id="top" ref={ref} className="relative overflow-hidden pt-32 md:pt-40">
       <Glow className="left-[10%] top-[0%] h-[35rem] w-[35rem] bg-lime-400/30" />
       <Glow className="right-[-10%] top-[30%] h-[40rem] w-[40rem] bg-emerald-500/20" />
       <Glow className="left-1/3 top-[70%] h-[28rem] w-[28rem] bg-lime-300/20" />
@@ -286,7 +273,7 @@ const Hero: React.FC = () => {
 };
 
 // --- ABOUT ---
-const About: React.FC = () => (
+const About = () => (
   <section id="about" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle kicker="О проекте" title="Крипта, но вкуснее" caption="GARLIC — это мем‑токен и сообщество людей, которые любят острое. Мы строим весёлую, добрую и дерзкую культуру вокруг чеснока — в мемах, NFT и реальных партнёрствах."/>
@@ -312,7 +299,7 @@ const About: React.FC = () => (
 );
 
 // --- TOKENOMICS ---
-const Tokenomics: React.FC = () => (
+const Tokenomics = () => (
   <section id="token" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle kicker="Токеномика" title="Просто. Прозрачно. Осторожно остро." caption="Детали могут измениться до релиза. DYOR, это не инвестиционный совет."/>
@@ -356,7 +343,7 @@ const Tokenomics: React.FC = () => (
 );
 
 // --- ROADMAP ---
-const Roadmap: React.FC = () => (
+const Roadmap = () => (
   <section id="roadmap" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle kicker="Дорожная карта" title="Зубчик за зубчиком" caption="Гибкая и мем‑ориентированная. Цели уточняются голосованием DAO."/>
@@ -366,27 +353,21 @@ const Roadmap: React.FC = () => (
             <div className="mb-3 text-xs uppercase tracking-[0.2em] text-lime-300/80">Clove 0{ph}</div>
             <h3 className="text-lg font-semibold">Фаза {ph}</h3>
             <ul className="mt-3 space-y-2 text-sm text-white/70">
-              {ph===1 && (
-                <>
-                  <li>• Запуск сайта и социальных сетей</li>
-                  <li>• Листинг на DEX, ликвидность</li>
-                  <li>• Airdrop для ранних мем‑создателей</li>
-                </>
-              )}
-              {ph===2 && (
-                <>
-                  <li>• NFT‑коллекция «Cloves»</li>
-                  <li>• Партнёрства с кулинарными брендами</li>
-                  <li>• Мерч и оффлайн spicy‑митапы</li>
-                </>
-              )}
-              {ph===3 && (
-                <>
-                  <li>• Garlic DAO (гранты авторам мемов)</li>
-                  <li>• Игровые интеграции / мини‑игры</li>
-                  <li>• Листинги CEX (по возможности)</li>
-                </>
-              )}
+              {ph===1 && (<>
+                <li>• Запуск сайта и социальных сетей</li>
+                <li>• Листинг на DEX, ликвидность</li>
+                <li>• Airdrop для ранних мем‑создателей</li>
+              </>)}
+              {ph===2 && (<>
+                <li>• NFT‑коллекция «Cloves»</li>
+                <li>• Партнёрства с кулинарными брендами</li>
+                <li>• Мерч и оффлайн spicy‑митапы</li>
+              </>)}
+              {ph===3 && (<>
+                <li>• Garlic DAO (гранты авторам мемов)</li>
+                <li>• Игровые интеграции / мини‑игры</li>
+                <li>• Листинги CEX (по возможности)</li>
+              </>)}
             </ul>
           </Card>
         ))}
@@ -396,7 +377,7 @@ const Roadmap: React.FC = () => (
 );
 
 // --- HOW TO BUY ---
-const HowToBuy: React.FC = () => (
+const HowToBuy = () => (
   <section id="buy" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle kicker="Как купить" title="3 шага — и аромат с вами" />
@@ -426,7 +407,7 @@ const HowToBuy: React.FC = () => (
 );
 
 // --- COMMUNITY ---
-const Community: React.FC = () => (
+const Community = () => (
   <section id="community" className="relative py-20 md:py-28">
     <Container>
       <SectionTitle kicker="Сообщество" title="Вступай в Garlic‑культ" caption="Наша сила — в мемах, людях и чесночном духе."/>
@@ -452,7 +433,7 @@ const Community: React.FC = () => (
 );
 
 // --- FOOTER ---
-const Footer: React.FC = () => (
+const Footer = () => (
   <footer className="relative py-10 text-xs text-white/60">
     <Container>
       <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
@@ -473,8 +454,8 @@ const Footer: React.FC = () => (
 // --- Root Page ---
 export default function GarlicAwwwardsSite() {
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "g") {
+    const onKey = (e) => {
+      if ((e.key || "").toLowerCase() === "g") {
         document.getElementById("token")?.scrollIntoView({ behavior: "smooth" });
       }
     };
@@ -485,7 +466,6 @@ export default function GarlicAwwwardsSite() {
   return (
     <main className="relative min-h-screen bg-[#0b0f0a] text-white antialiased selection:bg-lime-300/30 selection:text-white">
       <Noise />
-      {/* subtle grid */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0 [background:radial-gradient(circle_at_50%_-20%,rgba(190,242,100,0.15),transparent_55%),radial-gradient(circle_at_90%_10%,rgba(52,211,153,0.12),transparent_40%)]" />
 
       <Header />
@@ -497,7 +477,6 @@ export default function GarlicAwwwardsSite() {
       <Community />
       <Footer />
 
-      {/* Cursor hint */}
       <div className="fixed bottom-4 right-4 hidden rounded-full border border-white/15 bg-white/5 px-3 py-2 text-[11px] text-white/70 md:block">
         Нажми <Kbd>G</Kbd> — токеномика
       </div>
