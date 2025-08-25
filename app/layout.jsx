@@ -2,18 +2,19 @@
 import "./globals.css";
 import { Inter, Space_Grotesk } from "next/font/google";
 
-// Подвязываем шрифты к CSS-переменным (работает на серверных компонентах)
+// Привязываем шрифты к CSS-переменным (работает в Server Components)
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
 const grotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"], variable: "--font-display" });
 
 export const metadata = {
   title: "GARLIC — Meme Token",
   description: "Мем‑токен с острым характером. Zero tax, locked liquidity.",
-  metadataBase: new URL("https://<твой-домен-или-vercel-url>"),
+  // УБРАЛИ metadataBase, чтобы не падать на Invalid URL
   openGraph: {
     title: "GARLIC — Meme Token",
     description: "Присоединяйся к чесночной армии 🧄",
-    url: "https://<твой-домен-или-vercel-url>",
+    // url тоже можно убрать или позже подставить реальный:
+    // url: "https://garlic-landing.vercel.app",
     siteName: "GARLIC",
     images: [{ url: "/og.jpg", width: 1200, height: 630 }],
     type: "website",
@@ -30,7 +31,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ru" className={`${inter.variable} ${grotesk.variable}`}>
-      {/* font-sans привяжем к --font-sans в globals.css */}
       <body className="antialiased font-sans">
         {children}
       </body>
