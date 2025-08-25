@@ -1,6 +1,6 @@
 // app/layout.jsx
 import "./globals.css";
-import FancyCursor from "./components/FancyCursor";
+import GarlicCursor from "./components/GarlicCursor";
 import { Inter, Space_Grotesk } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
@@ -29,7 +29,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ru" className={`${inter.variable} ${grotesk.variable}`}>
       <body className="antialiased font-sans">
-        <FancyCursor />
+        <GarlicCursor />
         {children}
       </body>
     </html>
