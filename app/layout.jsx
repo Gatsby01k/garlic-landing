@@ -2,8 +2,9 @@
 import "./globals.css";
 import { Inter, Space_Grotesk } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin", "cyrillic"] });
-const grotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"] });
+// Подвязываем шрифты к CSS-переменным (работает на серверных компонентах)
+const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-sans" });
+const grotesk = Space_Grotesk({ subsets: ["latin"], weight: ["700"], variable: "--font-display" });
 
 export const metadata = {
   title: "GARLIC — Meme Token",
@@ -23,18 +24,14 @@ export const metadata = {
     description: "🧄 + 🌶️ = 🚀",
     images: ["/og.jpg"],
   },
-  icons: {
-    icon: "/favicon.ico",
-  },
+  icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="ru" className={`${inter.className}`}>
-      <body className="antialiased">
-        <style jsx global>{`
-          h1, h2, .font-display { font-family: ${grotesk.style.fontFamily}, system-ui, sans-serif; }
-        `}</style>
+    <html lang="ru" className={`${inter.variable} ${grotesk.variable}`}>
+      {/* font-sans привяжем к --font-sans в globals.css */}
+      <body className="antialiased font-sans">
         {children}
       </body>
     </html>
