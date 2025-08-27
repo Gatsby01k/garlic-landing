@@ -14,124 +14,123 @@ const FALLBACK = "en";
 
 const DICT = {
   en: {
-    nav: { approach: "Approach", policy: "Policy", tokenomics: "Tokenomics", roadmap: "Roadmap", buy: "Buy" },
-    trustStrip: ["0% TAX", "LP LOCK", "COMMUNITY FIRST", "NO NFTs"],
-    hero: {
-      tags: ["protection", "community", "meme"],
-      titleTop: "GARLIC",
-      titleBottom: "Щит твоего портфеля.",
-      paragraph:
-        "Чеснок веками был символом защиты. В крипте $GARLIC — простой знак, который каждый понимает: отгоняем «кровососов» рынка и держимся вместе. Символ > обещаний. Комьюнити > шума.",
-      buy: "Купить $GARLIC",
-      policy: "Что это такое",
-      badge: "symbol-driven • community-first",
-      marquee: [
-        "Protect your bag with GARLIC",
-        "No garlic — no gains",
-        "One clove is weak. A bulb is unstoppable.",
-        "0% tax • LP locked • Community first"
-      ]
-    },
-    approach: {
-      kicker: "Подход",
-      title: "Простой символ. Ясный вайб. Живое сообщество.",
-      caption: "Без кринжа, без сложных обещаний — только легенда, которая сразу считывается.",
-      items: [
-        {
-          icon: "Shield",
-          title: "Символ защиты",
-          text: "GARLIC — это мем-щит. Видишь чеснок — понимаешь: «моё в безопасности». Мем, который работает без объяснений."
-        },
-        {
-          icon: "Sparkles",
-          title: "Культура вместо утилити",
-          text: "DOGE — добрый пёс. PEPE — вечная лягушка. GARLIC — защита. Мы строим настроение, а не whitepaper."
-        },
-        {
-          icon: "Coins",
-          title: "Честный запуск",
-          text: "0% tax, залоченная ликвидность, прозрачное распределение. Никаких хитрых контрактных трюков."
-        }
-      ]
-    },
-    policy: {
-      kicker: "Policy",
-      title: "Три правила чеснока",
-      principles: [
-        { title: "Символ > обещаний", text: "Мы не продаём «утилити». Мы создаём знак, за который хочется держаться." },
-        { title: "Комьюнити > эго", text: "Холдер — главная звезда. Мем живёт благодаря людям, а не фичам." },
-        { title: "Простота > сложность", text: "Чем меньше шума — тем сильнее мем. Всё остальное — лишнее." }
-      ],
-      note: "Никаких NFT, налогов на сделки или «магических» схем."
-    },
-    tokenomics: {
-      kicker: "Tokenomics",
-      title: "Честная основа без фокусов",
-      supply: "Total Supply",
-      supplyVal: "1,000,000,000 $GARLIC",
-      taxes: "Taxes", taxesVal: "0%",
-      liquidity: "Liquidity", liquidityVal: "Locked",
-      dist: "Distribution",
-      distList: [
-        "60% — Ликвидность (LP, лок)",
-        "20% — Комьюнити/гроуф",
-        "10% — Партнёрства и листинги",
-        "10% — Команда (вестинг)"
-      ],
-      arch: "Архитектура",
-      archP: "Стандартный контракт, renounce после запуска, без апгрейдов. Прозрачный и предсказуемый.",
-      pills: ["Fair launch", "LP locked", "0% tax"]
-    },
-    roadmap: {
-      kicker: "Roadmap",
-      title: "От простого запуска к культуре",
-      caption: "Этапы развития мем-легенды и комьюнити.",
-      phase: "Этап",
-      p1: { title: "Launch & Garlic Army", text: "Старт, базовые каналы, мем-пак, onboarding холдеров." },
-      p2: { title: "Meme Expansion", text: "Ежедневные форматы, шеры, челленджи, вирусные лозунги." },
-      p3: { title: "Listings & Growth", text: "Площадки, партнёрства, органический рост армии." },
-      p4: { title: "Garlic Fest", text: "Ивенты и челленджи для держателей: «Protect your bag with garlic»." }
-    },
-    faq: {
-      kicker: "FAQ",
-      title: "Коротко и по делу",
-      items: [
-        { q: "Зачем мне $GARLIC?", a: "Чтобы быть частью Garlic Army. Это символ защиты, который мгновенно понятен." },
-        { q: "Это мем или утилити?", a: "Это мем. В этом его сила: символ, эмоция, сообщество." },
-        { q: "Есть ли налоги и NFT?", a: "Нет. 0% tax, без NFT, без лишней сложности." }
-      ]
-    },
-    buy: {
-      kicker: "Как купить",
-      title: "Три шага — и ты в армии",
-      caption: "Кошелёк — базовая монета — своп. Дальше — культура.",
-      s1: "Кошелёк", s1p: "MetaMask / Rabby / OKX. Выбери сеть (ETH/BSC).",
-      s2: "База и газ", s2p: "Пополни ETH/BNB для свопа и комиссий сети.",
-      s3: "Своп на $GARLIC", s3p: "Uniswap / PancakeSwap. Адрес появится в день запуска.",
-      cta: "Вступить в Garlic Army",
-      note: "* Не финансовый совет. Криптовалюты волатильны."
-    },
-    community: {
-      kicker: "Community",
-      title: "Garlic Army",
-      caption: "Ты — долька. Вместе — головка. Символ прост, движение — мощное.",
-      actions: [
-        { label: "Telegram", caption: "Новости и мемы" },
-        { label: "Twitter", caption: "Шеры и лозунги" },
-        { label: "Chart", caption: "Смотри движение" }
-      ]
-    }
+  nav: { approach: "Approach", policy: "Policy", tokenomics: "Tokenomics", roadmap: "Roadmap", buy: "Buy" },
+  trustStrip: ["0% TAX", "LP LOCK", "COMMUNITY FIRST", "NO NFTs"],
+  hero: {
+    tags: ["protection", "community", "meme"],
+    titleTop: "GARLIC",
+    titleBottom: "Щит твоего портфеля.",
+    paragraph:
+      "Чеснок веками был символом защиты. В крипте $GARLIC — простой знак, который каждый понимает: отгоняем «кровососов» рынка и держимся вместе. Символ > обещаний. Комьюнити > шума.",
+    buy: "Купить $GARLIC",
+    policy: "Что это такое",
+    badge: "symbol-driven • community-first",
+    marquee: [
+      "Protect your bag with GARLIC",
+      "No garlic — no gains",
+      "One clove is weak. A bulb is unstoppable.",
+      "0% tax • LP locked • Community first"
+    ]
   },
-
+  approach: {
+    kicker: "Подход",
+    title: "Простой символ. Ясный вайб. Живое сообщество.",
+    caption: "Без кринжа, без сложных обещаний — только легенда, которая сразу считывается.",
+    items: [
+      {
+        icon: "Shield",
+        title: "Символ защиты",
+        text: "GARLIC — это мем-щит. Видишь чеснок — понимаешь: «моё в безопасности». Мем, который работает без объяснений."
+      },
+      {
+        icon: "Sparkles",
+        title: "Культура вместо утилити",
+        text: "DOGE — добрый пёс. PEPE — вечная лягушка. GARLIC — защита. Мы строим настроение, а не whitepaper."
+      },
+      {
+        icon: "Coins",
+        title: "Честный запуск",
+        text: "0% tax, залоченная ликвидность, прозрачное распределение. Никаких хитрых контрактных трюков."
+      }
+    ]
+  },
+  policy: {
+    kicker: "Policy",
+    title: "Три правила чеснока",
+    principles: [
+      { title: "Символ > обещаний", text: "Мы не продаём «утилити». Мы создаём знак, за который хочется держаться." },
+      { title: "Комьюнити > эго", text: "Холдер — главная звезда. Мем живёт благодаря людям, а не фичам." },
+      { title: "Простота > сложность", text: "Чем меньше шума — тем сильнее мем. Всё остальное — лишнее." }
+    ],
+    note: "Никаких NFT, налогов на сделки или «магических» схем."
+  },
+  tokenomics: {
+    kicker: "Tokenomics",
+    title: "Честная основа без фокусов",
+    supply: "Total Supply",
+    supplyVal: "1,000,000,000 $GARLIC",
+    taxes: "Taxes", taxesVal: "0%",
+    liquidity: "Liquidity", liquidityVal: "Locked",
+    dist: "Distribution",
+    distList: [
+      "60% — Ликвидность (LP, лок)",
+      "20% — Комьюнити/гроуф",
+      "10% — Партнёрства и листинги",
+      "10% — Команда (вестинг)"
+    ],
+    arch: "Архитектура",
+    archP: "Стандартный контракт, renounce после запуска, без апгрейдов. Прозрачный и предсказуемый.",
+    pills: ["Fair launch", "LP locked", "0% tax"]
+  },
+  roadmap: {
+    kicker: "Roadmap",
+    title: "От простого запуска к культуре",
+    caption: "Этапы развития мем-легенды и комьюнити.",
+    phase: "Этап",
+    p1: { title: "Launch & Garlic Army", text: "Старт, базовые каналы, мем-пак, onboarding холдеров." },
+    p2: { title: "Meme Expansion", text: "Ежедневные форматы, шеры, челленджи, вирусные лозунги." },
+    p3: { title: "Listings & Growth", text: "Площадки, партнёрства, органический рост армии." },
+    p4: { title: "Garlic Fest", text: "Ивенты и челленджи для держателей: «Protect your bag with garlic»." }
+  },
+  faq: {
+    kicker: "FAQ",
+    title: "Коротко и по делу",
+    items: [
+      { q: "Зачем мне $GARLIC?", a: "Чтобы быть частью Garlic Army. Это символ защиты, который мгновенно понятен." },
+      { q: "Это мем или утилити?", a: "Это мем. В этом его сила: символ, эмоция, сообщество." },
+      { q: "Есть ли налоги и NFT?", a: "Нет. 0% tax, без NFT, без лишней сложности." }
+    ]
+  },
+  buy: {
+    kicker: "Как купить",
+    title: "Три шага — и ты в армии",
+    caption: "Кошелёк — базовая монета — своп. Дальше — культура.",
+    s1: "Кошелёк", s1p: "MetaMask / Rabby / OKX. Выбери сеть (ETH/BSC).",
+    s2: "База и газ", s2p: "Пополни ETH/BNB для свопа и комиссий сети.",
+    s3: "Своп на $GARLIC", s3p: "Uniswap / PancakeSwap. Адрес появится в день запуска.",
+    cta: "Вступить в Garlic Army",
+    note: "* Не финансовый совет. Криптовалюты волатильны."
+  },
+  community: {
+    kicker: "Community",
+    title: "Garlic Army",
+    caption: "Ты — долька. Вместе — головка. Символ прост, движение — мощное.",
+    actions: [
+      { label: "Telegram", caption: "Новости и мемы" },
+      { label: "Twitter", caption: "Шеры и лозунги" },
+      { label: "Chart", caption: "Смотри движение" }
+    ]
+  }
+},
   hi: {
     nav: { approach: "दृष्टिकोण", policy: "नीति", tokenomics: "टोकनॉमिक्स", roadmap: "रोडमैप", buy: "खरीदें" },
     trustStrip: ["फेयर लॉन्च", "0% टैक्स", "लिक्विडिटी लॉक", "रेनाउन्स्ड"],
     hero: {
       tags: ["अनुशासन", "लिक्विडिटी-फर्स्ट", "कम्युनिटी"],
       titleTop: "GARLIC",
-      titleBottom: "नियमों के साथ मीम。",
+      titleBottom: "नियमों के साथ मीम।",
       paragraph:
-        "नियम कोड में सेट हैं: फेयर लॉन्च, 0% टैक्स, लिक्विडिटी फर्स्ट। लक्ष्य простой: внимание stays on idea और liquidity — बाकी काम मार्केट करता है。",
+        "नियम कोड में सेट हैं: फेयर लॉन्च, 0% टैक्स, लिक्विडिटी फर्स्ट। लक्ष्य простой: внимание stays on idea और liquidity — बाकी काम बाजार करता है।",
       buy: "पोजिशन लें",
       policy: "नीति देखें",
       badge: "रूल-बेस्ड • मीम-ड्रिवन",
@@ -179,12 +178,12 @@ const DICT = {
     roadmap: {
       kicker: "रोडमैप",
       title: "क्लीन लॉन्च से संस्कृति तक",
-      caption: "लचीला; होल्डर्स и креэйторс के मूल्य पर केंद्रित。",
+      caption: "लचीला; होल्डर्स и креэйторс के मूल्य पर केंद्रित।",
       phase: "फेज़",
       p1: { title: "लॉन्च", text: "फेयर लॉन्च, каналы, базовый мем-пак." },
       p2: { title: "Расширение", text: "Коллабы, мем-форматы, рост охвата." },
       p3: { title: "Листинги", text: "Биржи и сервисы отслеживания." },
-      p4: { title: "Комьюнити", text: "Челленджи, ивенты, регулярные акции。" }
+      p4: { title: "Комьюнити", text: "Челленджи, ивенты, регулярные акции." }
     },
     faq: {
       kicker: "FAQ",
@@ -196,17 +195,17 @@ const DICT = {
     buy: {
       kicker: "Как купить",
       title: "Три шага",
-      caption: "Кошелёк — базовая монета — своп。",
-      s1: "Кошелёк", s1p: "MetaMask / Rabby / OKX. नेटवर्क चुनें (ETH/BSC).",
+      caption: "Кошелёк — базовая монета — своп.",
+      s1: "Кошелёк", s1p: "MetaMask / Rabby / OKX.",
       s2: "База и газ", s2p: "ETH/BNB для комиссий и свопа.",
-      s3: "Своп на $GARLIC", s3p: "Адрес в день запуска。",
+      s3: "Своп на $GARLIC", s3p: "Адрес в день запуска.",
       cta: "Присоединиться",
       note: "* Crypto is volatile."
     },
     community: {
       kicker: "Community",
       title: "Garlic Army",
-      caption: "Комьюнити решает。",
+      caption: "Комьюнити решает.",
       actions: [
         { label: "Telegram", caption: "Новости" },
         { label: "Twitter", caption: "Шеры" },
@@ -216,7 +215,93 @@ const DICT = {
   },
 
   id: {
-    // оставлено как в исходнике (индонезийская локаль)
+    nav: { approach: "Pendekatan", policy: "Kebijakan", tokenomics: "Tokenomik", roadmap: "Roadmap", buy: "Beli" },
+    trustStrip: ["Fair Launch", "Zero Tax", "LP Lock", "Renounced"],
+    hero: {
+      tags: ["disiplin", "likuiditas-pertama", "komunitas"],
+      titleTop: "GARLIC",
+      titleBottom: "Meme dengan disiplin protokol.",
+      paragraph:
+        "Aturan dikunci di kode: fair launch, pajak 0%, likuiditas dulu. Fokus tetap pada ide dan likuiditas — pasar melakukan sisanya.",
+      buy: "Ambil posisi",
+      policy: "Kebijakan protokol",
+      badge: "rule-based • meme-driven",
+      marquee: [
+        "Satu start untuk semua",
+        "Tanpa pajak tersembunyi",
+        "Likuiditas di atas hype",
+        "Sinyal di atas noise"
+      ]
+    },
+    approach: {
+      kicker: "Pendekatan",
+      title: "Aturan sederhana. Sinyal jelas. Komunitas tahan banting.",
+      caption: "Tanpa jalan pintas — bersih, mudah dipahami, anti-badai.",
+      items: [
+        { icon: "Layers", title: "Peluncuran adil", text: "Satu start untuk semua. Tanpa mint privat, tanpa deal rahasia." },
+        { icon: "GaugeCircle", title: "0% pajak", text: "Tidak ada pajak pada trade. Tidak ada biaya tersembunyi." },
+        { icon: "Lock", title: "LP terkunci", text: "Likuiditas terkunci: kepercayaan, transparansi, aturan jelas." }
+      ]
+    },
+    policy: {
+      kicker: "Kebijakan",
+      title: "Empat pilar kebijakan",
+      principles: [
+        { title: "Keadilan", text: "Satu start untuk semua, tanpa daftar privat." },
+        { title: "Transparansi", text: "0% pajak trade, tanpa syarat tersembunyi." },
+        { title: "Likuiditas", text: "Likuiditas lebih penting dari hype." },
+        { title: "Komunitas", text: "Nilai jangka panjang dibangun oleh orang-orang." }
+      ],
+      note: "Tanpa catatan kaki. Semua tertulis di kode."
+    },
+    tokenomics: {
+      kicker: "Tokenomik",
+      title: "Langsung dan jelas",
+      supply: "Total pasokan",
+      supplyVal: "1,000,000,000 $GARLIC",
+      taxes: "Pajak", taxesVal: "0%",
+      liquidity: "Likuiditas", liquidityVal: "Terkunci",
+      dist: "Distribusi",
+      distList: ["60% — Likuiditas", "20% — Komunitas/pertumbuhan", "10% — Kemitraan", "10% — Cadangan DAO (multisig)"],
+      arch: "Arsitektur",
+      archP: "Kontrak standar, renounced setelah launch, non-upgradeable.",
+      pills: ["OpenZeppelin", "Non-upgradeable", "Cadangan DAO"]
+    },
+    roadmap: {
+      kicker: "Roadmap",
+      title: "Dari peluncuran bersih ke budaya",
+      caption: "Fleksibel; berpusat pada nilai holder & kreator.",
+      phase: "Fase",
+      p1: { title: "Peluncuran", text: "Fair launch, kanal, paket meme dasar." },
+      p2: { title: "Ekspansi", text: "Kolaborasi, format meme, pertumbuhan jangkauan." },
+      p3: { title: "Listing", text: "Bursa & pelacak." },
+      p4: { title: "Komunitas", text: "Tantangan, event, kampanye reguler." }
+    },
+    faq: {
+      kicker: "FAQ",
+      title: "Segera",
+      items: [{ q: "Kenapa GARLIC?", a: "Simbol perlindungan yang dipahami semua orang." }]
+    },
+    buy: {
+      kicker: "Cara beli",
+      title: "Tiga langkah",
+      caption: "Wallet — base coin — swap.",
+      s1: "Wallet", s1p: "MetaMask / Rabby / OKX.",
+      s2: "Base & gas", s2p: "ETH/BNB untuk biaya & swap.",
+      s3: "Swap ke $GARLIC", s3p: "Alamat saat hari peluncuran.",
+      cta: "Bergabung",
+      note: "* Crypto volatile."
+    },
+    community: {
+      kicker: "Komunitas",
+      title: "Garlic Army",
+      caption: "Komunitas yang menentukan.",
+      actions: [
+        { label: "Telegram", caption: "Berita" },
+        { label: "Twitter", caption: "Share" },
+        { label: "Chart", caption: "Grafik" }
+      ]
+    }
   }
 };
 
@@ -226,6 +311,7 @@ function useLang() { return useContext(LangContext); }
 
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 function cn(...classes) { return classes.filter(Boolean).join(" "); }
+
 /* ======================= Кнопочные утилиты ======================= */
 const Kbd = ({ children }) => (
   <span className="rounded-md border border-white/15 bg-white/5 px-2 py-1 text-[10px] leading-none text-white/70">
@@ -264,8 +350,7 @@ function useT() {
     return cur ?? path;
   };
 }
-
-/* ======================= Курсор / Утки ======================= */
+/* ======================= Курсор / Магниты ======================= */
 function useMagnet(strength = 12) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -478,7 +563,6 @@ const Tokenomics = () => {
     </section>
   );
 };
-
 /* ======================= Roadmap ======================= */
 const Roadmap = () => {
   const t = useT();
@@ -503,7 +587,8 @@ const Roadmap = () => {
     </section>
   );
 };
-/* ======================= Компоненты для SVG рамок (Awwwards-style) ======================= */
+
+/* ======================= Комьюнити ======================= */
 const FrameCorners = ({ className = "" }) => {
   const gid = `g${Math.random().toString(36).slice(2)}`;
   return (
@@ -525,7 +610,6 @@ const FrameCorners = ({ className = "" }) => {
   );
 };
 
-/* ======================= Комьюнити ======================= */
 const Community = () => {
   const t = useT();
 
@@ -594,7 +678,6 @@ const WalletIcon = (props) => (
     <circle cx="17.2" cy="13.8" r="1.2" fill="currentColor"/>
   </svg>
 );
-
 /* ======================= Подвал / подсказка языка ======================= */
 const Footer = () => {
   const t = useT();
@@ -609,7 +692,7 @@ const Footer = () => {
     </footer>
   );
 };
-/* ======================= Главный компонент ======================= */
+
 export default function GarlicAwwwardsSite() {
   const [lang, setLang] = useState(FALLBACK);
 
@@ -656,21 +739,7 @@ const LangHint = () => {
   const t = useT();
   return (
     <div className="fixed bottom-4 right-4 hidden rounded-full border border-white/15 bg-white/5 px-3 py-2 text-[11px] text-white/70 md:flex items-center gap-2">
-      {t("footer.hint")} <Kbd>G</Kbd> {t("footer.hintAfter")}
+      {t("footer?.hint") || "Switch language"} <Kbd>G</Kbd> {t("footer?.hintAfter") || "(press)"}
     </div>
   );
-};
-/* ======================= Доп. тексты футера (fallback) ======================= */
-DICT.en.footer = {
-  hint: "Switch language",
-  hintAfter: "(press)"
-};
-DICT.hi.footer = {
-  hint: "भाषा बदलें",
-  hintAfter: "(दबाएँ)"
-};
-DICT.id = DICT.id || {};
-DICT.id.footer = {
-  hint: "Ganti bahasa",
-  hintAfter: "(tekan)"
 };
