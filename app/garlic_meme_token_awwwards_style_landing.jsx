@@ -13,68 +13,68 @@ const LANGS = ["en", "hi", "id"];
 const FALLBACK = "en";
 
 const DICT = {
-  en: {
+    en: {
     nav: { approach: "Approach", policy: "Policy", tokenomics: "Tokenomics", roadmap: "Roadmap", buy: "Buy" },
     trustStrip: ["FAIR LAUNCH", "ZERO TAX", "LP LOCK", "RENOUNCED"],
     hero: {
-      tags: ["discipline", "liquidity-first", "community"],
+      tags: ["smell-of-money", "mafia", "community"],
       titleTop: "GARLIC",
-      titleBottom: "A meme with protocol discipline.",
+      titleBottom: "The Smell of Money.",
       paragraph:
-        "Rules are set in code: fair launch, 0% on trades, liquidity locked and ownership renounced. We remove noise so attention stays on idea and liquidity — the market does the rest.",
-      buy: "Enter position",
-      policy: "Protocol policy",
-      badge: "rule-based • meme-driven",
+        "Crypto stinks of rugs and shady switches. We brought garlic: fair launch, 0% on trades, liquidity locked and ownership renounced. Welcome to the Garlic Mafia.",
+      buy: "Join the Mafia",
+      policy: "Why people trust the garlic",
+      badge: "meme-first • code-backed",
       marquee: [
-        "One start for everyone",
         "0% taxes",
         "Liquidity is locked",
         "Ownership renounced",
-        "Culture drives adoption"
+        "Holders don’t panic, they sauté",
+        "No rugs, only rugs of garlic"
       ],
       keyHint: "— tokenomics"
     },
     approach: {
       kicker: "Approach",
-      title: "Professional structure, meme presentation",
-      caption: "We make the meme readable to capital: simple rules, low friction and a cultural symbol.",
-      c1t: "Fair launch, no bending",
-      c1p: "No private allocations. One entry horizon — one market temperature.",
-      c2t: "Zero-tax, zero-friction",
-      c2p: "No trade tax — focus on liquidity and spread, not on toggles.",
-      c3t: "Culture › marketing",
-      c3p: "A strong symbol 🧄, irony and order — community generates the content."
+      title: "Kitchen humor, serious code",
+      caption: "Everyone promises moon — we promise kitchen. Garlic doesn’t fly, garlic sizzles.",
+      c1t: "Fair Launch, One Family",
+      c1p: "No presales or private allocations. One starting bell — one market temperature.",
+      c2t: "0% Tax, 100% Smell",
+      c2p: "No trade tax — focus on liquidity and spread, not on switches.",
+      c3t: "Mafia raids › ads",
+      c3p: "We weaponize memes: daily raid targets, caption banks, copy-paste one-liners."
     },
     policy: {
       kicker: "Policy",
-      title: "What is fixed by rules",
-      caption: "We formalize expectations upfront. Clear settings → predictable token behavior.",
+      title: "Why it feels rug-proof",
+      caption: "We fix expectations in code. Clear settings → predictable behavior.",
       c1t: "Trade tax — 0%",
       c1p: "Trading without tax. Friction is minimal; liquidity has priority.",
       c2t: "Liquidity is locked",
-      c2p: "The pool is fixed during launch — design against rushed manipulation.",
+      c2p: "LP locked at launch — anti-rug by design.",
       c3t: "Ownership — renounced",
       c3p: "No admin switches — code takes responsibility, not a person.",
       s1: "Contract",
       s1v: "Address is published on launch day",
       s2: "Architecture",
       s2v: "OpenZeppelin stack and standard patterns",
-      s2v2: "No experimental upgrades or surprises.",
+      s2v2: "Non-upgradeable. No surprise switches.",
       s3: "Policy",
       pills: ["Fair Launch", "No Presale", "Anti-Rug policy"]
     },
     partners: { header: "As seen on / Partners" },
     signals: {
       kicker: "Signals",
-      title: "Calm tone, serious intent",
-      caption: "We like numbers and irony. Both coexist when rules are simple.",
-      q1: "“Structure like a protocol, not a prank. Watching liquidity.”",
-      q2: "“Garlic vibe explained in the language of capital — rare.”",
-      q3: "“Zero-tax and renounced — a steady configuration. Market does the rest.”"
+      title: "This market stinks. Garlic smells better.",
+      caption: "Calm code. Loud culture.",
+      q1: "“0% tax, renounced, locked — garlic-proof config.”",
+      q2: "“Holders don’t panic, they sauté.”",
+      q3: "“No rugs, only rugs of garlic.”"
     },
     tokenomics: {
       kicker: "Tokenomics",
-      title: "Transparent and predictable",
+      title: "Transparent and raid-ready",
       caption: "Fewer parameters — less uncertainty. Configuration prioritizes liquidity.",
       supply: "Total supply",
       taxes: "Taxes",
@@ -82,34 +82,54 @@ const DICT = {
       liquidity: "Liquidity",
       liquidityVal: "Locked",
       dist: "Distribution",
-      distList: ["60% — Liquidity", "20% — Community / airdrops / quests", "10% — Partnerships", "10% — DAO reserve (multisig)"],
+      distList: [
+        "60% — Liquidity",
+        "20% — Community / Mafia raids",
+        "10% — Partnerships",
+        "10% — Mafia reserve (multisig)"
+      ],
       arch: "Architecture",
       archP: "Standard contracts, ownership renounced after launch, non-upgradeable.",
       pills: ["OpenZeppelin", "Non-upgradeable", "DAO reserve"]
     },
     roadmap: {
       kicker: "Roadmap",
-      title: "From clean launch to culture",
+      title: "From kitchen joke to cult classic",
       caption: "Flexible, focused on value for holders and creators.",
       phase: "Phase",
-      p1: ["Website, socials, DEX launch", "LP lock, renounced", "Meme narrative & visual language"],
-      p2: ["NFT “Cloves” for active members", "Artist collaborations", "Community activations & raffles"],
-      p3: ["Garlic DAO (creator grants)", "Mini-games / integrations", "CEX listings (if possible)"]
+      p1: [
+        "Website, socials, DEX launch",
+        "LP lock, renounced",
+        "Mafia raid starter pack (templates & one-liners)"
+      ],
+      p2: [
+        "Daily missions: #SmellOfMoney, panic-button reply, raid schedule",
+        "Influencer collabs & X Spaces",
+        "Partner integrations (trackers/tools)"
+      ],
+      p3: [
+        "Garlic Mafia DAO (community fund)",
+        "Raid bot & public leaderboard",
+        "CEX listings (if possible)"
+      ]
     },
     buy: {
       kicker: "How to buy",
-      title: "Three steps, no fuss",
+      title: "Three steps, then raid",
       caption: "Wallet — base coin — swap. Then culture.",
-      s1: "Wallet", s1p: "MetaMask / Rabby / OKX. Pick a network (ETH/BSC).",
-      s2: "Base & gas", s2p: "Fund ETH/BNB for swap and network fees.",
-      s3: "Swap to $GARLIC", s3p: "Uniswap / PancakeSwap. Address goes live on launch day.",
-      cta: "Join the community",
+      s1: "Wallet",
+      s1p: "MetaMask / Rabby / OKX. Pick a network (ETH/BSC).",
+      s2: "Base & gas",
+      s2p: "Fund ETH/BNB for swap and network fees.",
+      s3: "Swap to $GARLIC",
+      s3p: "Uniswap / PancakeSwap. Address goes live on launch day.",
+      cta: "Join the Garlic Mafia",
       note: "* Not financial advice. Crypto is volatile."
     },
     community: {
       kicker: "Community",
-      title: "Rational meme: a smile with discipline",
-      caption: "Announcements, discussions, raffles, builds — join and bring your flavor."
+      title: "Garlic Mafia",
+      caption: "If you hold a clove — you’re in the family. Raids, missions, memes — spread the smell."
     },
     footer: {
       disclaimer: "Meme project. No profit is guaranteed.",
