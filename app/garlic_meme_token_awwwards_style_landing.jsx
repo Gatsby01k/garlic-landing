@@ -137,8 +137,8 @@ const DICT = {
       hintAfter: "— tokenomics"
     }
   },
-    hi: {
-    nav: { approach: "दृष्टिकोण", policy: "पॉलिसी", tokenomics: "टोकनोमिक्स", roadmap: "रोडमैप", buy: "खरीदें" },
+      hi: {
+    nav: { approach: "दृष्टिकोण", policy: "नीति", tokenomics: "टोकनोमिक्स", roadmap: "रोडमैप", buy: "खरीदें" },
     trustStrip: ["फेयर लॉन्च", "0% टैक्स", "LP लॉक", "रेनाउन्स"],
     hero: {
       tags: ["स्मेल-ऑफ-मनी", "माफिया", "कम्युनिटी"],
@@ -163,11 +163,84 @@ const DICT = {
       title: "किचन ह्यूमर, सीरियस कोड",
       caption: "सब मून का वादा करते हैं — हम किचन का। गार्लिक उड़ता नहीं, गार्लिक चटकता है।",
       c1t: "फेयर लॉन्च, एक फैमिली",
-      c1p: "कोई प्रीसेल नहीं, कोई प्राइवेट अलोकेशन नहीं। सबका एक ही स्टार्ट।",
+      c1p: "कोई प्रीसेल या प्राइवेट अलोकेशन नहीं। सबका एक ही स्टार्ट।",
       c2t: "0% टैक्स, 100% स्मेल",
       c2p: "कोई ट्रेड टैक्स नहीं — फोकस सिर्फ लिक्विडिटी और स्प्रेड पर।",
-      c3t: "माफिया रेड्स › ऐड्स",
+      c3t: "माफिया रेड्स › विज्ञापन",
       c3p: "हम मीम्स को हथियार बनाते हैं: डेली रेड टारगेट्स और कॉपी-पेस्ट वन-लाइनर्स।"
+    },
+    policy: {
+      kicker: "नीति",
+      title: "क्यों यह रग-प्रूफ है",
+      caption: "हम एक्सपेक्टेशंस को कोड में फिक्स करते हैं। साफ सेटिंग्स → प्रेडिक्टेबल व्यवहार।",
+      c1t: "ट्रेड टैक्स — 0%",
+      c1p: "कोई टैक्स नहीं। मिनिमम घर्षण, मैक्स लिक्विडिटी।",
+      c2t: "लिक्विडिटी लॉक्ड",
+      c2p: "लॉन्च पर LP लॉक — डिजाइन से एंटी-रग।",
+      c3t: "ओनरशिप — रेनाउन्स्ड",
+      c3p: "कोई एडमिन स्विच नहीं — कोड जिम्मेदार है।",
+      s1: "कॉन्ट्रैक्ट",
+      s1v: "लॉन्च डे पर ऐड्रेस पब्लिश होगा",
+      s2: "आर्किटेक्चर",
+      s2v: "OpenZeppelin और स्टैंडर्ड पैटर्न्स",
+      s2v2: "नॉन-अपग्रेडेबल। कोई सरप्राइज नहीं।",
+      s3: "नीति",
+      pills: ["फेयर लॉन्च", "नो प्रीसेल", "एंटी-रग पॉलिसी"]
+    },
+    partners: { header: "जैसा देखा गया / पार्टनर्स" },
+    signals: {
+      kicker: "सिग्नल्स",
+      title: "यह मार्केट बदबूदार है। गार्लिक बेहतर महकता है।",
+      caption: "शांत कोड। ज़ोरदार संस्कृति।",
+      q1: "“0% टैक्स, रेनाउन्स्ड, लॉक्ड — गार्लिक-प्रूफ सेटअप।”",
+      q2: "“होल्डर पैनिक नहीं करते, वे सॉते करते हैं।”",
+      q3: "“नो रग्स, सिर्फ गार्लिक वाले रग्स।”"
+    },
+    tokenomics: {
+      kicker: "टोकनोमिक्स",
+      title: "ट्रांसपेरेंट और रेड-रेडी",
+      caption: "कम पैरामीटर्स — कम अनिश्चितता।",
+      supply: "कुल सप्लाई",
+      taxes: "टैक्स",
+      taxesVal: "0 %",
+      liquidity: "लिक्विडिटी",
+      liquidityVal: "लॉक्ड",
+      dist: "डिस्ट्रिब्यूशन",
+      distList: [
+        "60% — लिक्विडिटी",
+        "20% — कम्युनिटी / माफिया रेड्स",
+        "10% — पार्टनरशिप्स",
+        "10% — माफिया रिजर्व (मल्टीसिग)"
+      ],
+      arch: "आर्किटेक्चर",
+      archP: "स्टैंडर्ड कॉन्ट्रैक्ट्स, ओनरशिप रेनाउन्स्ड, नॉन-अपग्रेडेबल।",
+      pills: ["OpenZeppelin", "नॉन-अपग्रेडेबल", "DAO रिजर्व"]
+    },
+    roadmap: {
+      kicker: "रोडमैप",
+      title: "किचन जोक से कल्ट क्लासिक तक",
+      caption: "लचीला, होल्डर्स और क्रिएटर्स के लिए फोकस्ड।",
+      phase: "फेज़",
+      p1: ["वेबसाइट, सोशल्स, DEX लॉन्च", "LP लॉक, रेनाउन्स्ड", "माफिया रेड स्टार्टर पैक"],
+      p2: [
+        "डेली मिशन: #SmellOfMoney, पैनिक-बटन रिप्लाई",
+        "इन्फ्लुएंसर कोलैब्स और X स्पेसेस",
+        "पार्टनर इंटीग्रेशन (ट्रैकर्स/टूल्स)"
+      ],
+      p3: ["गार्लिक माफिया DAO", "रेड बॉट और पब्लिक लीडरबोर्ड", "CEX लिस्टिंग (अगर संभव हो)"]
+    },
+    buy: {
+      kicker: "कैसे खरीदें",
+      title: "तीन स्टेप्स, फिर रेड",
+      caption: "वॉलेट — बेस कॉइन — स्वैप। फिर संस्कृति।",
+      s1: "वॉलेट",
+      s1p: "MetaMask / Rabby / OKX. नेटवर्क चुनें (ETH/BSC)।",
+      s2: "बेस और गैस",
+      s2p: "ETH/BNB डालें ट्रेड और फीस के लिए।",
+      s3: "$GARLIC में स्वैप करें",
+      s3p: "Uniswap / PancakeSwap. लॉन्च डे पर ऐड्रेस लाइव होगा।",
+      cta: "गार्लिक माफिया जॉइन करें",
+      note: "* फाइनेंशियल एडवाइस नहीं। क्रिप्टो वॉलेटाइल है।"
     },
     community: {
       kicker: "कम्युनिटी",
@@ -181,7 +254,8 @@ const DICT = {
     }
   },
 
-    id: {
+
+     id: {
     nav: { approach: "Pendekatan", policy: "Kebijakan", tokenomics: "Tokenomik", roadmap: "Peta Jalan", buy: "Beli" },
     trustStrip: ["FAIR LAUNCH", "0% PAJAK", "LP TERKUNCI", "RENONCED"],
     hero: {
@@ -212,6 +286,79 @@ const DICT = {
       c2p: "Tidak ada pajak perdagangan — fokus pada likuiditas dan penyebaran.",
       c3t: "Mafia raids › iklan",
       c3p: "Kami mempersenjatai meme: target raid harian, template, dan one-liner siap pakai."
+    },
+    policy: {
+      kicker: "Kebijakan",
+      title: "Kenapa ini anti-rug",
+      caption: "Ekspektasi difiksasi di kode. Setelan jelas → perilaku dapat diprediksi.",
+      c1t: "Pajak perdagangan — 0%",
+      c1p: "Tanpa pajak. Friksi minim, prioritas pada likuiditas.",
+      c2t: "Likuiditas terkunci",
+      c2p: "LP terkunci sejak peluncuran — anti-rug secara desain.",
+      c3t: "Kepemilikan — dilepas",
+      c3p: "Tidak ada switch admin — kode yang bertanggung jawab.",
+      s1: "Kontrak",
+      s1v: "Alamat dipublikasikan saat peluncuran",
+      s2: "Arsitektur",
+      s2v: "OpenZeppelin & pola standar",
+      s2v2: "Non-upgradeable. Tidak ada kejutan.",
+      s3: "Kebijakan",
+      pills: ["Fair Launch", "Tanpa Presale", "Anti-Rug"]
+    },
+    partners: { header: "Seperti terlihat di / Mitra" },
+    signals: {
+      kicker: "Sinyal",
+      title: "Pasar ini bau. Garlic lebih harum.",
+      caption: "Kode tenang. Budaya bising.",
+      q1: "“0% pajak, renounced, locked — konfigurasi garlic-proof.”",
+      q2: "“Holder tidak panik, mereka menumis.”",
+      q3: "“Tidak ada rug, hanya karpet bawang putih.”"
+    },
+    tokenomics: {
+      kicker: "Tokenomik",
+      title: "Transparan dan siap raid",
+      caption: "Parameter sedikit — ketidakpastian lebih sedikit.",
+      supply: "Total suplai",
+      taxes: "Pajak",
+      taxesVal: "0 %",
+      liquidity: "Likuiditas",
+      liquidityVal: "Terkunci",
+      dist: "Distribusi",
+      distList: [
+        "60% — Likuiditas",
+        "20% — Komunitas / raid mafia",
+        "10% — Kemitraan",
+        "10% — Cadangan Mafia (multisig)"
+      ],
+      arch: "Arsitektur",
+      archP: "Kontrak standar, kepemilikan dilepas, non-upgradeable.",
+      pills: ["OpenZeppelin", "Non-upgradeable", "DAO reserve"]
+    },
+    roadmap: {
+      kicker: "Peta Jalan",
+      title: "Dari lelucon dapur ke klasik kultus",
+      caption: "Fleksibel, fokus pada nilai bagi holder dan kreator.",
+      phase: "Fase",
+      p1: ["Website, sosial, peluncuran DEX", "LP terkunci, renounced", "Starter pack raid Mafia"],
+      p2: [
+        "Misi harian: #SmellOfMoney, tombol panik, jadwal raid",
+        "Kolaborasi influencer & X Spaces",
+        "Integrasi mitra (tracker/tools)"
+      ],
+      p3: ["Garlic Mafia DAO", "Bot raid & papan peringkat publik", "Listing CEX (jika memungkinkan)"]
+    },
+    buy: {
+      kicker: "Cara beli",
+      title: "Tiga langkah, lalu raid",
+      caption: "Wallet — koin dasar — swap. Lalu budaya.",
+      s1: "Wallet",
+      s1p: "MetaMask / Rabby / OKX. Pilih jaringan (ETH/BSC).",
+      s2: "Dasar & gas",
+      s2p: "Isi ETH/BNB untuk swap dan biaya jaringan.",
+      s3: "Swap ke $GARLIC",
+      s3p: "Uniswap / PancakeSwap. Alamat live saat peluncuran.",
+      cta: "Gabung Garlic Mafia",
+      note: "* Bukan nasihat keuangan. Crypto volatil."
     },
     community: {
       kicker: "Komunitas",
